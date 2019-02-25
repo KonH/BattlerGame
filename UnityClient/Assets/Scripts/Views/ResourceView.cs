@@ -1,5 +1,6 @@
 ﻿using GameLogics.Commands;
 using GameLogics.Core;
+using GameLogics.Managers;
 using GameLogics.Utils;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,11 +16,11 @@ namespace UnityClient.Views {
 		CommandExecutor _executor;
 
 		[Inject]
-		public void Init(GameState state, CommandExecutor executor) {
+		public void Init(IGameStateManager stateManager, CommandExecutor executor) {
 			_text = GetComponent<Text>();
 			_executor = executor;
 			_executor.OnStateUpdated += UpdateState;
-			UpdateState(state);
+			UpdateState(stateManager.State);
 		}
 
 		void OnEnable() {

@@ -1,5 +1,6 @@
 using System;
 using GameLogics.Core;
+using GameLogics.Managers;
 
 namespace GameLogics.Commands {
 	public sealed class CommandExecutor {
@@ -7,8 +8,8 @@ namespace GameLogics.Commands {
 
 		GameState _state;
 		
-		public CommandExecutor(GameState state) {
-			_state = state;
+		public CommandExecutor(IGameStateManager stateManager) {
+			_state = stateManager.State;
 		}
 		
 		public void Execute(ICommand command) {
