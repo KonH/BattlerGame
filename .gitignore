@@ -17,6 +17,7 @@ UnityClient/Temp
 UnityClient/obj
 UnityClient/*.sln
 UnityClient/*.csproj
+UnityClient/Assets/Plugins/GameLogics
 
 UnitTests/bin
 UnitTests/obj
