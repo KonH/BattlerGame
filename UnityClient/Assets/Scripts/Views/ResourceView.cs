@@ -1,23 +1,22 @@
-﻿using GameLogics.Commands;
-using GameLogics.Core;
+﻿using GameLogics.Core;
 using GameLogics.Managers;
 using GameLogics.Utils;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
+using TMPro;
 
 namespace UnityClient.Views {
-	[RequireComponent(typeof(Text))]
+	[RequireComponent(typeof(TMP_Text))]
 	public class ResourceView : MonoBehaviour {
 		public Resource Kind;
 
-		Text _text;
+		TMP_Text _text;
 		
 		CommandExecutor _executor;
 
 		[Inject]
 		public void Init(IGameStateManager stateManager, CommandExecutor executor) {
-			_text = GetComponent<Text>();
+			_text = GetComponent<TMP_Text>();
 			_executor = executor;
 			_executor.OnStateUpdated += UpdateState;
 			UpdateState(stateManager.State);
