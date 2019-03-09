@@ -10,6 +10,7 @@ using UnityEngine.Networking;
 
 namespace UnityClient.Managers {
 	public class WebRequestIntentToCommandMapper : BaseIntentToCommandMapper {
+		[Serializable]
 		public class Settings {
 			public string BaseUrl;
 		}
