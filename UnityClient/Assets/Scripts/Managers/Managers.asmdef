@@ -1,7 +1,7 @@
 {
-    "name": "Starters",
+    "name": "Managers",
     "references": [
-        "Zenject"
+        "Utils"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

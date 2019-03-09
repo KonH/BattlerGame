@@ -17,7 +17,7 @@ namespace UnityClient.Controls {
 		}
 
 		public void Execute() {
-			_updater.Update(new RequestResourceIntent(Kind, Amount));
+			_updater.TryUpdate(new RequestResourceIntent(Kind, Amount));
 		}
 	}
 }

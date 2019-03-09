@@ -1,21 +1,18 @@
-﻿using System.IO;
-using GameLogics.Commands;
-using GameLogics.Intents;
+﻿using GameLogics.Core;
 using GameLogics.Managers;
-using UnityClient.Starters;
-using UnityEngine;
+using GameLogics.Managers.IntentMapper;
+using UnityClient.Managers;
 using Zenject;
 
 namespace UnityClient.Installers {
 	public class CommonInstaller : MonoInstaller {
 		public override void InstallBindings() {
-			var savePath = Path.Combine(Application.persistentDataPath, "save.json");
-			var stateManager = new LocalGameStateManager(savePath);
+			var stateManager = new InMemoryGameStateManager(new GameState());
 			Container.Bind<IGameStateManager>().FromInstance(stateManager).AsSingle();
 			Container.Bind<CommandExecutor>().ToSelf().AsSingle();
-			Container.Bind<IntentToCommandMapper>().ToSelf().AsSingle();
+			Container.BindInstance(new WebRequestIntentToCommandMapper.Settings { BaseUrl = "http://localhost:8080/" });
+			Container.Bind<IIntentToCommandMapper>().To<WebRequestIntentToCommandMapper>().AsSingle();
 			Container.Bind<GameStateUpdater>().ToSelf().AsSingle();
-			Container.Bind<CommonStarter>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
 		}
 	}
 }

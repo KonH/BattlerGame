@@ -1,8 +1,8 @@
 using System;
 using GameLogics.Core;
-using GameLogics.Managers;
+using GameLogics.Commands;
 
-namespace GameLogics.Commands {
+namespace GameLogics.Managers {
 	public sealed class CommandExecutor {
 		public event Action<GameState> OnStateUpdated = delegate {};
 

@@ -1,21 +1,35 @@
-using GameLogics.Commands;
+using System.Threading.Tasks;
 using GameLogics.Intents;
+using GameLogics.Managers.IntentMapper;
 
 namespace GameLogics.Managers {
 	public class GameStateUpdater {
-		readonly IntentToCommandMapper _mapper;
-		readonly CommandExecutor       _executor;
+		readonly IIntentToCommandMapper _mapper;
+		readonly CommandExecutor        _executor;
 
-		public GameStateUpdater(IntentToCommandMapper mapper, CommandExecutor executor) {
+		Task _currentTask = null;
+		
+		public GameStateUpdater(IIntentToCommandMapper mapper, CommandExecutor executor) {
 			_mapper   = mapper;
 			_executor = executor;
 		}
 
-		public void Update(IIntent intent) {
-			var commands = _mapper.CreateCommandsFromIntent(intent);
-			foreach ( var command in commands ) {
-				_executor.Execute(command);
+		public async Task Update(IIntent intent) {
+			var response = await _mapper.RequestCommandsFromIntent(intent);
+			foreach ( var cmd in response.Commands ) {
+				_executor.Execute(cmd);
 			}
+		}
+
+		public void TryUpdate(IIntent intent) {
+			if ( _currentTask != null ) {
+				if ( _currentTask.IsCompleted || _currentTask.IsFaulted || _currentTask.IsCanceled ) {
+					_currentTask = null;
+				} else {
+					return;
+				}
+			}
+			_currentTask = Update(intent);
 		}
 	}
 }
