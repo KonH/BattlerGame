@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using GameLogics.Commands;
+using GameLogics.Intents;
 using GameLogics.Managers;
 using UnityClient.Starters;
 using UnityEngine;
@@ -12,6 +13,8 @@ namespace UnityClient.Installers {
 			var stateManager = new LocalGameStateManager(savePath);
 			Container.Bind<IGameStateManager>().FromInstance(stateManager).AsSingle();
 			Container.Bind<CommandExecutor>().ToSelf().AsSingle();
+			Container.Bind<IntentToCommandMapper>().ToSelf().AsSingle();
+			Container.Bind<GameStateUpdater>().ToSelf().AsSingle();
 			Container.Bind<CommonStarter>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
 		}
 	}

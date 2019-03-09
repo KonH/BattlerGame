@@ -6,7 +6,7 @@ namespace GameLogics.Commands {
 	public sealed class CommandExecutor {
 		public event Action<GameState> OnStateUpdated = delegate {};
 
-		GameState _state;
+		readonly GameState _state;
 		
 		public CommandExecutor(IGameStateManager stateManager) {
 			_state = stateManager.State;

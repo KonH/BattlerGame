@@ -1,5 +1,6 @@
-﻿using GameLogics.Commands;
-using GameLogics.Core;
+﻿using GameLogics.Core;
+using GameLogics.Intents;
+using GameLogics.Managers;
 using UnityEngine;
 using Zenject;
 
@@ -8,15 +9,15 @@ namespace UnityClient.Controls {
 		public Resource Kind;
 		public int      Amount;
 
-		CommandExecutor _executor;
+		GameStateUpdater _updater;
 		
 		[Inject]
-		public void Init(CommandExecutor executor) {
-			_executor = executor;
+		public void Init(GameStateUpdater updater) {
+			_updater = updater;
 		}
 
 		public void Execute() {
-			_executor.Execute(new AddResourceCommand(Kind, Amount));
+			_updater.Update(new RequestResourceIntent(Kind, Amount));
 		}
 	}
 }
