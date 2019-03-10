@@ -1,15 +1,13 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogics.Intents;
-using GameLogics.Managers;
-using GameLogics.Managers.IntentMapper;
+using GameLogics.Managers.Network;
 using UnityClient.Utils;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace UnityClient.Managers {
-	public class WebRequestIntentToCommandMapper : BaseIntentToCommandMapper {
+	public class WebRequestNetworkManager : INetworkManager {
 		[Serializable]
 		public class Settings {
 			public string BaseUrl;
@@ -17,13 +15,12 @@ namespace UnityClient.Managers {
 
 		readonly Settings _settings;
 		
-		public WebRequestIntentToCommandMapper(Settings settings, IGameStateManager stateManager) : base(stateManager) {
+		public WebRequestNetworkManager(Settings settings) {
 			_settings = settings;
 		}
-
-		public override async Task<CommandResponse> RequestCommandsFromIntent(IIntent intent) {
+		
+		public async Task<NetworkResponse> PostJson(string relativeUrl, string body) {
 			try {
-				var body = SerializeIntent(intent);
 				var data = Encoding.UTF8.GetBytes(body);
 				var req  = new UnityWebRequest(_settings.BaseUrl + "api/intent", UnityWebRequest.kHttpVerbPOST);
 				req.uploadHandler   = new UploadHandlerRaw(data);
@@ -31,15 +28,11 @@ namespace UnityClient.Managers {
 				req.SetRequestHeader("Accept",       "application/json; charset=UTF-8");
 				req.SetRequestHeader("Content-Type", "application/json; charset=UTF-8");
 				await req.SendWebRequest();
-				if ( req.isHttpError || req.isNetworkError ) {
-					Debug.LogError($"Something went wrong ({req.uri}): {req.error} ({req.responseCode}): {req.downloadHandler.text}");
-					return CommandResponse.Failed();
-				}
-				var commands = DeserializeCommands(req.downloadHandler.text);
-				return CommandResponse.FromCommands(commands);
+				var isFailed = req.isHttpError || req.isNetworkError;
+				return new NetworkResponse((int)req.responseCode, !isFailed, req.downloadHandler.text);
 			} catch ( Exception e ) {
 				Debug.LogError(e);
-				return CommandResponse.Failed();
+				return new NetworkResponse(-1, true, e.ToString());
 			}
 		}
 	}

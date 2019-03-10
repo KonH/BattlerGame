@@ -14,9 +14,6 @@ namespace GameLogics.Managers.IntentMapper {
 	public abstract class BaseIntentToCommandMapper : IIntentToCommandMapper {
 		protected readonly GameState State;
 		
-		readonly JsonSerializerSettings _settings = new JsonSerializerSettings {
-			TypeNameHandling = TypeNameHandling.Auto
-		};
 		readonly Dictionary<Type, IUseCase> _useCases;
 		
 		public BaseIntentToCommandMapper(IGameStateManager stateManager) {
@@ -57,16 +54,6 @@ namespace GameLogics.Managers.IntentMapper {
 				result.Add(intentType, instance);
 			}
 			return result;
-		}
-
-		protected string SerializeIntent(IIntent intent) {
-			var request = new IntentRequest { Intent = intent };
-			return JsonConvert.SerializeObject(request, _settings);
-		}
-
-		protected List<ICommand> DeserializeCommands(string str) {
-			var respose = JsonConvert.DeserializeObject<IntentResponse>(str, _settings);
-			return respose.Commands;
 		}
 	}
 }

@@ -3,16 +3,22 @@ using System.Threading.Tasks;
 using GameLogics.Core;
 using GameLogics.Intents;
 using GameLogics.Managers;
+using GameLogics.Managers.IntentMapper;
 
 namespace ConsoleClient {
 	class Program {
 		static void Main(string[] args) {
-			AddResourceCase().GetAwaiter().GetResult();
+			Main().GetAwaiter().GetResult();
 		}
 
+		static async Task Main() {
+			await AddResourceCase();
+		}
+		
 		static async Task AddResourceCase() {
 			var stateManager = new InMemoryGameStateManager(new GameState());
-			var intentMapper = new HttpIntentToCommandMapper(stateManager, "http://localhost:8080/api/intent");
+			var networkManager = new HttpClientNetworkManager("http://localhost:8080/");
+			var intentMapper = new NetworkIntentToCommandMapper(stateManager, networkManager);
 			var response = await intentMapper.RequestCommandsFromIntent(new RequestResourceIntent(Resource.Coins, 1));
 			if ( !response.Success ) {
 				return;

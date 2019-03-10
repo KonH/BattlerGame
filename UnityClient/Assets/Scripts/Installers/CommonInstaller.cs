@@ -2,6 +2,7 @@
 using GameLogics.Core;
 using GameLogics.Managers;
 using GameLogics.Managers.IntentMapper;
+using GameLogics.Managers.Network;
 using UnityClient.Managers;
 using Zenject;
 
@@ -12,14 +13,15 @@ namespace UnityClient.Installers {
 			Network
 		}
 
-		public ServerMode                               ActiveServerMode;
-		public WebRequestIntentToCommandMapper.Settings ServerSettings;
+		public ServerMode                        ActiveServerMode;
+		public WebRequestNetworkManager.Settings ServerSettings;
 		
 		public override void InstallBindings() {
 			var stateManager = new InMemoryGameStateManager(new GameState());
 			Container.Bind<IGameStateManager>().FromInstance(stateManager).AsSingle();
-			Container.Bind<CommandExecutor>().ToSelf().AsSingle();
 			Container.BindInstance(ServerSettings);
+			Container.Bind<INetworkManager>().To<WebRequestNetworkManager>().AsSingle();
+			Container.Bind<CommandExecutor>().ToSelf().AsSingle();
 			BindIntentToCommandMapper();
 			Container.Bind<GameStateUpdater>().ToSelf().AsSingle();
 		}
@@ -31,7 +33,7 @@ namespace UnityClient.Installers {
 		Type GetIntentToCommandMapperType() {
 			switch ( ActiveServerMode ) {
 				case ServerMode.Embedded: return typeof(DirectIntentToCommandMapper);
-				case ServerMode.Network : return typeof(WebRequestIntentToCommandMapper);
+				case ServerMode.Network : return typeof(NetworkIntentToCommandMapper);
 				default: return null;
 			}
 		}
