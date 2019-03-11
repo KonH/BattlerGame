@@ -1,5 +1,4 @@
-﻿using System;
-using GameLogics.Core;
+﻿using GameLogics.Core;
 using GameLogics.Managers;
 using GameLogics.Managers.IntentMapper;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Server.Repositories;
 
 namespace Server {
 	public class Startup {
@@ -25,6 +25,7 @@ namespace Server {
 
 			services.AddLogging();
 			services.AddSingleton<ICustomLogger, ServerLogger>();
+			services.AddSingleton<IUserRepository, InMemoryUserRepository>();
 			services.AddSingleton<IGameStateManager>(new InMemoryGameStateManager(new GameState()));
 			services.AddSingleton<DirectIntentToCommandMapper>();
 		}

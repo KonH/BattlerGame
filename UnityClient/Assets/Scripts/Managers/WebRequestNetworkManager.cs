@@ -9,15 +9,10 @@ using UnityEngine.Networking;
 
 namespace UnityClient.Managers {
 	public class WebRequestNetworkManager : INetworkManager {
-		[Serializable]
-		public class Settings {
-			public string BaseUrl;
-		}
-
-		readonly ICustomLogger _logger;
-		readonly Settings      _settings;
+		readonly ICustomLogger  _logger;
+		readonly ServerSettings _settings;
 		
-		public WebRequestNetworkManager(ICustomLogger logger, Settings settings) {
+		public WebRequestNetworkManager(ICustomLogger logger, ServerSettings settings) {
 			_logger   = logger;
 			_settings = settings;
 		}
@@ -25,7 +20,7 @@ namespace UnityClient.Managers {
 		public async Task<NetworkResponse> PostJson(string relativeUrl, string body) {
 			try {
 				var data = Encoding.UTF8.GetBytes(body);
-				var req  = new UnityWebRequest(_settings.BaseUrl + "api/intent", UnityWebRequest.kHttpVerbPOST);
+				var req  = new UnityWebRequest(_settings.BaseUrl + relativeUrl, UnityWebRequest.kHttpVerbPOST);
 				req.uploadHandler   = new UploadHandlerRaw(data);
 				req.downloadHandler = new DownloadHandlerBuffer();
 				req.SetRequestHeader("Accept",       "application/json; charset=UTF-8");

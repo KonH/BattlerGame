@@ -139,7 +139,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 47756574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1fa302f08ae146e8b542ad1d1ddf516, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ef4e1bdce6a42ae8ef045fe049a119b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &47756576
@@ -784,6 +784,7 @@ GameObject:
   - component: {fileID: 672488153}
   - component: {fileID: 672488155}
   - component: {fileID: 672488154}
+  - component: {fileID: 672488156}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -850,6 +851,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 672488152}
   m_CullTransparentMesh: 0
+--- !u!114 &672488156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 672488152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8500005bf856406c9fe73e9a87c2c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Login: {fileID: 1971586461}
+  Password: {fileID: 1222540745}
 --- !u!1 &736514268
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,7 +1004,7 @@ MonoBehaviour:
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
@@ -1452,7 +1467,7 @@ MonoBehaviour:
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
@@ -1871,7 +1886,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1932892939}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 672488156}
+        m_MethodName: Register
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1932892939
