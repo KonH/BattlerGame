@@ -122,7 +122,6 @@ GameObject:
   m_Component:
   - component: {fileID: 47756577}
   - component: {fileID: 47756576}
-  - component: {fileID: 47756575}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -130,21 +129,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &47756575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 47756574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1fa302f08ae146e8b542ad1d1ddf516, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActiveServerMode: 0
-  ServerSettings:
-    BaseUrl: 
 --- !u!114 &47756576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,8 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers:
-  - {fileID: 47756575}
+  _monoInstallers: []
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -338,7 +321,7 @@ MonoBehaviour:
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
@@ -1688,6 +1671,7 @@ GameObject:
   - component: {fileID: 1633005575}
   - component: {fileID: 1633005577}
   - component: {fileID: 1633005576}
+  - component: {fileID: 1633005578}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -1755,6 +1739,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1633005574}
   m_CullTransparentMesh: 0
+--- !u!114 &1633005578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633005574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8462c9fe64c1f4125a0350dfae43e077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoginInput: {fileID: 1960923372}
+  PasswordInput: {fileID: 1549369195}
 --- !u!1 &1960923370
 GameObject:
   m_ObjectHideFlags: 0
@@ -2171,7 +2169,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2078652227}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1633005578}
+        m_MethodName: Login
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2078652227
@@ -2350,7 +2359,7 @@ MonoBehaviour:
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}

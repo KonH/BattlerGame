@@ -12,6 +12,8 @@ namespace UnityClient.Managers {
 		readonly ICustomLogger  _logger;
 		readonly ServerSettings _settings;
 		
+		public string AuthToken { get; set; }
+		
 		public WebRequestNetworkManager(ICustomLogger logger, ServerSettings settings) {
 			_logger   = logger;
 			_settings = settings;
@@ -20,7 +22,10 @@ namespace UnityClient.Managers {
 		public async Task<NetworkResponse> PostJson(string relativeUrl, string body) {
 			try {
 				var data = Encoding.UTF8.GetBytes(body);
-				var req  = new UnityWebRequest(_settings.BaseUrl + relativeUrl, UnityWebRequest.kHttpVerbPOST);
+				var req  = new UnityWebRequest(_settings.BaseUrl + relativeUrl, UnityWebRequest.kHttpVerbPOST);				
+				if ( !string.IsNullOrEmpty(AuthToken) ) {
+					req.SetRequestHeader("Authorization", "Bearer " + AuthToken);
+				}
 				req.uploadHandler   = new UploadHandlerRaw(data);
 				req.downloadHandler = new DownloadHandlerBuffer();
 				req.SetRequestHeader("Accept",       "application/json; charset=UTF-8");

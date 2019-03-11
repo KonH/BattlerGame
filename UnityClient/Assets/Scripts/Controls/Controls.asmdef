@@ -1,7 +1,8 @@
 {
     "name": "Controls",
     "references": [
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Utils"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

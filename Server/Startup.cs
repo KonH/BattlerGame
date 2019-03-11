@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Server.Repositories;
+using Server.Services;
+using Server.Settings;
 
 namespace Server {
 	public class Startup {
@@ -19,15 +21,14 @@ namespace Server {
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services) {
-			services.AddMvc()
-				.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-				.AddJsonOptions(opts => { opts.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto; });
-
+			services.AddFullCors();
 			services.AddLogging();
-			services.AddSingleton<ICustomLogger, ServerLogger>();
-			services.AddSingleton<IUserRepository, InMemoryUserRepository>();
-			services.AddSingleton<IGameStateManager>(new InMemoryGameStateManager(new GameState()));
-			services.AddSingleton<DirectIntentToCommandMapper>();
+			services.AddCustomLogger();
+			services.AddAuthService();
+			services.AddUserRepository();
+			services.AddGameStateManager();
+			services.AddIntentService();
+			services.AddMvc().AddJsonOptions(opts => { opts.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto; });
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +40,8 @@ namespace Server {
 				app.UseHsts();
 			}
 
+			app.UseFullCors();
+			app.UseAuthentication();
 			app.UseHttpsRedirection();
 			app.UseMvc();
 		}

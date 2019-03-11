@@ -1,7 +1,7 @@
 using GameLogics.Managers;
 using Microsoft.Extensions.Logging;
 
-namespace Server {
+namespace Server.Services {
 	public class ServerLogger : ICustomLogger {
 		readonly ILogger _logger;
 		

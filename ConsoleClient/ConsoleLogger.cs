@@ -4,11 +4,11 @@ using GameLogics.Managers;
 namespace ConsoleClient {
 	public class ConsoleLogger : ICustomLogger {
 		public void Debug(string message) {
-			WriteLine(ConsoleColor.White, message);
+			WriteLine(ConsoleColor.Green, message);
 		}
 
 		public void DebugFormat(string message, params object[] args) {
-			WriteLine(ConsoleColor.White, message, args);
+			WriteLine(ConsoleColor.Green, message, args);
 		}
 
 		public void Warning(string message) {

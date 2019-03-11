@@ -3,23 +3,38 @@ using System.Threading.Tasks;
 using GameLogics.Core;
 using GameLogics.Intents;
 using GameLogics.Managers;
+using GameLogics.Managers.Auth;
 using GameLogics.Managers.IntentMapper;
 using GameLogics.Managers.Network;
 using GameLogics.Models;
 
 namespace ConsoleClient {
 	class Program {
-		
 		static ICustomLogger   _logger         = new ConsoleLogger();
 		static INetworkManager _networkManager = new HttpClientNetworkManager(_logger, "http://localhost:8080/");
+
+		static User _user = User.CreateWithPassword("newUser", "password", "newUserName", "user");
 		
 		static void Main(string[] args) {
 			Main().GetAwaiter().GetResult();
 		}
 
 		static async Task Main() {
-			await AddResourceCase();
 			await RegisterCase();
+			await LoginCase();
+			await AddResourceCase();
+		}
+		
+		static async Task RegisterCase() {
+			var registerManager = new RegisterManager(_logger, _networkManager);
+			var result = await registerManager.TryRegister(_user);
+			Console.WriteLine("RegisterCase: {0}", result);
+		}
+		
+		static async Task LoginCase() {
+			var authManager = new NetworkAuthManager(_logger, _networkManager);
+			var result = await authManager.TryLogin(_user);
+			Console.WriteLine("LoginCase: {0} ({1})", result, _networkManager.AuthToken);
 		}
 		
 		static async Task AddResourceCase() {
@@ -35,13 +50,6 @@ namespace ConsoleClient {
 			foreach ( var cmd in commands ) {
 				Console.WriteLine(cmd);
 			}
-		}
-
-		static async Task RegisterCase() {
-			var registerManager = new RegisterManager(_logger, _networkManager);
-			var user = User.CreateWithPassword("newUser", "password", "newUser", "user");
-			var result = await registerManager.TryRegister(user);
-			Console.WriteLine("RegisterCase: {0}", result);
 		}
 	}
 }
