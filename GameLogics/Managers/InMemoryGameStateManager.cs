@@ -7,8 +7,5 @@ namespace GameLogics.Managers {
 		public InMemoryGameStateManager(GameState state) {
 			State = state;
 		}
-
-		public void Load() {}
-		public void Save() {}
 	}
 }
