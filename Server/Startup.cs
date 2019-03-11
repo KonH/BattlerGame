@@ -1,4 +1,5 @@
-﻿using GameLogics.Core;
+﻿using System;
+using GameLogics.Core;
 using GameLogics.Managers;
 using GameLogics.Managers.IntentMapper;
 using Microsoft.AspNetCore.Builder;
@@ -21,7 +22,9 @@ namespace Server {
 			services.AddMvc()
 				.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
 				.AddJsonOptions(opts => { opts.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto; });
-			
+
+			services.AddLogging();
+			services.AddSingleton<ICustomLogger, ServerLogger>();
 			services.AddSingleton<IGameStateManager>(new InMemoryGameStateManager(new GameState()));
 			services.AddSingleton<DirectIntentToCommandMapper>();
 		}

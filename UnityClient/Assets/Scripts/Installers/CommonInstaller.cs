@@ -17,6 +17,7 @@ namespace UnityClient.Installers {
 		public WebRequestNetworkManager.Settings ServerSettings;
 		
 		public override void InstallBindings() {
+			Container.Bind<ICustomLogger>().To<UnityLogger>().AsSingle();
 			var stateManager = new InMemoryGameStateManager(new GameState());
 			Container.Bind<IGameStateManager>().FromInstance(stateManager).AsSingle();
 			Container.BindInstance(ServerSettings);

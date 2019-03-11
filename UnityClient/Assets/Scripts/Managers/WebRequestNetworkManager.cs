@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using GameLogics.Managers;
 using GameLogics.Managers.Network;
 using UnityClient.Utils;
 using UnityEngine;
@@ -13,9 +14,11 @@ namespace UnityClient.Managers {
 			public string BaseUrl;
 		}
 
-		readonly Settings _settings;
+		readonly ICustomLogger _logger;
+		readonly Settings      _settings;
 		
-		public WebRequestNetworkManager(Settings settings) {
+		public WebRequestNetworkManager(ICustomLogger logger, Settings settings) {
+			_logger   = logger;
 			_settings = settings;
 		}
 		
@@ -31,8 +34,8 @@ namespace UnityClient.Managers {
 				var isFailed = req.isHttpError || req.isNetworkError;
 				return new NetworkResponse((int)req.responseCode, !isFailed, req.downloadHandler.text);
 			} catch ( Exception e ) {
-				Debug.LogError(e);
-				return new NetworkResponse(-1, true, e.ToString());
+				_logger.ErrorFormat("PostJson failed: {0}", e);
+				return new NetworkResponse(-1, false, "");
 			}
 		}
 	}

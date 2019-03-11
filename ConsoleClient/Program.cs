@@ -17,8 +17,9 @@ namespace ConsoleClient {
 		
 		static async Task AddResourceCase() {
 			var stateManager = new InMemoryGameStateManager(new GameState());
-			var networkManager = new HttpClientNetworkManager("http://localhost:8080/");
-			var intentMapper = new NetworkIntentToCommandMapper(stateManager, networkManager);
+			var logger = new ConsoleLogger();
+			var networkManager = new HttpClientNetworkManager(logger, "http://localhost:8080/");
+			var intentMapper = new NetworkIntentToCommandMapper(logger, stateManager, networkManager);
 			var response = await intentMapper.RequestCommandsFromIntent(new RequestResourceIntent(Resource.Coins, 1));
 			if ( !response.Success ) {
 				return;

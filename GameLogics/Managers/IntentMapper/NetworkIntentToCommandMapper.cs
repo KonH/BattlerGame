@@ -11,10 +11,14 @@ namespace GameLogics.Managers.IntentMapper {
 		readonly JsonSerializerSettings _settings = new JsonSerializerSettings {
 			TypeNameHandling = TypeNameHandling.Auto
 		};
+
+		readonly ICustomLogger _logger;
 		
 		readonly INetworkManager _networkManager;
 
-		public NetworkIntentToCommandMapper(IGameStateManager stateManager, INetworkManager networkManager) : base(stateManager) {
+		public NetworkIntentToCommandMapper(ICustomLogger logger, IGameStateManager stateManager, INetworkManager networkManager) 
+			: base(stateManager) {
+			_logger         = logger;
 			_networkManager = networkManager;
 		}
 		
@@ -24,6 +28,8 @@ namespace GameLogics.Managers.IntentMapper {
 			if ( result.IsSuccess ) {
 				var commands = DeserializeCommands(result.ResponseText);
 				return CommandResponse.FromCommands(commands);
+			} else {
+				_logger.WarningFormat("RequestCommandsFromIntent failed: {0}: {1}", result.StatusCode.ToString(), result.ResponseText);
 			}
 			return CommandResponse.Failed();
 		}
