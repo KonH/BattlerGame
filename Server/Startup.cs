@@ -1,15 +1,8 @@
-﻿using GameLogics.Core;
-using GameLogics.Managers;
-using GameLogics.Managers.IntentMapper;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Server.Repositories;
-using Server.Services;
-using Server.Settings;
 
 namespace Server {
 	public class Startup {
@@ -26,7 +19,6 @@ namespace Server {
 			services.AddCustomLogger();
 			services.AddAuthService();
 			services.AddUserRepository();
-			services.AddGameStateManager();
 			services.AddIntentService();
 			services.AddMvc().AddJsonOptions(opts => { opts.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto; });
 		}

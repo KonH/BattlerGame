@@ -1,6 +1,6 @@
 ﻿using GameLogics.Managers;
-using GameLogics.Managers.Auth;
 using GameLogics.Managers.Network;
+using GameLogics.Repositories;
 using UnityClient.Managers;
 using UnityClient.Managers.Startup;
 using Zenject;
@@ -13,6 +13,7 @@ namespace UnityClient.Installers {
 			Container.Bind<MainThreadRunner>().FromNewComponentOnRoot().AsSingle();
 			Container.Bind<ICustomLogger>().To<UnityLogger>().AsSingle();
 			Container.Bind<GameSceneManager>().ToSelf().AsSingle();
+			Container.BindInstance(ServerSettings);
 			if ( ServerSettings.Mode == ServerMode.Network ) {
 				InstallNetworkManagers();
 			} else {
@@ -21,18 +22,16 @@ namespace UnityClient.Installers {
 		}
 
 		void InstallNetworkManagers() {
-			Container.BindInstance(ServerSettings);
 			Container.Bind<INetworkManager>().To<WebRequestNetworkManager>().AsSingle();
-			Container.Bind<UserManager>().ToSelf().AsSingle();
-			Container.Bind<IAuthManager>().To<NetworkAuthManager>().AsSingle();
-			Container.Bind(
-					typeof(NetworkStartupManager), typeof(IInitializable), typeof(ITickable))
+			Container.Bind<UserRepository>().ToSelf().AsSingle();
+			Container.Bind<NetworkAuthManager>().ToSelf().AsSingle();
+			Container.Bind(typeof(NetworkStartupManager), typeof(IInitializable), typeof(ITickable))
 				.To<NetworkStartupManager>().AsSingle().NonLazy();
 		}
 
 		void InstallLocalManagers() {
-			Container.Bind<IAuthManager>().To<LocalAuthManager>().AsSingle();
-			Container.Bind<LocalStartupManager>().AsSingle().NonLazy();
+			Container.Bind(typeof(LocalStartupManager), typeof(IInitializable))
+				.To<LocalStartupManager>().AsSingle().NonLazy();
 		}
 	}
 }

@@ -1,20 +1,22 @@
 using System;
 using GameLogics.Core;
 using GameLogics.Commands;
+using GameLogics.Repositories.State;
 
 namespace GameLogics.Managers {
 	public sealed class CommandExecutor {
 		public event Action<GameState> OnStateUpdated = delegate {};
 
-		readonly GameState _state;
+		readonly IGameStateRepository _stateRepository;
 		
-		public CommandExecutor(IGameStateManager stateManager) {
-			_state = stateManager.State;
+		public CommandExecutor(IGameStateRepository stateRepository) {
+			_stateRepository = stateRepository;
 		}
 		
 		public void Execute(ICommand command) {
-			command.Execute(_state);
-			OnStateUpdated(_state);
+			var state = _stateRepository.State;
+			command.Execute(state);
+			OnStateUpdated(state);
 		}
 	}
 }

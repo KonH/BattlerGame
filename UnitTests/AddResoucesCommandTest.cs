@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using GameLogics.Commands;
 using GameLogics.Core;
 using GameLogics.Intents;
-using GameLogics.Managers;
 using GameLogics.Managers.IntentMapper;
 using GameLogics.Utils;
 using Xunit;
@@ -24,11 +23,9 @@ namespace UnitTests {
 
 		[Fact]
 		async Task CommandCreatedFromIntent() {
-			var stateManager = new InMemoryGameStateManager(new GameState());
-			var intentMapper = new DirectIntentToCommandMapper(stateManager);
-			
+			var intentMapper = new DirectIntentToCommandMapper();
 			var intent = new RequestResourceIntent(Resource.Coins, 1);
-			
+
 			var response = await intentMapper.RequestCommandsFromIntent(intent);
 			Assert.NotNull(response);
 			Assert.True(response.Success);

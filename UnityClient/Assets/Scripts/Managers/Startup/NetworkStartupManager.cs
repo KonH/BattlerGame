@@ -1,6 +1,5 @@
 ﻿using System;
-using GameLogics.Managers.Auth;
-using GameLogics.Models;
+using GameLogics.Managers;
 using UnityEngine;
 using Zenject;
 
@@ -8,16 +7,16 @@ namespace UnityClient.Managers.Startup {
 	public class NetworkStartupManager : IInitializable, ITickable {
 		const float _minInterval = 3.0f;
 		
-		readonly MainThreadRunner _runner;
-		readonly ServerSettings   _settings;
-		readonly IAuthManager     _authManager;
-		readonly GameSceneManager _sceneManager;
+		readonly MainThreadRunner   _runner;
+		readonly ServerSettings     _settings;
+		readonly NetworkAuthManager _authManager;
+		readonly GameSceneManager   _sceneManager;
 
 		float _nextRefreshTime = _minInterval;
 		
 		bool IsNeedToRefreshToken => Time.realtimeSinceStartup > _nextRefreshTime;
 		
-		public NetworkStartupManager(MainThreadRunner runner, ServerSettings settings, IAuthManager authManager, GameSceneManager sceneManager) {
+		public NetworkStartupManager(MainThreadRunner runner, ServerSettings settings, NetworkAuthManager authManager, GameSceneManager sceneManager) {
 			_runner       = runner;
 			_settings     = settings;
 			_authManager  = authManager;

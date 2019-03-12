@@ -3,21 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GameLogics.Commands;
-using GameLogics.Core;
-using GameLogics.DAO;
 using GameLogics.Intents;
 using GameLogics.UseCases;
 using GameLogics.Utils;
-using Newtonsoft.Json;
 
 namespace GameLogics.Managers.IntentMapper {
 	public abstract class BaseIntentToCommandMapper : IIntentToCommandMapper {
-		protected readonly GameState State;
-		
 		readonly Dictionary<Type, IUseCase> _useCases;
 		
-		public BaseIntentToCommandMapper(IGameStateManager stateManager) {
-			State = stateManager.State;
+		public BaseIntentToCommandMapper() {
 			_useCases = FillUseCases();
 		}
 

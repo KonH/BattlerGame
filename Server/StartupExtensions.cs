@@ -1,4 +1,3 @@
-using GameLogics.Core;
 using GameLogics.Managers;
 using GameLogics.Managers.IntentMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -54,10 +53,6 @@ namespace Server {
 		
 		public static void AddUserRepository(this IServiceCollection services) {
 			services.AddSingleton<IUserRepository, InMemoryUserRepository>();
-		}
-		
-		public static void AddGameStateManager(this IServiceCollection services) {
-			services.AddSingleton<IGameStateManager>(new InMemoryGameStateManager(new GameState()));
 		}
 		
 		public static void AddIntentService(this IServiceCollection services) {

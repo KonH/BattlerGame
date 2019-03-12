@@ -1,5 +1,6 @@
 ﻿using GameLogics.Managers;
 using GameLogics.Models;
+using GameLogics.Repositories;
 using TMPro;
 using UnityClient.Managers;
 using UnityEngine;
@@ -13,14 +14,14 @@ namespace UnityClient.Controls {
 		MainThreadRunner _runner;
 		GameSceneManager _sceneManager;
 		RegisterManager  _registerManager;
-		UserManager      _userManager;
+		UserRepository   _userRepository;
 
 		[Inject]
-		public void Init(MainThreadRunner runner, GameSceneManager sceneManager, RegisterManager registerManager, UserManager userManager) {
+		public void Init(MainThreadRunner runner, GameSceneManager sceneManager, RegisterManager registerManager, UserRepository userRepository) {
 			_runner          = runner;
 			_sceneManager    = sceneManager;
 			_registerManager = registerManager;
-			_userManager     = userManager;
+			_userRepository  = userRepository;
 		}
 		
 		public void Register() {
@@ -28,7 +29,7 @@ namespace UnityClient.Controls {
 				var login    = Login.text;
 				var password = Password.text;
 				var user     = User.CreateWithPassword(login, password, login, "user");
-				_userManager.CurrentUser = user;
+				_userRepository.CurrentUser = user;
 				var success  = await _registerManager.TryRegister();
 				if ( success ) {
 					_sceneManager.GoToLogin();

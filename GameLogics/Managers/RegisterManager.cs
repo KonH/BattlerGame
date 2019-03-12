@@ -1,22 +1,23 @@
 using System.Threading.Tasks;
 using GameLogics.Managers.Network;
 using GameLogics.Models;
+using GameLogics.Repositories;
 using Newtonsoft.Json;
 
 namespace GameLogics.Managers {
 	public class RegisterManager {
 		readonly ICustomLogger   _logger;
 		readonly INetworkManager _networkManager;
-		readonly UserManager     _userManager;
+		readonly UserRepository  _userRepository;
 
-		public RegisterManager(ICustomLogger logger, INetworkManager networkManager, UserManager userManager) {
+		public RegisterManager(ICustomLogger logger, INetworkManager networkManager, UserRepository userRepository) {
 			_logger         = logger;
 			_networkManager = networkManager;
-			_userManager    = userManager;
+			_userRepository = userRepository;
 		}
 		
 		public async Task<bool> TryRegister() {
-			var user = _userManager.CurrentUser;
+			var user = _userRepository.CurrentUser;
 			if ( user == null ) {
 				return false;
 			}

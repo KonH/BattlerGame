@@ -2,13 +2,13 @@ using System.IO;
 using GameLogics.Core;
 using Newtonsoft.Json;
 
-namespace GameLogics.Managers {
-	public sealed class LocalGameStateManager : IGameStateManager {
+namespace GameLogics.Repositories.State {
+	public sealed class LocalGameStateRepository : IGameStateRepository {
 		public GameState State { get; private set; }
 
 		readonly string _path;
 		
-		public LocalGameStateManager(string path) {
+		public LocalGameStateRepository(string path) {
 			_path = path;
 		}
 		

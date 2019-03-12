@@ -1,7 +1,7 @@
 using GameLogics.Models;
 
-namespace GameLogics.Managers {
-	public class UserManager {
+namespace GameLogics.Repositories {
+	public class UserRepository {
 		public User CurrentUser { get; set; }
 	}
 }

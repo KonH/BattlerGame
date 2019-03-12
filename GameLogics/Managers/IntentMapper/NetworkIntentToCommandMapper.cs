@@ -12,12 +12,10 @@ namespace GameLogics.Managers.IntentMapper {
 			TypeNameHandling = TypeNameHandling.Auto
 		};
 
-		readonly ICustomLogger _logger;
-		
+		readonly ICustomLogger   _logger;
 		readonly INetworkManager _networkManager;
 
-		public NetworkIntentToCommandMapper(ICustomLogger logger, IGameStateManager stateManager, INetworkManager networkManager) 
-			: base(stateManager) {
+		public NetworkIntentToCommandMapper(ICustomLogger logger, INetworkManager networkManager) {
 			_logger         = logger;
 			_networkManager = networkManager;
 		}
