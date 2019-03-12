@@ -13,7 +13,9 @@ namespace ConsoleClient {
 		static ICustomLogger   _logger         = new ConsoleLogger();
 		static INetworkManager _networkManager = new HttpClientNetworkManager(_logger, "http://localhost:8080/");
 
-		static User _user = User.CreateWithPassword("newUser", "password", "newUserName", "user");
+		static UserManager _userManager = new UserManager {
+			CurrentUser = User.CreateWithPassword("newUser", "password", "newUserName", "user")
+		};
 		
 		static void Main(string[] args) {
 			Main().GetAwaiter().GetResult();
@@ -26,14 +28,14 @@ namespace ConsoleClient {
 		}
 		
 		static async Task RegisterCase() {
-			var registerManager = new RegisterManager(_logger, _networkManager);
-			var result = await registerManager.TryRegister(_user);
+			var registerManager = new RegisterManager(_logger, _networkManager, _userManager);
+			var result = await registerManager.TryRegister();
 			Console.WriteLine("RegisterCase: {0}", result);
 		}
 		
 		static async Task LoginCase() {
-			var authManager = new NetworkAuthManager(_logger, _networkManager);
-			var result = await authManager.TryLogin(_user);
+			var authManager = new NetworkAuthManager(_logger, _networkManager, _userManager);
+			var result = await authManager.TryLogin();
 			Console.WriteLine("LoginCase: {0} ({1})", result, _networkManager.AuthToken);
 		}
 		

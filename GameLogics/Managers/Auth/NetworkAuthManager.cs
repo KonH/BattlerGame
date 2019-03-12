@@ -8,13 +8,19 @@ namespace GameLogics.Managers.Auth {
 	public class NetworkAuthManager : IAuthManager {
 		readonly ICustomLogger   _logger;
 		readonly INetworkManager _networkManager;
+		readonly UserManager     _userManager;
 		
-		public NetworkAuthManager(ICustomLogger logger, INetworkManager networkManager) {
+		public NetworkAuthManager(ICustomLogger logger, INetworkManager networkManager, UserManager userManager) {
 			_logger         = logger;
 			_networkManager = networkManager;
+			_userManager    = userManager;
 		}
 		
-		public async Task<bool> TryLogin(User user) {
+		public async Task<bool> TryLogin() {
+			var user = _userManager.CurrentUser;
+			if ( user == null ) {
+				return false;
+			}
 			var body = JsonConvert.SerializeObject(user);
 			var result = await _networkManager.PostJson("api/auth", body);
 			_logger.DebugFormat("TryLogin: {0}, {1}", result.IsSuccess.ToString(), result.ResponseText);
