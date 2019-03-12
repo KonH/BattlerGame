@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using GameLogics.Managers;
 using GameLogics.Managers.Auth;
 using GameLogics.Models;
 using TMPro;
-using UnityClient.Utils;
+using UnityClient.Managers;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace UnityClient.Controls {
@@ -12,25 +11,37 @@ namespace UnityClient.Controls {
 		public TMP_InputField LoginInput;
 		public TMP_InputField PasswordInput;
 
-		IAuthManager _authManager;
-		
+		MainThreadRunner _runner;
+		GameSceneManager _sceneManager;
+		IAuthManager     _authManager;
+		UserManager      _userManager;
+
 		[Inject]
-		public void Init(IAuthManager authManager) {
-			_authManager = authManager;
-			LoginInput.text = "test";
+		public void Init(MainThreadRunner runner, GameSceneManager sceneManager, IAuthManager authManager, UserManager userManager) {
+			_runner       = runner;
+			_sceneManager = sceneManager;
+			_authManager  = authManager;
+			_userManager  = userManager;
+
+			LoginInput.text    = "test";
 			PasswordInput.text = "test";
 		}
 
 		public void Login() {
-			var login = LoginInput.text;
-			var password = PasswordInput.text;
-			_authManager.TryLogin(User.CreateWithPassword(login, password, login, "user")).ContinueOnSameThread(GoToWorld);
+			_runner.Run(async () => {
+				var login    = LoginInput.text;
+				var password = PasswordInput.text;
+				var user     = User.CreateWithPassword(login, password, login, "user");
+				_userManager.CurrentUser = user;
+				var success  = await _authManager.TryLogin();
+				if ( success ) {
+					_sceneManager.GoToWorld();
+				}
+			});
 		}
 
-		void GoToWorld(Task<bool> result) {
-			if ( result.Result ) {
-				SceneManager.LoadScene(3);
-			}
+		public void Register() {
+			_sceneManager.GoToRegister();
 		}
 	}
 }

@@ -2,7 +2,8 @@
     "name": "Controls",
     "references": [
         "Unity.TextMeshPro",
-        "Utils"
+        "Utils",
+        "Managers"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

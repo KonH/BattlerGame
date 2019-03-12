@@ -2,6 +2,7 @@
 using GameLogics.Managers.Auth;
 using GameLogics.Managers.Network;
 using UnityClient.Managers;
+using UnityClient.Managers.Startup;
 using Zenject;
 
 namespace UnityClient.Installers {
@@ -9,23 +10,29 @@ namespace UnityClient.Installers {
 		public ServerSettings ServerSettings;
 		
 		public override void InstallBindings() {
+			Container.Bind<MainThreadRunner>().FromNewComponentOnRoot().AsSingle();
 			Container.Bind<ICustomLogger>().To<UnityLogger>().AsSingle();
+			Container.Bind<GameSceneManager>().ToSelf().AsSingle();
+			if ( ServerSettings.Mode == ServerMode.Network ) {
+				InstallNetworkManagers();
+			} else {
+				InstallLocalManagers();
+			}
+		}
+
+		void InstallNetworkManagers() {
 			Container.BindInstance(ServerSettings);
 			Container.Bind<INetworkManager>().To<WebRequestNetworkManager>().AsSingle();
-			Container.Bind<IAuthManager>().FromMethod(CreateAuthManager).AsSingle();
+			Container.Bind<UserManager>().ToSelf().AsSingle();
+			Container.Bind<IAuthManager>().To<NetworkAuthManager>().AsSingle();
+			Container.Bind(
+					typeof(NetworkStartupManager), typeof(IInitializable), typeof(ITickable))
+				.To<NetworkStartupManager>().AsSingle().NonLazy();
 		}
-		
-		IAuthManager CreateAuthManager(InjectContext context) {
-			var container = context.Container;
-			var settings  = container.Resolve<ServerSettings>();
-			switch ( settings.Mode ) {
-				case ServerMode.Embedded:
-					return new LocalAuthManager();
-				case ServerMode.Network:
-					return new NetworkAuthManager(container.Resolve<ICustomLogger>(), container.Resolve<INetworkManager>());
-				default:
-					return null;
-			}
+
+		void InstallLocalManagers() {
+			Container.Bind<IAuthManager>().To<LocalAuthManager>().AsSingle();
+			Container.Bind<LocalStartupManager>().AsSingle().NonLazy();
 		}
 	}
 }
