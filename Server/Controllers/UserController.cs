@@ -1,28 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
 using GameLogics.Models;
-using Microsoft.Extensions.Logging;
-using Server.Repositories;
-using Server.Repositories.Users;
+using GameLogics.Server.Services;
+using Server.Utils;
 
 namespace Server.Controllers {
 	[Route("api/[controller]")]
 	[ApiController]
 	public class UserController : ControllerBase {
-		readonly ILogger         _logger;
-		readonly IUserRepository _users;
+		readonly UserService _service;
 		
-		public UserController(ILogger<UserController> logger, IUserRepository users) {
-			_logger = logger;
-			_users  = users;
+		public UserController(UserService service) {
+			_service = service;
 		}
 
 		[HttpPost]
 		public IActionResult Add([FromBody] User user) {
-			_logger.LogDebug("Add: {0}", user.ToString());
-			if ( _users.TryAdd(user) ) {
-				return Ok();
-			}
-			return BadRequest();
+			return this.Wrap(_service.Add(user));
 		}
 	}
 }

@@ -1,8 +1,8 @@
 using System.Collections.Concurrent;
 using GameLogics.Models;
 
-namespace Server.Repositories.Users {
-	public class InMemoryUserRepository : IUserRepository {
+namespace GameLogics.Server.Repositories.Users {
+	public class InMemoryUsersRepository : IUsersRepository {
 		ConcurrentDictionary<string, User> _users = new ConcurrentDictionary<string, User> {
 			["test"] = User.CreateWithPassword("test", "test", "test", "user")
 		};

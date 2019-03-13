@@ -1,8 +1,8 @@
 using GameLogics.Models;
-using Server.Utils;
+using GameLogics.Server.Utils;
 
-namespace Server.Repositories.States {
-	public interface IGameStateRepository {
+namespace GameLogics.Server.Repositories.States {
+	public interface IGameStatesRepository {
 		bool TryAdd(User user, Versioned<GameState> state);
 		Versioned<GameState> Find(User user);
 		Versioned<GameState> FindOrCreate(User user);

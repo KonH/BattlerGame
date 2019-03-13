@@ -1,11 +1,13 @@
 using GameLogics.Managers;
 using GameLogics.Managers.IntentMapper;
+using GameLogics.Server.Repositories.States;
+using GameLogics.Server.Repositories.Users;
+using GameLogics.Server.Services;
+using GameLogics.Server.Services.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Server.Repositories.States;
-using Server.Repositories.Users;
 using Server.Services;
 using Server.Settings;
 
@@ -27,10 +29,15 @@ namespace Server {
 		public static void AddCustomLogger(this IServiceCollection services) {
 			services.AddSingleton<ICustomLogger, ServerLogger>();
 		}
+
+		public static void AddApiService(this IServiceCollection services) {
+			services.AddSingleton<ApiService>();
+		}
 		
 		public static void AddAuthService(this IServiceCollection services) {
 			var settings = new AuthSettings("BattlerServer", "BattlerClient", 60, "wiySRZgKELlQcN82");
 			services.AddSingleton(settings);
+			services.AddSingleton<IAuthTokenService, JwtTokenService>();
 			services.AddSingleton<AuthService>();
 			services.AddJwtBearerAuthentication(settings);
 		}
@@ -52,12 +59,13 @@ namespace Server {
 				);
 		}
 		
-		public static void AddUserRepository(this IServiceCollection services) {
-			services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+		public static void AddUserService(this IServiceCollection services) {
+			services.AddSingleton<IUsersRepository, InMemoryUsersRepository>();
+			services.AddSingleton<UserService>();
 		}
 		
 		public static void AddGameStateRepository(this IServiceCollection services) {
-			services.AddSingleton<IGameStateRepository, InMemoryGameStateRepository>();
+			services.AddSingleton<IGameStatesRepository, InMemoryGameStatesRepository>();
 		}
 		
 		public static void AddIntentService(this IServiceCollection services) {

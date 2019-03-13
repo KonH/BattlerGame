@@ -2,19 +2,19 @@ using JetBrains.Annotations;
 
 namespace GameLogics.Managers {
 	public interface ICustomLogger {
-		void Debug(string message);
+		void Debug(object context, string message);
 		
 		[StringFormatMethod("message")]
-		void DebugFormat(string message, params object[] args);
+		void DebugFormat(object context, string message, params object[] args);
 		
-		void Warning(string message);
-		
-		[StringFormatMethod("message")]
-		void WarningFormat(string message, params object[] args);
-		
-		void Error(string message);
+		void Warning(object context, string message);
 		
 		[StringFormatMethod("message")]
-		void ErrorFormat(string message, params object[] args);
+		void WarningFormat(object context, string message, params object[] args);
+		
+		void Error(object context, string message);
+		
+		[StringFormatMethod("message")]
+		void ErrorFormat(object context, string message, params object[] args);
 	}
 }

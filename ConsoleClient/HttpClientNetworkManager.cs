@@ -30,11 +30,11 @@ namespace ConsoleClient {
 				var result       = await _client.PostAsync(_baseUrl + relativeUrl, content);
 				var responseText = await result.Content.ReadAsStringAsync();
 				if ( !result.IsSuccessStatusCode ) {
-					_logger.ErrorFormat("PostJson failed: {0} {1}", (int)result.StatusCode, result.ReasonPhrase);
+					_logger.ErrorFormat(this, "PostJson failed: {0} {1}", (int)result.StatusCode, result.ReasonPhrase);
 				}
 				return new NetworkResponse((int)result.StatusCode, result.IsSuccessStatusCode, responseText);
 			} catch ( Exception e ) {
-				_logger.ErrorFormat("PostJson failed: {0}", e);
+				_logger.ErrorFormat(this, "PostJson failed: {0}", e);
 				return new NetworkResponse(-1, false, "");
 			}
 		}

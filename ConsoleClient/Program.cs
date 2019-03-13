@@ -61,7 +61,11 @@ namespace ConsoleClient {
 		}
 
 		static string GetCoinsCount() {
-			return _stateRepo.State.Resources.TryGetValue(Resource.Coins, out var coins) ? coins.ToString() : "none";
+			var state = _stateRepo.State;
+			if ( state == null ) {
+				return "no state";
+			}
+			return state.Resources.TryGetValue(Resource.Coins, out var coins) ? coins.ToString() : "none";
 		}
 	}
 }

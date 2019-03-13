@@ -23,7 +23,7 @@ namespace GameLogics.Managers.Register {
 			}
 			var body = JsonConvert.SerializeObject(user);
 			var result = await _networkManager.PostJson("api/user", body);
-			_logger.DebugFormat("TryRegister: {0}", result);
+			_logger.DebugFormat(this, "TryRegister: {0}", result);
 			return result.IsSuccess;
 		}
 	}

@@ -1,7 +1,7 @@
 using GameLogics.Models;
 
-namespace Server.Repositories.Users {
-	public interface IUserRepository {
+namespace GameLogics.Server.Repositories.Users {
+	public interface IUsersRepository {
 		User Find(string login, string passwordHash = null);
 		bool TryAdd(User user);
 	}

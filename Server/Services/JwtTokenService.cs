@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using GameLogics.Models;
+using GameLogics.Server.Services.Auth;
 using Microsoft.IdentityModel.Tokens;
 using Server.Settings;
 
 namespace Server.Services {
-	public class AuthService {
+	public class JwtTokenService : IAuthTokenService {
 		readonly AuthSettings _settings;
 
-		public AuthService(AuthSettings settings) {
+		public JwtTokenService(AuthSettings settings) {
 			_settings = settings;
 		}
 		
-		public JwtSecurityToken CreateToken(User user) {
+		public string CreateToken(User user) {
 			var identity = GetIdentity(user);
-			return CreateToken(identity);
+			var jwt = CreateToken(identity);
+			var encoded = new JwtSecurityTokenHandler().WriteToken(jwt);
+			return encoded;
 		}
 		
 		ClaimsIdentity GetIdentity(User user) {

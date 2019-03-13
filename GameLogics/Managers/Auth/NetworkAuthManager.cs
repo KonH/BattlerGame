@@ -26,10 +26,10 @@ namespace GameLogics.Managers.Auth {
 			}
 			var body = JsonConvert.SerializeObject(user);
 			var result = await _networkManager.PostJson("api/auth", body);
-			_logger.DebugFormat("TryLogin: {0}, {1}", result.IsSuccess.ToString(), result.ResponseText);
+			_logger.DebugFormat(this, "TryLogin: {0}, {1}", result.IsSuccess.ToString(), result.ResponseText);
 			if ( result.IsSuccess ) {
 				var response = JsonConvert.DeserializeObject<AuthResponse>(result.ResponseText);
-				_logger.DebugFormat("TryLogin: {0}", response);
+				_logger.DebugFormat(this, "TryLogin: {0}", response);
 				_networkManager.AuthToken = response.Token;
 				_stateRepository.Version = response.StateVersion;
 				_stateRepository.State = response.State;

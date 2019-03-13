@@ -26,13 +26,13 @@ namespace GameLogics.Managers.IntentMapper {
 		public override async Task<CommandResponse> RequestCommandsFromIntent(GameState state, IIntent intent) {
 			var body = SerializeIntent(intent);
 			var result = await _networkManager.PostJson("api/intent", body);
-			_logger.DebugFormat("RequestCommandsFromIntent: '{0}'", result.ResponseText);
+			_logger.DebugFormat(this, "RequestCommandsFromIntent: '{0}'", result.ResponseText);
 			if ( result.IsSuccess ) {
 				var response = DeserializeResponse(result.ResponseText);
 				_stateRepository.Version = response.Version;
 				return response;
 			}
-			_logger.WarningFormat("RequestCommandsFromIntent failed: {0}: '{1}'", result.StatusCode.ToString(), result.ResponseText);
+			_logger.WarningFormat(this, "RequestCommandsFromIntent failed: {0}: '{1}'", result.StatusCode.ToString(), result.ResponseText);
 			return CommandResponse.Failed(new NetworkError());
 		}
 		

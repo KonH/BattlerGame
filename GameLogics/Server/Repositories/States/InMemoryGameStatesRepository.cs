@@ -1,9 +1,9 @@
 using System.Collections.Concurrent;
 using GameLogics.Models;
-using Server.Utils;
+using GameLogics.Server.Utils;
 
-namespace Server.Repositories.States {
-	public class InMemoryGameStateRepository : IGameStateRepository {
+namespace GameLogics.Server.Repositories.States {
+	public class InMemoryGameStatesRepository : IGameStatesRepository {
 		ConcurrentDictionary<User, Versioned<GameState>> _states = new ConcurrentDictionary<User, Versioned<GameState>>();
 
 		public bool TryAdd(User user, Versioned<GameState> state) {

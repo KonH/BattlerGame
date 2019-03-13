@@ -1,6 +1,6 @@
 using System;
 
-namespace Server.Utils {
+namespace GameLogics.Server.Utils {
 	public class Versioned<T> {
 		public T      Value   { get; }
 		public string Version { get; private set; }

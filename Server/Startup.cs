@@ -17,8 +17,9 @@ namespace Server {
 			services.AddFullCors();
 			services.AddLogging();
 			services.AddCustomLogger();
+			services.AddApiService();
 			services.AddAuthService();
-			services.AddUserRepository();
+			services.AddUserService();
 			services.AddGameStateRepository();
 			services.AddIntentService();
 			services.AddMvc().AddJsonOptions(opts => { opts.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto; });

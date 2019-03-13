@@ -34,7 +34,7 @@ namespace UnityClient.Managers {
 				var isFailed = req.isHttpError || req.isNetworkError;
 				return new NetworkResponse((int)req.responseCode, !isFailed, req.downloadHandler.text);
 			} catch ( Exception e ) {
-				_logger.ErrorFormat("PostJson failed: {0}", e);
+				_logger.ErrorFormat(this, "PostJson failed: {0}", e);
 				return new NetworkResponse(-1, false, "");
 			}
 		}
