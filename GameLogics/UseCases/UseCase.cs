@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using GameLogics.Commands;
 using GameLogics.Intents;
+using GameLogics.Models;
 
 namespace GameLogics.UseCases {
 	public abstract class UseCase<TIntent> : IUseCase where TIntent : class, IIntent {
-		public abstract void Execute(TIntent intent, List<ICommand> result);
+		public abstract void Execute(GameState state, TIntent intent, List<ICommand> result);
 		
-		public List<ICommand> Execute(IIntent intent) {
+		public List<ICommand> Execute(GameState state, IIntent intent) {
 			var result = new List<ICommand>();
-			Execute(intent as TIntent, result);
+			Execute(state, intent as TIntent, result);
 			return result;
 		}
 	}

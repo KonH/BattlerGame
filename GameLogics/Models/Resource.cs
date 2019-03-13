@@ -1,4 +1,4 @@
-namespace GameLogics.Core {
+namespace GameLogics.Models {
 	public enum Resource {
 		Unknown,
 		Coins

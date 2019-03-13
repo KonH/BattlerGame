@@ -19,6 +19,7 @@ namespace Server {
 			services.AddCustomLogger();
 			services.AddAuthService();
 			services.AddUserRepository();
+			services.AddGameStateRepository();
 			services.AddIntentService();
 			services.AddMvc().AddJsonOptions(opts => { opts.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto; });
 		}

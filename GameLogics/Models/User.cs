@@ -2,10 +2,10 @@ using GameLogics.Utils;
 
 namespace GameLogics.Models {
 	public class User {
-		public string Login        { get; set; }
-		public string PasswordHash { get; set; }
-		public string Name         { get; set; }
-		public string Role         { get; set; }
+		public string Login        { get; }
+		public string PasswordHash { get; }
+		public string Name         { get; }
+		public string Role         { get; }
 		
 		public User(string login, string passwordHash, string name, string role) {
 			Login        = login;
@@ -20,6 +20,35 @@ namespace GameLogics.Models {
 		
 		public static User CreateWithPassword(string login, string password, string name, string role) {
 			return new User(login, HashUtils.MakePasswordHash(login, password), name, role);
+		}
+		
+		protected bool Equals(User other) {
+			return string.Equals(Login, other.Login);
+		}
+
+		public override bool Equals(object obj) {
+			if ( ReferenceEquals(null, obj) ) {
+				return false;
+			}
+			if ( ReferenceEquals(this, obj) ) {
+				return true;
+			}
+			if ( obj.GetType() != GetType() ) {
+				return false;
+			}
+			return Equals((User)obj);
+		}
+
+		public override int GetHashCode() {
+			return Login.GetHashCode();
+		}
+
+		public static bool operator ==(User left, User right) {
+			return Equals(left, right);
+		}
+
+		public static bool operator !=(User left, User right) {
+			return !Equals(left, right);
 		}
 	}
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using GameLogics.Models;
 using Microsoft.Extensions.Logging;
 using Server.Repositories;
+using Server.Repositories.Users;
 
 namespace Server.Controllers {
 	[Route("api/[controller]")]

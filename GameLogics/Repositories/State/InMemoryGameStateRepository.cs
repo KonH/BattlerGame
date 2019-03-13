@@ -1,7 +1,8 @@
-using GameLogics.Core;
+using GameLogics.Models;
 
 namespace GameLogics.Repositories.State {
 	public sealed class InMemoryGameStateRepository : IGameStateRepository {
-		public GameState State { get; set; }
+		public string    Version { get; set; }
+		public GameState State   { get; set; }
 	}
 }

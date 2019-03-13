@@ -2,10 +2,16 @@ using GameLogics.Intents;
 
 namespace GameLogics.DAO {
 	public class IntentRequest {
-		public IIntent Intent { get; set; }
+		public string  ExpectedVersion { get; set; }
+		public IIntent Intent          { get; set; }
+
+		public IntentRequest(string expectedVersion, IIntent intent) {
+			ExpectedVersion = expectedVersion;
+			Intent          = intent;
+		}
 		
 		public override string ToString() {
-			return $"Intent: {Intent}";
+			return $"ExpectedVersion: '{ExpectedVersion}', Intent: {Intent}";
 		}
 	}
 }

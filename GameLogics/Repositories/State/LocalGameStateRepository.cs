@@ -1,10 +1,11 @@
 using System.IO;
-using GameLogics.Core;
+using GameLogics.Models;
 using Newtonsoft.Json;
 
 namespace GameLogics.Repositories.State {
 	public sealed class LocalGameStateRepository : IGameStateRepository {
-		public GameState State { get; private set; }
+		public string    Version { get; set; }
+		public GameState State   { get; set; }
 
 		readonly string _path;
 		

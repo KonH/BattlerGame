@@ -8,6 +8,8 @@ namespace UnityClient.Managers {
 		const string WorldScene    = "03_World";
 		
 		string ActiveScene => SceneManager.GetActiveScene().name;
+
+		public bool IsRegister => ActiveScene == RegisterScene;
 		
 		public void GoToStart()    => OpenScene(StartScene);
 		public void GoToLogin()    => OpenScene(LoginScene);

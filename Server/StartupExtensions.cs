@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Server.Repositories;
+using Server.Repositories.States;
+using Server.Repositories.Users;
 using Server.Services;
 using Server.Settings;
 
@@ -53,6 +54,10 @@ namespace Server {
 		
 		public static void AddUserRepository(this IServiceCollection services) {
 			services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+		}
+		
+		public static void AddGameStateRepository(this IServiceCollection services) {
+			services.AddSingleton<IGameStateRepository, InMemoryGameStateRepository>();
 		}
 		
 		public static void AddIntentService(this IServiceCollection services) {

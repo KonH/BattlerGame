@@ -1,4 +1,4 @@
-using GameLogics.Core;
+using GameLogics.Models;
 
 namespace GameLogics.Commands {
 	/// <summary>

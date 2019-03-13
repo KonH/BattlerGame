@@ -2,18 +2,21 @@ using System.Threading.Tasks;
 using GameLogics.DAO;
 using GameLogics.Managers.Network;
 using GameLogics.Repositories;
+using GameLogics.Repositories.State;
 using Newtonsoft.Json;
 
 namespace GameLogics.Managers.Auth {
 	public class NetworkAuthManager : IAuthManager {
-		readonly ICustomLogger   _logger;
-		readonly INetworkManager _networkManager;
-		readonly UserRepository  _userRepository;
+		readonly ICustomLogger        _logger;
+		readonly INetworkManager      _networkManager;
+		readonly UserRepository       _userRepository;
+		readonly IGameStateRepository _stateRepository;
 		
-		public NetworkAuthManager(ICustomLogger logger, INetworkManager networkManager, UserRepository userRepository) {
-			_logger         = logger;
-			_networkManager = networkManager;
-			_userRepository = userRepository;
+		public NetworkAuthManager(ICustomLogger logger, INetworkManager networkManager, UserRepository userRepository, IGameStateRepository stateRepository) {
+			_logger          = logger;
+			_networkManager  = networkManager;
+			_userRepository  = userRepository;
+			_stateRepository = stateRepository;
 		}
 		
 		public async Task<bool> TryLogin() {
@@ -28,6 +31,8 @@ namespace GameLogics.Managers.Auth {
 				var response = JsonConvert.DeserializeObject<AuthResponse>(result.ResponseText);
 				_logger.DebugFormat("TryLogin: {0}", response);
 				_networkManager.AuthToken = response.Token;
+				_stateRepository.Version = response.StateVersion;
+				_stateRepository.State = response.State;
 			}
 			return result.IsSuccess;
 		}

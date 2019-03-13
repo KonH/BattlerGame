@@ -1,5 +1,5 @@
 using System;
-using GameLogics.Core;
+using GameLogics.Models;
 using GameLogics.Commands;
 using GameLogics.Repositories.State;
 

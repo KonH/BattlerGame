@@ -14,13 +14,15 @@ namespace UnityClient.Managers {
 
 		float _nextRefreshTime = _minInterval;
 		
-		bool IsNeedToRefreshToken => Time.realtimeSinceStartup > _nextRefreshTime;
+		bool IsNeedToRefreshToken => (Time.realtimeSinceStartup > _nextRefreshTime) && !_sceneManager.IsRegister;
 		
 		public StartupManager(MainThreadRunner runner, ServerSettings settings, IAuthManager authManager, GameSceneManager sceneManager) {
 			_runner       = runner;
 			_settings     = settings;
 			_authManager  = authManager;
 			_sceneManager = sceneManager;
+			
+			_nextRefreshTime = _minInterval;
 		}
 		
 		public void Initialize() {

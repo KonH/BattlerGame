@@ -19,16 +19,14 @@ namespace Server.Controllers {
 		}
 		
 		[HttpPost]
-		public async Task<ActionResult<IntentResponse>> Post([FromBody] IntentRequest request) {
+		public async Task<ActionResult<CommandResponse>> Post([FromBody] IntentRequest request) {
 			_logger.LogDebug($"Incoming: {request}");
-			var response = await _service.CreateCommands(User.Identity.Name, request.Intent);
+			var response = await _service.CreateResponse(User.Identity.Name, request.ExpectedVersion, request.Intent);
 			if ( !response.Success ) {
-				return BadRequest("internal error");
+				return BadRequest(response.Error.GetType().ToString());
 			}
-			var commands = response.Commands;
-			var responseDto = new IntentResponse { Commands = commands };
-			_logger.LogDebug($"Outgoing: {responseDto}");
-			return new ActionResult<IntentResponse>(responseDto);
+			_logger.LogDebug($"Outgoing: {response}");
+			return new ActionResult<CommandResponse>(response);
 		}
 	}
 }

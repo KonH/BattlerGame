@@ -1,5 +1,5 @@
 using System;
-using GameLogics.Core;
+using GameLogics.Models;
 
 namespace GameLogics.Intents {
 	public class RequestResourceIntent : IIntent {

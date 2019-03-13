@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using GameLogics.Commands;
-using GameLogics.Core;
+using GameLogics.Models;
 using GameLogics.Intents;
 using GameLogics.Managers.IntentMapper;
 using GameLogics.Utils;
@@ -26,7 +26,7 @@ namespace UnitTests {
 			var intentMapper = new DirectIntentToCommandMapper();
 			var intent = new RequestResourceIntent(Resource.Coins, 1);
 
-			var response = await intentMapper.RequestCommandsFromIntent(intent);
+			var response = await intentMapper.RequestCommandsFromIntent(new GameState(), intent);
 			Assert.NotNull(response);
 			Assert.True(response.Success);
 			

@@ -1,5 +1,5 @@
-﻿using GameLogics.Core;
-using GameLogics.Managers;
+﻿using GameLogics.Managers;
+using GameLogics.Models;
 using GameLogics.Repositories.State;
 using GameLogics.Utils;
 using UnityEngine;

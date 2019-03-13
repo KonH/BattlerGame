@@ -1,15 +1,15 @@
 using System.Collections.Concurrent;
 using GameLogics.Models;
 
-namespace Server.Repositories {
+namespace Server.Repositories.Users {
 	public class InMemoryUserRepository : IUserRepository {
 		ConcurrentDictionary<string, User> _users = new ConcurrentDictionary<string, User> {
 			["test"] = User.CreateWithPassword("test", "test", "test", "user")
 		};
 		
-		public User Find(string login, string passwordHash) {
+		public User Find(string login, string passwordHash = null) {
 			if ( _users.TryGetValue(login, out var user) ) {
-				if ( user.PasswordHash == passwordHash ) {
+				if ( (passwordHash == null) || (user.PasswordHash == passwordHash) ) {
 					return user;
 				}
 			}

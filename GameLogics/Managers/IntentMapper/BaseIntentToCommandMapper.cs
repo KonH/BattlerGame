@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GameLogics.Commands;
+using GameLogics.DAO;
 using GameLogics.Intents;
+using GameLogics.Models;
 using GameLogics.UseCases;
 using GameLogics.Utils;
 
@@ -15,16 +17,16 @@ namespace GameLogics.Managers.IntentMapper {
 			_useCases = FillUseCases();
 		}
 
-		protected List<ICommand> CreateCommandsFromIntent(IIntent intent) {
+		protected List<ICommand> CreateCommandsFromIntent(GameState state, IIntent intent) {
 			var intentType = intent.GetType();
 			var useCase = _useCases.GetOrDefault(intentType);
 			if ( useCase == null ) {
 				throw new InvalidOperationException("unknown intent");
 			}
-			return useCase.Execute(intent);
+			return useCase.Execute(state, intent);
 		}
 
-		public abstract Task<CommandResponse> RequestCommandsFromIntent(IIntent intent);
+		public abstract Task<CommandResponse> RequestCommandsFromIntent(GameState state, IIntent intent);
 		
 		/// <summary>
 		/// Fill use cases dictionary with types, inherited from UseCase abstract class to handle intents

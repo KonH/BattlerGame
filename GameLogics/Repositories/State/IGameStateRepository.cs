@@ -1,7 +1,8 @@
-using GameLogics.Core;
+using GameLogics.Models;
 
 namespace GameLogics.Repositories.State {
 	public interface IGameStateRepository {
-		GameState State { get; }
+		string    Version { get; set; }
+		GameState State   { get; set; }
 	}
 }

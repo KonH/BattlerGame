@@ -1,7 +1,6 @@
 using System;
 using System.IO;
-using GameLogics.Core;
-using GameLogics.Managers;
+using GameLogics.Models;
 using GameLogics.Repositories.State;
 using Xunit;
 

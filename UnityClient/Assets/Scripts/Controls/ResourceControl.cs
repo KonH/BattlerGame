@@ -1,6 +1,6 @@
-﻿using GameLogics.Core;
-using GameLogics.Intents;
+﻿using GameLogics.Intents;
 using GameLogics.Managers;
+using GameLogics.Models;
 using UnityEngine;
 using Zenject;
 
