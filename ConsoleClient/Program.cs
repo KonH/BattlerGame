@@ -44,7 +44,8 @@ namespace ConsoleClient {
 		
 		static async Task AddResourceCase() {
 			var intentMapper = new NetworkIntentToCommandMapper(_logger, _networkManager);
-			var executor = new CommandExecutor(new InMemoryGameStateRepository(new GameState()));
+			var stateRepo = new InMemoryGameStateRepository { State = new GameState() };
+			var executor = new CommandExecutor(stateRepo);
 			var response = await intentMapper.RequestCommandsFromIntent(new RequestResourceIntent(Resource.Coins, 1));
 			if ( !response.Success ) {
 				Console.WriteLine("AddResourceCase: failed");
