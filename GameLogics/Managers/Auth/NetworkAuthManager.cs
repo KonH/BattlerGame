@@ -4,8 +4,8 @@ using GameLogics.Managers.Network;
 using GameLogics.Repositories;
 using Newtonsoft.Json;
 
-namespace GameLogics.Managers {
-	public class NetworkAuthManager {
+namespace GameLogics.Managers.Auth {
+	public class NetworkAuthManager : IAuthManager {
 		readonly ICustomLogger   _logger;
 		readonly INetworkManager _networkManager;
 		readonly UserRepository  _userRepository;

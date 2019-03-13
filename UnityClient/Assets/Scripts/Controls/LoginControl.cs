@@ -1,4 +1,4 @@
-﻿using GameLogics.Managers;
+﻿using GameLogics.Managers.Auth;
 using GameLogics.Models;
 using GameLogics.Repositories;
 using TMPro;
@@ -11,13 +11,13 @@ namespace UnityClient.Controls {
 		public TMP_InputField LoginInput;
 		public TMP_InputField PasswordInput;
 
-		MainThreadRunner    _runner;
-		GameSceneManager   _sceneManager;
-		NetworkAuthManager _authManager;
-		UserRepository     _userRepository;
+		MainThreadRunner _runner;
+		GameSceneManager _sceneManager;
+		IAuthManager     _authManager;
+		UserRepository   _userRepository;
 
 		[Inject]
-		public void Init(MainThreadRunner runner, GameSceneManager sceneManager, NetworkAuthManager authManager, UserRepository userRepository) {
+		public void Init(MainThreadRunner runner, GameSceneManager sceneManager, IAuthManager authManager, UserRepository userRepository) {
 			_runner         = runner;
 			_sceneManager   = sceneManager;
 			_authManager    = authManager;

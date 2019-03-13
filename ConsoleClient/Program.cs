@@ -3,8 +3,10 @@ using System.Threading.Tasks;
 using GameLogics.Core;
 using GameLogics.Intents;
 using GameLogics.Managers;
+using GameLogics.Managers.Auth;
 using GameLogics.Managers.IntentMapper;
 using GameLogics.Managers.Network;
+using GameLogics.Managers.Register;
 using GameLogics.Models;
 using GameLogics.Repositories;
 using GameLogics.Repositories.State;
@@ -29,7 +31,7 @@ namespace ConsoleClient {
 		}
 		
 		static async Task RegisterCase() {
-			var registerManager = new RegisterManager(_logger, _networkManager, _userRepository);
+			var registerManager = new NetworkRegisterManager(_logger, _networkManager, _userRepository);
 			var result = await registerManager.TryRegister();
 			Console.WriteLine("RegisterCase: {0}", result);
 		}

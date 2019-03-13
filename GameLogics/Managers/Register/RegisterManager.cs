@@ -4,13 +4,13 @@ using GameLogics.Models;
 using GameLogics.Repositories;
 using Newtonsoft.Json;
 
-namespace GameLogics.Managers {
-	public class RegisterManager {
+namespace GameLogics.Managers.Register {
+	public class NetworkRegisterManager : IRegisterManager {
 		readonly ICustomLogger   _logger;
 		readonly INetworkManager _networkManager;
 		readonly UserRepository  _userRepository;
 
-		public RegisterManager(ICustomLogger logger, INetworkManager networkManager, UserRepository userRepository) {
+		public NetworkRegisterManager(ICustomLogger logger, INetworkManager networkManager, UserRepository userRepository) {
 			_logger         = logger;
 			_networkManager = networkManager;
 			_userRepository = userRepository;

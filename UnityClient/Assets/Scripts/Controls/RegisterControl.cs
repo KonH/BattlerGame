@@ -1,4 +1,5 @@
 ﻿using GameLogics.Managers;
+using GameLogics.Managers.Register;
 using GameLogics.Models;
 using GameLogics.Repositories;
 using TMPro;
@@ -13,11 +14,11 @@ namespace UnityClient.Controls {
 
 		MainThreadRunner _runner;
 		GameSceneManager _sceneManager;
-		RegisterManager  _registerManager;
+		IRegisterManager _registerManager;
 		UserRepository   _userRepository;
 
 		[Inject]
-		public void Init(MainThreadRunner runner, GameSceneManager sceneManager, RegisterManager registerManager, UserRepository userRepository) {
+		public void Init(MainThreadRunner runner, GameSceneManager sceneManager, IRegisterManager registerManager, UserRepository userRepository) {
 			_runner          = runner;
 			_sceneManager    = sceneManager;
 			_registerManager = registerManager;
