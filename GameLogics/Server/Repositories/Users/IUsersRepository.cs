@@ -1,4 +1,4 @@
-using GameLogics.Models;
+using GameLogics.Server.Models;
 
 namespace GameLogics.Server.Repositories.Users {
 	public interface IUsersRepository {

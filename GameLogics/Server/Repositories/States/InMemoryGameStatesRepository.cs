@@ -1,33 +1,32 @@
 using System.Collections.Concurrent;
-using GameLogics.Models;
-using GameLogics.Server.Utils;
+using GameLogics.Server.Models;
+using GameLogics.Shared.Models;
 
 namespace GameLogics.Server.Repositories.States {
 	public class InMemoryGameStatesRepository : IGameStatesRepository {
-		ConcurrentDictionary<User, Versioned<GameState>> _states = new ConcurrentDictionary<User, Versioned<GameState>>();
-
-		public bool TryAdd(User user, Versioned<GameState> state) {
-			return _states.TryAdd(user, state);
-		}
+		ConcurrentDictionary<User, GameState> _states = new ConcurrentDictionary<User, GameState>();
 		
-		public Versioned<GameState> Find(User user) {
+		public GameState Find(User user) {
 			if ( _states.TryGetValue(user, out var state) ) {
 				return state;
 			}
 			return null;
 		}
 		
-		public Versioned<GameState> FindOrCreate(User user) {
+		public GameState FindOrCreate(User user) {
 			var state = Find(user);
 			if ( state == null ) {
-				state = new Versioned<GameState>(new GameState());
+				state = new GameState();
+				state.UpdateVersion();
 				Save(user, state);
 			}
 			return state;
 		}
 
-		public void Save(User user, Versioned<GameState> state) {
+		public GameState Save(User user, GameState state) {
+			state.UpdateVersion();
 			_states[user] = state;
+			return state;
 		}
 	}
 }
