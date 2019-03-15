@@ -1,4 +1,4 @@
-using GameLogics.Managers;
+using GameLogics.Shared.Services;
 using Microsoft.Extensions.Logging;
 
 namespace Server.Services {

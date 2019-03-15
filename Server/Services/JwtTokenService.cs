@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using GameLogics.Models;
-using GameLogics.Server.Services.Auth;
+using GameLogics.Server.Models;
+using GameLogics.Server.Services.Token;
 using Microsoft.IdentityModel.Tokens;
 using Server.Settings;
 
 namespace Server.Services {
-	public class JwtTokenService : IAuthTokenService {
+	public class JwtTokenService : ITokenService {
 		readonly AuthSettings _settings;
 
 		public JwtTokenService(AuthSettings settings) {
