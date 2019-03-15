@@ -3,11 +3,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogics.Managers;
-using GameLogics.Managers.Network;
+using GameLogics.Client.Services;
+using GameLogics.Client.Utils;
+using GameLogics.Shared.Services;
 
 namespace ConsoleClient {
-	public class HttpClientNetworkManager : INetworkManager {
+	public class HttpClientNetworkService : INetworkService {
 		readonly HttpClient _client = new HttpClient();
 
 		readonly ICustomLogger _logger;
@@ -16,7 +17,7 @@ namespace ConsoleClient {
 		
 		public string AuthToken { get; set; }
 		
-		public HttpClientNetworkManager(ICustomLogger logger, string baseUrl) {
+		public HttpClientNetworkService(ICustomLogger logger, string baseUrl) {
 			_logger  = logger;
 			_baseUrl = baseUrl;
 		}
@@ -32,10 +33,10 @@ namespace ConsoleClient {
 				if ( !result.IsSuccessStatusCode ) {
 					_logger.ErrorFormat(this, "PostJson failed: {0} {1}", (int)result.StatusCode, result.ReasonPhrase);
 				}
-				return new NetworkResponse((int)result.StatusCode, result.IsSuccessStatusCode, responseText);
+				return new NetworkResponse(result.IsSuccessStatusCode, responseText, (int)result.StatusCode);
 			} catch ( Exception e ) {
 				_logger.ErrorFormat(this, "PostJson failed: {0}", e);
-				return new NetworkResponse(-1, false, "");
+				return new NetworkResponse(false, "", -1);
 			}
 		}
 	}
