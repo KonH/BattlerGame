@@ -2,7 +2,8 @@
     "name": "Installers",
     "references": [
         "Zenject",
-        "Managers"
+        "Managers",
+        "Services"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

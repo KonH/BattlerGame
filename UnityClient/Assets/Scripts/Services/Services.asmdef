@@ -1,8 +1,7 @@
 {
-    "name": "Managers",
+    "name": "Services",
     "references": [
-        "Utils",
-        "Services"
+        "Utils"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

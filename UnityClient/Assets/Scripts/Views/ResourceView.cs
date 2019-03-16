@@ -1,7 +1,6 @@
-﻿using GameLogics.Managers;
-using GameLogics.Models;
-using GameLogics.Repositories.State;
-using GameLogics.Utils;
+﻿using GameLogics.Client.Services;
+using GameLogics.Shared.Models;
+using GameLogics.Shared.Utils;
 using UnityEngine;
 using Zenject;
 using TMPro;
@@ -13,25 +12,25 @@ namespace UnityClient.Views {
 
 		TMP_Text _text;
 		
-		CommandExecutor _executor;
+		GameStateUpdateService _service;
 
 		[Inject]
-		public void Init(IGameStateRepository stateRepository, CommandExecutor executor) {
+		public void Init(GameStateUpdateService service) {
 			_text = GetComponent<TMP_Text>();
-			_executor = executor;
-			_executor.OnStateUpdated += UpdateState;
-			UpdateState(stateRepository.State);
+			_service = service;
+			_service.OnStateUpdated += UpdateState;
+			UpdateState(service.State);
 		}
 
 		void OnEnable() {
-			if ( _executor != null ) {
-				_executor.OnStateUpdated += UpdateState;
+			if ( _service != null ) {
+				_service.OnStateUpdated += UpdateState;
 			}
 		}
 
 		void OnDisable() {
-			if ( _executor != null ) {
-				_executor.OnStateUpdated -= UpdateState;
+			if ( _service != null ) {
+				_service.OnStateUpdated -= UpdateState;
 			}
 		}
 

@@ -1,4 +1,4 @@
-using GameLogics.Managers;
+using GameLogics.Shared.Services;
 
 namespace UnityClient.Managers {
 	public class UnityLogger : ICustomLogger {

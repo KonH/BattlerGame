@@ -77,4 +77,3 @@ MonoBehaviour:
     Mode: 1
     BaseUrl: http://localhost:8080/
     TokenRefreshInterval: 1800
-    LocalStateFileName: save.json

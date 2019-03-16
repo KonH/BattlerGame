@@ -1,6 +1,7 @@
-﻿using GameLogics.Intents;
-using GameLogics.Managers;
-using GameLogics.Models;
+﻿using GameLogics.Client.Services;
+using GameLogics.Shared.Intents;
+using GameLogics.Shared.Models;
+using UnityClient.Managers;
 using UnityEngine;
 using Zenject;
 
@@ -9,15 +10,17 @@ namespace UnityClient.Controls {
 		public Resource Kind;
 		public int      Amount;
 
-		GameStateUpdater _updater;
+		MainThreadRunner       _runner;
+		GameStateUpdateService _service;
 		
 		[Inject]
-		public void Init(GameStateUpdater updater) {
-			_updater = updater;
+		public void Init(MainThreadRunner runner, GameStateUpdateService service) {
+			_runner  = runner;
+			_service = service;
 		}
 
 		public void Execute() {
-			_updater.TryUpdate(new RequestResourceIntent(Kind, Amount));
+			_runner.Run(async () => { await _service.Update(new RequestResourceIntent(Kind, Amount)); });
 		}
 	}
 }

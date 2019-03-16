@@ -1,7 +1,5 @@
-﻿using GameLogics.Managers;
-using GameLogics.Managers.Register;
-using GameLogics.Models;
-using GameLogics.Repositories;
+﻿using GameLogics.Client.Models;
+using GameLogics.Client.Services;
 using TMPro;
 using UnityClient.Managers;
 using UnityEngine;
@@ -13,27 +11,24 @@ namespace UnityClient.Controls {
 		public TMP_InputField Password;
 
 		MainThreadRunner _runner;
-		GameSceneManager _sceneManager;
-		IRegisterManager _registerManager;
-		UserRepository   _userRepository;
+		GameSceneManager _scene;
+		RegisterService  _register;
 
 		[Inject]
-		public void Init(MainThreadRunner runner, GameSceneManager sceneManager, IRegisterManager registerManager, UserRepository userRepository) {
-			_runner          = runner;
-			_sceneManager    = sceneManager;
-			_registerManager = registerManager;
-			_userRepository  = userRepository;
+		public void Init(MainThreadRunner runner, GameSceneManager scene, RegisterService register) {
+			_runner   = runner;
+			_scene    = scene;
+			_register = register;
 		}
 		
 		public void Register() {
 			_runner.Run(async () => {
 				var login    = Login.text;
 				var password = Password.text;
-				var user     = User.CreateWithPassword(login, password, login, "user");
-				_userRepository.CurrentUser = user;
-				var success  = await _registerManager.TryRegister();
+				var user     = new User(login, password, login);
+				var success  = await _register.TryRegister(user);
 				if ( success ) {
-					_sceneManager.GoToLogin();
+					_scene.GoToLogin();
 				}
 			});
 		}

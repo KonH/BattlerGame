@@ -1,20 +1,20 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogics.Managers;
-using GameLogics.Managers.Network;
-using UnityClient.Utils;
-using UnityEngine;
+using GameLogics.Client.Services;
+using GameLogics.Client.Utils;
+using GameLogics.Shared.Services;
 using UnityEngine.Networking;
+using UnityClient.Utils;
 
-namespace UnityClient.Managers {
-	public class WebRequestNetworkManager : INetworkManager {
+namespace UnityClient.Services {
+	public class WebRequestNetworkService : INetworkService {
 		readonly ICustomLogger  _logger;
 		readonly ServerSettings _settings;
 		
 		public string AuthToken { get; set; }
 		
-		public WebRequestNetworkManager(ICustomLogger logger, ServerSettings settings) {
+		public WebRequestNetworkService(ICustomLogger logger, ServerSettings settings) {
 			_logger   = logger;
 			_settings = settings;
 		}
@@ -32,10 +32,10 @@ namespace UnityClient.Managers {
 				req.SetRequestHeader("Content-Type", "application/json; charset=UTF-8");
 				await req.SendWebRequest();
 				var isFailed = req.isHttpError || req.isNetworkError;
-				return new NetworkResponse((int)req.responseCode, !isFailed, req.downloadHandler.text);
+				return new NetworkResponse(!isFailed, req.downloadHandler.text, (int)req.responseCode);
 			} catch ( Exception e ) {
 				_logger.ErrorFormat(this, "PostJson failed: {0}", e);
-				return new NetworkResponse(-1, false, "");
+				return new NetworkResponse(false, "", -1);
 			}
 		}
 	}

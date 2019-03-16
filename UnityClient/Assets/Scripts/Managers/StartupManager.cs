@@ -1,26 +1,29 @@
 ﻿using System;
-using GameLogics.Managers.Auth;
+using GameLogics.Client.Services;
+using UnityClient.Services;
 using UnityEngine;
 using Zenject;
 
 namespace UnityClient.Managers {
 	public class StartupManager : IInitializable, ITickable {
 		const float _minInterval = 3.0f;
-		
-		readonly MainThreadRunner _runner;
-		readonly ServerSettings   _settings;
-		readonly IAuthManager     _authManager;
-		readonly GameSceneManager _sceneManager;
+
+		readonly MainThreadRunner   _runner;
+		readonly ServerSettings     _settings;
+		readonly AuthService        _auth;
+		readonly GameSceneManager   _scene;
+		readonly ClientStateService _state;
 
 		float _nextRefreshTime = _minInterval;
 		
-		bool IsNeedToRefreshToken => (Time.realtimeSinceStartup > _nextRefreshTime) && !_sceneManager.IsRegister;
+		bool IsNeedToRefreshToken => (Time.realtimeSinceStartup > _nextRefreshTime) && !_scene.IsLoginOrRegister;
 		
-		public StartupManager(MainThreadRunner runner, ServerSettings settings, IAuthManager authManager, GameSceneManager sceneManager) {
-			_runner       = runner;
-			_settings     = settings;
-			_authManager  = authManager;
-			_sceneManager = sceneManager;
+		public StartupManager(MainThreadRunner runner, ServerSettings settings, AuthService auth, GameSceneManager scene, ClientStateService state) {
+			_runner   = runner;
+			_settings = settings;
+			_auth     = auth;
+			_scene    = scene;
+			_state    = state;
 			
 			_nextRefreshTime = _minInterval;
 		}
@@ -37,13 +40,18 @@ namespace UnityClient.Managers {
 		
 		void TryLogin() {
 			_runner.Run(async () => {
-				var isLoginSuccess = await _authManager.TryLogin();
+				var user = _state.User;
+				if ( user == null ) {
+					_scene.GoToLogin();
+					return;
+				}
+				var isLoginSuccess = await _auth.TryLogin(user);
 				var interval = Math.Max(isLoginSuccess ? _settings.TokenRefreshInterval : _minInterval, _minInterval);
 				_nextRefreshTime = Time.realtimeSinceStartup + interval;
 				if ( isLoginSuccess ) {
-					_sceneManager.GoToWorld();
+					_scene.GoToWorld();
 				} else {
-					_sceneManager.GoToLogin();
+					_scene.GoToLogin();
 				}
 			});
 		}

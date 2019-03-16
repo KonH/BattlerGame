@@ -9,7 +9,7 @@ namespace UnityClient.Managers {
 		
 		string ActiveScene => SceneManager.GetActiveScene().name;
 
-		public bool IsRegister => ActiveScene == RegisterScene;
+		public bool IsLoginOrRegister => (ActiveScene == LoginScene) || (ActiveScene == RegisterScene);
 		
 		public void GoToStart()    => OpenScene(StartScene);
 		public void GoToLogin()    => OpenScene(LoginScene);
