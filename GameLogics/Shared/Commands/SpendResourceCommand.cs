@@ -11,7 +11,7 @@ namespace GameLogics.Shared.Commands {
 			Count = count;
 		}
 
-		public bool IsValid => (Kind != Resource.Unknown) && (Count > 0);
+		public bool IsValid(GameState state) => (Kind != Resource.Unknown) && (Count > 0);
 
 		public void Execute(GameState state) {
 			var oldValue = state.Resources.GetOrDefault(Kind);

@@ -5,24 +5,25 @@ using Xunit;
 
 namespace UnitTests {
 	public class SpendResoucesCommandTest {
+		GameState _state = new GameState();
+		
 		[Fact]
 		void CantSpendUnknownResource() {
-			Assert.False(new SpendResourceCommand(Resource.Unknown, 1).IsValid);
+			Assert.False(new SpendResourceCommand(Resource.Unknown, 1).IsValid(_state));
 		}
 		
 		[Fact]
 		void CantSpendInvalidCount() {
-			Assert.False(new SpendResourceCommand(Resource.Coins, 0).IsValid);
-			Assert.False(new SpendResourceCommand(Resource.Coins, -1).IsValid);
+			Assert.False(new SpendResourceCommand(Resource.Coins, 0).IsValid(_state));
+			Assert.False(new SpendResourceCommand(Resource.Coins, -1).IsValid(_state));
 		}
 		
 		[Fact]
 		void ResourcesWasSpend() {
-			var gs = new GameState();
-			gs.Resources.Add(Resource.Coins, 1);
+			_state.Resources.Add(Resource.Coins, 1);
 			var cmd = new SpendResourceCommand(Resource.Coins, 1);
-			cmd.Execute(gs);
-			Assert.Equal(0, gs.Resources.GetOrDefault(Resource.Coins));
+			cmd.Execute(_state);
+			Assert.Equal(0, _state.Resources.GetOrDefault(Resource.Coins));
 		}
 	}
 }

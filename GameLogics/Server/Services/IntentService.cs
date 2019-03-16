@@ -37,7 +37,7 @@ namespace GameLogics.Server.Services {
 			}
 			var commands = req.Commands;
 			foreach ( var command in commands ) {
-				if ( !command.IsValid ) {
+				if ( !command.IsValid(state) ) {
 					return new ClientError($"Invalid command: '{command}'").AsError<IntentResponse>();
 				}
 				command.Execute(state);

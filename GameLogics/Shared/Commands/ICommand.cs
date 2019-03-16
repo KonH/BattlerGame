@@ -5,7 +5,7 @@ namespace GameLogics.Shared.Commands {
 	/// Command is a game state modification (server-side at first, send to client-side to update local game state)
 	/// </summary>
 	public interface ICommand {
-		bool IsValid { get; }
+		bool IsValid(GameState state);
 		void Execute(GameState state);
 	}
 }
