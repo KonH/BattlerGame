@@ -3,24 +3,24 @@ using GameLogics.Shared.Models;
 using Xunit;
 
 namespace UnitTests {
-	public class RemoveItemCommandTest {
-		GameState _state = new GameState();
-		
+	public class RemoveItemCommandTest : BaseCommandTest<RemoveItemCommand> {	
 		[Fact]
 		void CantRemoveInvalidItem() {
-			Assert.False(new RemoveItemCommand(null).IsValid(_state));
+			IsInvalid(new RemoveItemCommand(null));
 		}
 		
 		[Fact]
 		void CantRemoveNotExistingItem() {
-			Assert.False(new RemoveItemCommand("non_existed_id").IsValid(_state));
+			IsInvalid(new RemoveItemCommand("non_existed_id"));
 		}
 		
 		[Fact]
 		void ItemWasRemoved() {
 			var item = new ItemState("desc").WithNewId();
 			_state.AddItem(item);
-			new RemoveItemCommand(item.Id).Execute(_state);
+			
+			Execute(new RemoveItemCommand(item.Id));
+			
 			Assert.False(_state.Items.ContainsKey(item.Id));
 		}
 	}

@@ -4,25 +4,24 @@ using GameLogics.Shared.Utils;
 using Xunit;
 
 namespace UnitTests {
-	public class SpendResoucesCommandTest {
-		GameState _state = new GameState();
-		
+	public class SpendResoucesCommandTest : BaseCommandTest<SpendResourceCommand> {
 		[Fact]
 		void CantSpendUnknownResource() {
-			Assert.False(new SpendResourceCommand(Resource.Unknown, 1).IsValid(_state));
+			IsInvalid(new SpendResourceCommand(Resource.Unknown, 1));
 		}
 		
 		[Fact]
 		void CantSpendInvalidCount() {
-			Assert.False(new SpendResourceCommand(Resource.Coins, 0).IsValid(_state));
-			Assert.False(new SpendResourceCommand(Resource.Coins, -1).IsValid(_state));
+			IsInvalid(new SpendResourceCommand(Resource.Coins, 0));
+			IsInvalid(new SpendResourceCommand(Resource.Coins, -1));
 		}
 		
 		[Fact]
 		void ResourcesWasSpend() {
 			_state.Resources.Add(Resource.Coins, 1);
-			var cmd = new SpendResourceCommand(Resource.Coins, 1);
-			cmd.Execute(_state);
+			
+			Execute(new SpendResourceCommand(Resource.Coins, 1));
+			
 			Assert.Equal(0, _state.Resources.GetOrDefault(Resource.Coins));
 		}
 	}
