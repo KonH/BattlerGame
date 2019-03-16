@@ -6,24 +6,22 @@ using Xunit;
 namespace UnitTests {
 	public class AddResoucesCommandTest {
 		[Fact]
-		void CantRequestUnknownResource() {
+		void CantAddUnknownResource() {
 			Assert.False(new AddResourceCommand(Resource.Unknown, 1).IsValid);
 		}
 		
 		[Fact]
-		void CantRequestInvalidCount() {
+		void CantAddInvalidCount() {
 			Assert.False(new AddResourceCommand(Resource.Coins, 0).IsValid);
 			Assert.False(new AddResourceCommand(Resource.Coins, -1).IsValid);
 		}
 		
 		[Fact]
-		void ResourcesWasAdded() {
+		void ResourceWasAdded() {
 			var gs = new GameState();
-			Assert.Equal(0, gs.Resources.GetOrDefault(Resource.Coins));
 			var cmd = new AddResourceCommand(Resource.Coins, 1);
 			cmd.Execute(gs);
-			Assert.True(gs.Resources.ContainsKey(Resource.Coins));
-			Assert.Equal(1, gs.Resources[Resource.Coins]);
+			Assert.Equal(1, gs.Resources.GetOrDefault(Resource.Coins));
 		}
 	}
 }
