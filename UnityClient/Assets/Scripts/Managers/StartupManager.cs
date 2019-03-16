@@ -5,7 +5,7 @@ using UnityEngine;
 using Zenject;
 
 namespace UnityClient.Managers {
-	public class StartupManager : IInitializable, ITickable {
+	public class StartupManager : ITickable {
 		const float _minInterval = 3.0f;
 
 		readonly MainThreadRunner   _runner;
@@ -16,7 +16,7 @@ namespace UnityClient.Managers {
 
 		float _nextRefreshTime = _minInterval;
 		
-		bool IsNeedToRefreshToken => (Time.realtimeSinceStartup > _nextRefreshTime) && !_scene.IsLoginOrRegister;
+		bool IsNeedToRefreshToken => ((_state.User == null) || (Time.realtimeSinceStartup > _nextRefreshTime)) && !_scene.IsLoginOrRegister;
 		
 		public StartupManager(MainThreadRunner runner, ServerSettings settings, AuthService auth, GameSceneManager scene, ClientStateService state) {
 			_runner   = runner;
@@ -26,10 +26,6 @@ namespace UnityClient.Managers {
 			_state    = state;
 			
 			_nextRefreshTime = _minInterval;
-		}
-		
-		public void Initialize() {
-			TryLogin();
 		}
 
 		public void Tick() {

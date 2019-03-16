@@ -1,5 +1,6 @@
 ﻿using System;
 using GameLogics.Client.Services;
+using GameLogics.Client.Services.ErrorHandle;
 using GameLogics.Shared.Services;
 using UnityClient.Managers;
 using UnityClient.Services;
@@ -29,7 +30,8 @@ namespace UnityClient.Installers {
 			Container.Bind<ICustomLogger>().To<UnityLogger>().AsSingle();
 			Container.Bind<MainThreadRunner>().FromNewComponentOnRoot().AsSingle();
 			Container.Bind<GameSceneManager>().AsSingle();
-			Container.Bind(typeof(StartupManager), typeof(IInitializable), typeof(ITickable)).To<StartupManager>().AsSingle().NonLazy();
+			Container.Bind<IErrorHandleStrategy>().To<ReloadErrorHandleStrategy>().AsSingle();
+			Container.Bind(typeof(StartupManager), typeof(ITickable)).To<StartupManager>().AsSingle().NonLazy();
 		}
 
 		void BindApiService() {
