@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Models {
@@ -5,6 +6,8 @@ namespace GameLogics.Shared.Models {
 		public string Id         { get; set; }
 		public string Descriptor { get; set; }
 		public int    Health     { get; set; }
+		
+		public List<ItemState> Items { get; set; } = new List<ItemState>(); 
 
 		public UnitState(string descriptor, int health) {
 			Descriptor = descriptor;

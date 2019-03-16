@@ -12,6 +12,10 @@ namespace GameLogics.Shared.Commands {
 		public bool IsValid(GameState state, Config config) => !string.IsNullOrEmpty(Id) && state.Units.ContainsKey(Id);
 		
 		public void Execute(GameState state, Config config) {
+			var unit = state.Units[Id];
+			foreach ( var item in unit.Items ) {
+				state.Items.Add(item.Id, item);
+			}
 			state.Units.Remove(Id);
 		}
 		

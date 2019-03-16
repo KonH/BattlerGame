@@ -16,12 +16,24 @@ namespace UnitTests {
 		
 		[Fact]
 		void UnitWasRemoved() {
-			var item = new UnitState("desc", 1).WithNewId();
-			_state.AddUnit(item);
+			var unit = new UnitState("desc", 1).WithNewId();
+			_state.AddUnit(unit);
 			
-			Execute(new RemoveUnitCommand(item.Id));
+			Execute(new RemoveUnitCommand(unit.Id));
 			
-			Assert.False(_state.Units.ContainsKey(item.Id));
+			Assert.False(_state.Units.ContainsKey(unit.Id));
+		}
+
+		[Fact]
+		void ItemsWasReleasedToInventory() {
+			var item = new ItemState("item_desc").WithId("item_id");
+			var unit = new UnitState("desc", 1).WithNewId();
+			unit.Items.Add(item);
+			_state.AddUnit(unit);
+			
+			Execute(new RemoveUnitCommand(unit.Id));
+			
+			Assert.True(_state.Items.ContainsKey(item.Id));
 		}
 	}
 }
