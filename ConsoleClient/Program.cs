@@ -7,7 +7,7 @@ using GameLogics.Server.Repositories.States;
 using GameLogics.Server.Repositories.Users;
 using GameLogics.Server.Services;
 using GameLogics.Server.Services.Token;
-using GameLogics.Shared.Intents;
+using GameLogics.Shared.Commands;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Services;
 using AuthService = GameLogics.Client.Services.AuthService;
@@ -39,7 +39,7 @@ namespace ConsoleClient {
 			var states = new InMemoryGameStatesRepository();
 			var register = new GameLogics.Server.Services.RegisterService(users);
 			var auth = new GameLogics.Server.Services.AuthService(_logger, users, states, new MockTokenService());
-			var intent = new IntentService(_logger, users, states, new IntentToCommandMapper());
+			var intent = new IntentService(_logger, users, states);
 			return new ConvertedServerApiService(_converter, _logger, _errorHandle, register, auth, intent);
 		}
 
@@ -65,7 +65,7 @@ namespace ConsoleClient {
 			Console.WriteLine($"AddResourceCase: starting Coins: {GetCoinsCount()}");
 			var updater = new GameStateUpdateService(_api, _state);
 			updater.OnStateUpdated += _ => Console.WriteLine("AddResourceCase: state updated"); 
-			await updater.Update(new RequestResourceIntent(Resource.Coins, 1));
+			await updater.Update(new AddResourceCommand(Resource.Coins, 1));
 			Console.WriteLine("AddResourceCase: result commands:");
 			Console.WriteLine($"AddResourceCase: result Coins: {GetCoinsCount()}");
 		}

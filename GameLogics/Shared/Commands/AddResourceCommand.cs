@@ -1,4 +1,3 @@
-using System;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Utils;
 
@@ -8,9 +7,11 @@ namespace GameLogics.Shared.Commands {
 		public readonly int      Count;
 
 		public AddResourceCommand(Resource kind, int count) {
-			Kind  = (kind != Resource.Unknown) ? kind : throw new InvalidOperationException(nameof(kind));
+			Kind  = kind;
 			Count = count;
 		}
+
+		public bool IsValid => (Kind != Resource.Unknown) && (Count > 0);
 
 		public void Execute(GameState state) {
 			var oldValue = state.Resources.GetOrDefault(Kind);

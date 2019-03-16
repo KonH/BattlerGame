@@ -10,13 +10,11 @@ namespace GameLogics.Server.Services {
 		readonly ICustomLogger         _logger;
 		readonly IUsersRepository      _users;
 		readonly IGameStatesRepository _states;
-		readonly IntentToCommandMapper _mapper;
 
-		public IntentService(ICustomLogger logger, IUsersRepository users, IGameStatesRepository states, IntentToCommandMapper mapper) {
+		public IntentService(ICustomLogger logger, IUsersRepository users, IGameStatesRepository states) {
 			_logger = logger;
 			_users  = users;
 			_states = states;
-			_mapper = mapper;
 		}
 		
 		public ApiResponse<IntentResponse> CreateCommands(IntentRequest req) {
@@ -37,15 +35,18 @@ namespace GameLogics.Server.Services {
 				_logger.Warning(this, $"Current state version don't match expected version: '{state.Version}' != '{req.ExpectedVersion}'");
 				return new ConflictError($"Current state version is '{state.Version}'").AsError<IntentResponse>();
 			}
-			var commands = _mapper.CreateCommandsFromIntent(state, req.Intent);
+			var commands = req.Commands;
 			foreach ( var command in commands ) {
+				if ( !command.IsValid ) {
+					return new ClientError($"Invalid command: '{command}'").AsError<IntentResponse>();
+				}
 				command.Execute(state);
 			}
 			var oldVersion = state.Version;
 			state.UpdateVersion();
 			state = _states.Save(user, state);
 			_logger.Debug(this, $"State updated: version was '{oldVersion}', changed to '{state.Version}'");
-			return new IntentResponse(state.Version, commands).AsResult();
+			return new IntentResponse(state.Version).AsResult();
 		}
 	}
 }

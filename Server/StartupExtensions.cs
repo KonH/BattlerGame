@@ -70,7 +70,6 @@ namespace Server {
 		}
 		
 		public static void AddIntentService(this IServiceCollection services) {
-			services.AddSingleton<IntentToCommandMapper>();
 			services.AddSingleton<IntentService>();
 		}
 	}

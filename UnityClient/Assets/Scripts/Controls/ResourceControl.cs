@@ -1,5 +1,5 @@
 ﻿using GameLogics.Client.Services;
-using GameLogics.Shared.Intents;
+using GameLogics.Shared.Commands;
 using GameLogics.Shared.Models;
 using UnityClient.Managers;
 using UnityEngine;
@@ -20,7 +20,7 @@ namespace UnityClient.Controls {
 		}
 
 		public void Execute() {
-			_runner.Run(async () => { await _service.Update(new RequestResourceIntent(Kind, Amount)); });
+			_runner.Run(async () => { await _service.Update(new AddResourceCommand(Kind, Amount)); });
 		}
 	}
 }

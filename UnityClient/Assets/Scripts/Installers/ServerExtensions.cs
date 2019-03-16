@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.IO;
 using GameLogics.Server.Repositories;
 using GameLogics.Server.Repositories.States;
@@ -16,7 +15,6 @@ namespace UnityClient.Installers {
 			self.Bind<IApiService>().To<ConvertedServerApiService>().AsSingle();
 
 			self.Bind<ITokenService>().To<MockTokenService>().AsSingle();
-			self.Bind<IntentToCommandMapper>().AsSingle();
 
 			if ( inMemory ) {
 				self.Bind<IUsersRepository>().To<InMemoryUsersRepository>().AsSingle();
