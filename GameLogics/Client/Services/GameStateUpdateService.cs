@@ -1,7 +1,5 @@
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using GameLogics.Client.Repositories;
 using GameLogics.Shared.Dao.Intent;
 using GameLogics.Shared.Intents;
 using GameLogics.Shared.Models;
@@ -11,19 +9,19 @@ namespace GameLogics.Client.Services {
 	public class GameStateUpdateService {
 		public event Action<GameState> OnStateUpdated = delegate {};
 		
-		readonly IApiService         _api;
-		readonly UserRepository      _user;
-		readonly GameStateRepository _state;
+		public GameState State => _state.State;
+		
+		readonly IApiService        _api;
+		readonly ClientStateService _state;
 
-		public GameStateUpdateService(IApiService api, UserRepository user, GameStateRepository state) {
+		public GameStateUpdateService(IApiService api, ClientStateService state) {
 			_api   = api;
-			_user  = user;
 			_state = state;
 		}
 
 		public async Task Update(IIntent intent) {
 			var state = _state.State;
-			var response = await _api.Post(new IntentRequest(_user.CurrentUser.Login, state.Version, intent));
+			var response = await _api.Post(new IntentRequest(_state.User.Login, state.Version, intent));
 			if ( !response.Success ) {
 				return;
 			}

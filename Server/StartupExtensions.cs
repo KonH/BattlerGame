@@ -31,7 +31,7 @@ namespace Server {
 
 		public static void AddApiService(this IServiceCollection services) {
 			services.AddSingleton<ConvertService>();
-			services.AddSingleton<ServerApiService>();
+			services.AddSingleton<IApiService, ServerApiService>();
 			services.AddSingleton<ActionResultWrapper>();
 		}
 		

@@ -1,5 +1,6 @@
-﻿using GameLogics.Server.Services;
+﻿using System.Threading.Tasks;
 using GameLogics.Shared.Dao.Intent;
+using GameLogics.Shared.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Services;
@@ -9,12 +10,12 @@ namespace Server.Controllers {
 	[Route("api/[controller]")]
 	[ApiController]
 	public class IntentController : BaseApiController<IntentRequest, IntentResponse> {
-		public IntentController(ActionResultWrapper wrapper, IntentService service) : base(wrapper, service.CreateCommands) {}
+		public IntentController(ActionResultWrapper wrapper, IApiService service) : base(wrapper, service.Post) {}
 
 		[HttpPost]
-		public override IActionResult Post(IntentRequest req) {
+		public override Task<IActionResult> Post(IntentRequest req) {
 			if ( User.Identity.Name != req.Login ) {
-				return BadRequest("Intent from incorrect user");
+				return Task.FromResult<IActionResult>(BadRequest("Intent from incorrect user"));
 			}
 			return base.Post(req);
 		}

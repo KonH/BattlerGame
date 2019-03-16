@@ -7,7 +7,6 @@ using GameLogics.Shared.Dao.Intent;
 using GameLogics.Shared.Dao.Register;
 using GameLogics.Shared.Services;
 using GameLogics.Shared.Utils;
-using Newtonsoft.Json;
 
 namespace GameLogics.Client.Services {
 	public class ClientApiService : IApiService {

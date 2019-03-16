@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using GameLogics.Client.Models;
-using GameLogics.Client.Repositories;
 using GameLogics.Client.Services;
 using GameLogics.Server.Repositories.States;
 using GameLogics.Server.Repositories.Users;
@@ -19,10 +18,9 @@ namespace ConsoleClient {
 		static INetworkService     _network   = new HttpClientNetworkService(_logger, "http://localhost:8080/");
 		static ConvertService      _converter = new ConvertService();
 		static IApiService         _api       = CreateClientApiService();
-		static GameStateRepository _state     = new GameStateRepository();
 
-		static UserRepository _user = new UserRepository {
-			CurrentUser = new User("newUser", "password", "newUserName")
+		static ClientStateService _state = new ClientStateService {
+			User = new User("newUser", "password", "newUserName")
 		};
 		
 		static void Main(string[] args) {
@@ -49,20 +47,20 @@ namespace ConsoleClient {
 		}
 		
 		static async Task RegisterCase() {
-			var register = new RegisterService(_api, _user);
-			var result = await register.TryRegister();
+			var register = new RegisterService(_api, _state);
+			var result = await register.TryRegister(_state.User);
 			Console.WriteLine("RegisterCase: {0}", result);
 		}
 		
 		static async Task LoginCase() {
-			var auth = new AuthService(_api, _network, _user, _state);
-			var result = await auth.TryLogin();
-			Console.WriteLine("LoginCase: {0} ({1})", result, _user.CurrentUser.Token);
+			var auth = new AuthService(_api, _network, _state);
+			var result = await auth.TryLogin(_state.User);
+			Console.WriteLine("LoginCase: {0} ({1})", result, _state.User.Token);
 		}
 		
 		static async Task AddResourceCase() {
 			Console.WriteLine($"AddResourceCase: starting Coins: {GetCoinsCount()}");
-			var updater = new GameStateUpdateService(_api, _user, _state);
+			var updater = new GameStateUpdateService(_api, _state);
 			updater.OnStateUpdated += _ => Console.WriteLine("AddResourceCase: state updated"); 
 			await updater.Update(new RequestResourceIntent(Resource.Coins, 1));
 			Console.WriteLine("AddResourceCase: result commands:");
