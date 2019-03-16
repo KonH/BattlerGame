@@ -1,4 +1,5 @@
 using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
@@ -11,9 +12,9 @@ namespace GameLogics.Shared.Commands {
 			Count = count;
 		}
 
-		public bool IsValid(GameState state) => (Kind != Resource.Unknown) && (Count > 0);
+		public bool IsValid(GameState state, Config config) => (Kind != Resource.Unknown) && (Count > 0);
 
-		public void Execute(GameState state) {
+		public void Execute(GameState state, Config config) {
 			var oldValue = state.Resources.GetOrDefault(Kind);
 			state.Resources[Kind] = oldValue - Count;
 		}

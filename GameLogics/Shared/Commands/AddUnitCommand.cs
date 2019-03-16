@@ -1,4 +1,5 @@
 using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
 	public class AddUnitCommand : ICommand {
@@ -12,17 +13,20 @@ namespace GameLogics.Shared.Commands {
 			Health     = health;
 		}
 
-		public bool IsValid(GameState state) {
+		public bool IsValid(GameState state, Config config) {
 			if ( string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(Descriptor) ) {
 				return false;
 			}
 			if ( Health < 0 ) {
 				return false;
 			}
-			return !state.Units.ContainsKey(Id);
+			if ( state.Units.ContainsKey(Id) ) {
+				return false;
+			}
+			return config.Units.ContainsKey(Descriptor);
 		}
 
-		public void Execute(GameState state) {
+		public void Execute(GameState state, Config config) {
 			state.AddUnit(new UnitState(Descriptor, Health).WithId(Id));
 		}
 		

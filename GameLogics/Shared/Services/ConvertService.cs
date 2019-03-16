@@ -3,7 +3,8 @@ using Newtonsoft.Json;
 namespace GameLogics.Shared.Services {
 	public class ConvertService {
 		readonly JsonSerializerSettings _settings = new JsonSerializerSettings {
-			TypeNameHandling = TypeNameHandling.Auto
+			TypeNameHandling = TypeNameHandling.Auto,
+			Formatting = Formatting.Indented,
 		};
 
 		public string ToJson(object obj) {

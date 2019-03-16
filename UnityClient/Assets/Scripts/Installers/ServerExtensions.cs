@@ -1,5 +1,6 @@
 using System.IO;
 using GameLogics.Server.Repositories;
+using GameLogics.Server.Repositories.Configs;
 using GameLogics.Server.Repositories.States;
 using GameLogics.Server.Repositories.Users;
 using GameLogics.Server.Services;
@@ -19,10 +20,12 @@ namespace UnityClient.Installers {
 			if ( inMemory ) {
 				self.Bind<IUsersRepository>().To<InMemoryUsersRepository>().AsSingle();
 				self.Bind<IGameStatesRepository>().To<InMemoryGameStatesRepository>().AsSingle();
+				self.Bind<IConfigRepository>().To<InMemoryConfigRepository>().AsSingle();
 			} else {
 				self.Bind<FileStorageRepository>().FromMethod(CreateFileStorage).AsSingle();
 				self.Bind<IUsersRepository>().To<FileUsersRepository>().AsSingle();
 				self.Bind<IGameStatesRepository>().To<FileGameStatesRepository>().AsSingle();
+				self.Bind<IConfigRepository>().To<FileConfigRepository>().AsSingle();
 			}
 
 			self.Bind<RegisterService>().AsSingle();

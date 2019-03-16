@@ -1,4 +1,5 @@
 using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
 	public class AddItemCommand : ICommand {
@@ -10,14 +11,17 @@ namespace GameLogics.Shared.Commands {
 			Descriptor = descriptor;
 		}
 
-		public bool IsValid(GameState state) {
+		public bool IsValid(GameState state, Config config) {
 			if ( string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(Descriptor) ) {
 				return false;
 			}
-			return !state.Items.ContainsKey(Id);
+			if ( state.Items.ContainsKey(Id) ) {
+				return false;
+			}
+			return config.Items.ContainsKey(Descriptor);
 		}
 
-		public void Execute(GameState state) {
+		public void Execute(GameState state, Config config) {
 			state.AddItem(new ItemState(Descriptor).WithId(Id));
 		}
 

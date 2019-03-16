@@ -16,6 +16,9 @@ namespace GameLogics.Server.Services {
 			if ( string.IsNullOrWhiteSpace(req.Name) || string.IsNullOrWhiteSpace(req.Login) || string.IsNullOrWhiteSpace(req.PasswordHash) ) {
 				return new ClientError("Invalid user").AsError<RegisterResponse>();
 			}
+			if ( _users.Find(req.Login) != null ) {
+				return new ClientError("Name already in use").AsError<RegisterResponse>();
+			}
 			var user = new User(req.Login, req.PasswordHash, req.Name, "user");
 			if ( !_users.TryAdd(user) ) {
 				return new ServerError().AsError<RegisterResponse>();

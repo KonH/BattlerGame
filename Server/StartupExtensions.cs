@@ -1,3 +1,4 @@
+using GameLogics.Server.Repositories.Configs;
 using GameLogics.Server.Repositories.States;
 using GameLogics.Server.Repositories.Users;
 using GameLogics.Server.Services;
@@ -30,6 +31,7 @@ namespace Server {
 		}
 
 		public static void AddApiService(this IServiceCollection services) {
+			services.AddSingleton<IConfigRepository, InMemoryConfigRepository>();
 			services.AddSingleton<ConvertService>();
 			services.AddSingleton<IApiService, ServerApiService>();
 			services.AddSingleton<ActionResultWrapper>();

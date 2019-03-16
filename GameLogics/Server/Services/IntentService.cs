@@ -1,3 +1,4 @@
+using GameLogics.Server.Repositories.Configs;
 using GameLogics.Server.Repositories.States;
 using GameLogics.Server.Repositories.Users;
 using GameLogics.Shared.Dao.Api;
@@ -10,11 +11,13 @@ namespace GameLogics.Server.Services {
 		readonly ICustomLogger         _logger;
 		readonly IUsersRepository      _users;
 		readonly IGameStatesRepository _states;
+		readonly IConfigRepository     _config;
 
-		public IntentService(ICustomLogger logger, IUsersRepository users, IGameStatesRepository states) {
+		public IntentService(ICustomLogger logger, IUsersRepository users, IGameStatesRepository states, IConfigRepository config) {
 			_logger = logger;
 			_users  = users;
 			_states = states;
+			_config = config;
 		}
 		
 		public ApiResponse<IntentResponse> CreateCommands(IntentRequest req) {
@@ -35,12 +38,13 @@ namespace GameLogics.Server.Services {
 				_logger.Warning(this, $"Current state version don't match expected version: '{state.Version}' != '{req.ExpectedVersion}'");
 				return new ConflictError($"Current state version is '{state.Version}'").AsError<IntentResponse>();
 			}
+			var config = _config.Get();
 			var commands = req.Commands;
 			foreach ( var command in commands ) {
-				if ( !command.IsValid(state) ) {
+				if ( !command.IsValid(state, config) ) {
 					return new ClientError($"Invalid command: '{command}'").AsError<IntentResponse>();
 				}
-				command.Execute(state);
+				command.Execute(state, config);
 			}
 			var oldVersion = state.Version;
 			state.UpdateVersion();

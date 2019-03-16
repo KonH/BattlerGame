@@ -1,3 +1,4 @@
+using GameLogics.Server.Repositories.Configs;
 using GameLogics.Server.Repositories.States;
 using GameLogics.Server.Repositories.Users;
 using GameLogics.Server.Services.Token;
@@ -9,15 +10,19 @@ using GameLogics.Shared.Services;
 namespace GameLogics.Server.Services {
 	public class AuthService {
 		readonly ICustomLogger         _logger;
+		readonly ITokenService         _token;
 		readonly IUsersRepository      _users;
 		readonly IGameStatesRepository _states;
-		readonly ITokenService         _token;
+		readonly IConfigRepository     _config;
 
-		public AuthService(ICustomLogger logger, IUsersRepository users, IGameStatesRepository states, ITokenService token) {
+		public AuthService(
+			ICustomLogger logger, ITokenService token, IUsersRepository users, IGameStatesRepository states, IConfigRepository config
+		) {
 			_logger = logger;
+			_token  = token;
 			_users  = users;
 			_states = states;
-			_token  = token;
+			_config = config;
 		}
 
 		public ApiResponse<AuthResponse> RequestToken(AuthRequest req) {
@@ -32,7 +37,7 @@ namespace GameLogics.Server.Services {
 			}
 			var token    = _token.CreateToken(user);
 			var state    = _states.FindOrCreate(user, s => _states.Save(user, s.UpdateVersion()));
-			var response = new AuthResponse(token, state);
+			var response = new AuthResponse(token, state, _config.Get());
 			_logger.Debug(this, $"User is logged in: '{user.Login}'");
 			return response.AsResult();
 		}

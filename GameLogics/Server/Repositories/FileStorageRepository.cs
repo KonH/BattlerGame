@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using GameLogics.Server.Models;
 using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Repositories {
@@ -9,6 +10,7 @@ namespace GameLogics.Server.Repositories {
 		public class FileState {
 			public Dictionary<string, User>      Users  = new Dictionary<string, User>();
 			public Dictionary<string, GameState> States = new Dictionary<string, GameState>();
+			public Config                        Config = new Config();
 		}
 		
 		readonly ConvertService _convert;

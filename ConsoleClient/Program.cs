@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using GameLogics.Client.Models;
 using GameLogics.Client.Services;
 using GameLogics.Client.Services.ErrorHandle;
+using GameLogics.Server.Repositories.Configs;
 using GameLogics.Server.Repositories.States;
 using GameLogics.Server.Repositories.Users;
 using GameLogics.Server.Services;
@@ -18,13 +19,14 @@ namespace ConsoleClient {
 		static ICustomLogger       _logger    = new ConsoleLogger();
 		static INetworkService     _network   = new HttpClientNetworkService(_logger, "http://localhost:8080/");
 		static ConvertService      _converter = new ConvertService();
-		static IApiService         _api       = CreateClientApiService();
+		
+		static IErrorHandleStrategy _errorHandle = new TerminateErrorHandleStrategy(_logger);
+		static IApiService          _api         = CreateClientApiService();
 		
 		static ClientStateService _state = new ClientStateService {
 			User = new User("newUser", "password", "newUserName")
 		};
 		
-		static IErrorHandleStrategy _errorHandle = new TerminateErrorHandleStrategy(_logger);
 		
 		static void Main(string[] args) {
 			Main().GetAwaiter().GetResult();
@@ -38,8 +40,9 @@ namespace ConsoleClient {
 			var users = new InMemoryUsersRepository();
 			var states = new InMemoryGameStatesRepository();
 			var register = new GameLogics.Server.Services.RegisterService(users);
-			var auth = new GameLogics.Server.Services.AuthService(_logger, users, states, new MockTokenService());
-			var intent = new IntentService(_logger, users, states);
+			var config = new InMemoryConfigRepository();
+			var auth = new GameLogics.Server.Services.AuthService(_logger, new MockTokenService(), users, states, config);
+			var intent = new IntentService(_logger, users, states, config);
 			return new ConvertedServerApiService(_converter, _logger, _errorHandle, register, auth, intent);
 		}
 

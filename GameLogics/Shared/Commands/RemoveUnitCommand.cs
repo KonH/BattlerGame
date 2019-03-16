@@ -1,4 +1,5 @@
 using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
 	public class RemoveUnitCommand : ICommand {
@@ -8,9 +9,9 @@ namespace GameLogics.Shared.Commands {
 			Id = id;
 		}
 
-		public bool IsValid(GameState state) => !string.IsNullOrEmpty(Id) && state.Units.ContainsKey(Id);
+		public bool IsValid(GameState state, Config config) => !string.IsNullOrEmpty(Id) && state.Units.ContainsKey(Id);
 		
-		public void Execute(GameState state) {
+		public void Execute(GameState state, Config config) {
 			state.Units.Remove(Id);
 		}
 		
