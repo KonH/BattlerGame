@@ -42,6 +42,7 @@ namespace GameLogics.Server.Services {
 				command.Execute(state);
 			}
 			var oldVersion = state.Version;
+			state.UpdateVersion();
 			state = _states.Save(user, state);
 			_logger.Debug(this, $"State updated: version was '{oldVersion}', changed to '{state.Version}'");
 			return new IntentResponse(state.Version, commands).AsResult();

@@ -7,8 +7,9 @@ namespace GameLogics.Shared.Models {
 		
 		public Dictionary<Resource, int> Resources { get; } = new Dictionary<Resource, int>();
 
-		public void UpdateVersion() {
+		public GameState UpdateVersion() {
 			Version = Guid.NewGuid().ToString();
+			return this;
 		}
 	}
 }

@@ -1,19 +1,20 @@
 using System;
-using System.Collections.Concurrent;
 using GameLogics.Server.Models;
 using GameLogics.Shared.Models;
+using GameLogics.Shared.Utils;
 
 namespace GameLogics.Server.Repositories.States {
-	public class InMemoryGameStatesRepository : IGameStatesRepository {
-		ConcurrentDictionary<User, GameState> _states = new ConcurrentDictionary<User, GameState>();
-		
-		public GameState Find(User user) {
-			if ( _states.TryGetValue(user, out var state) ) {
-				return state;
-			}
-			return null;
+	public class FileGameStatesRepository : IGameStatesRepository {
+		FileStorageRepository _file;
+
+		public FileGameStatesRepository(FileStorageRepository file) {
+			_file = file;
 		}
 		
+		public GameState Find(User user) {
+			return _file.State.States.GetOrDefault(user.Login);
+		}
+
 		public GameState FindOrCreate(User user, Action<GameState> init) {
 			var state = Find(user);
 			if ( state == null ) {
@@ -24,7 +25,8 @@ namespace GameLogics.Server.Repositories.States {
 		}
 
 		public GameState Save(User user, GameState state) {
-			_states[user] = state;
+			_file.State.States[user.Login] = state;
+			_file.Save();
 			return state;
 		}
 	}

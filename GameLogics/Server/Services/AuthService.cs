@@ -31,7 +31,7 @@ namespace GameLogics.Server.Services {
 				return new ClientError("Invalid login or password").AsError<AuthResponse>();
 			}
 			var token    = _token.CreateToken(user);
-			var state    = _states.FindOrCreate(user);
+			var state    = _states.FindOrCreate(user, s => _states.Save(user, s.UpdateVersion()));
 			var response = new AuthResponse(token, state);
 			_logger.Debug(this, $"User is logged in: '{user.Login}'");
 			return response.AsResult();

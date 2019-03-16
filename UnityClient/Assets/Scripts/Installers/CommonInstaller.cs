@@ -35,7 +35,8 @@ namespace UnityClient.Installers {
 		void BindApiService() {
 			switch ( ServerSettings.Mode ) {
 				case ServerMode.Network: Container.BindRemoteService(); break;
-				case ServerMode.MemoryEmbedded: Container.BindEmbeddedService(); break;
+				case ServerMode.MemoryEmbedded: Container.BindEmbeddedService(true); break;
+				case ServerMode.FileEmbedded: Container.BindEmbeddedService(false); break;
 				default: throw new InvalidOperationException("Unknown server mode");
 			}
 		}
