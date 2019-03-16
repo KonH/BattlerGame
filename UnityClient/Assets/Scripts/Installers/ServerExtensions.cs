@@ -31,6 +31,8 @@ namespace UnityClient.Installers {
 			self.Bind<RegisterService>().AsSingle();
 			self.Bind<AuthService>().AsSingle();
 			self.Bind<IntentService>().AsSingle();
+
+			self.Bind<StateInitService>().AsSingle();
 		}
 
 		static FileStorageRepository CreateFileStorage(InjectContext context) {

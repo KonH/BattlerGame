@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using GameLogics.Shared.Dao.Api;
+using GameLogics.Shared.Dao.Api.Errors;
 using GameLogics.Shared.Dao.Auth;
 using GameLogics.Shared.Dao.Intent;
 using GameLogics.Shared.Dao.Register;
@@ -8,7 +9,8 @@ using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Services {
 	public class ServerApiService : IApiService {
-		readonly ICustomLogger   _logger;
+		protected readonly ICustomLogger _logger;
+		
 		readonly RegisterService _register;
 		readonly AuthService     _auth;
 		readonly IntentService   _intent;
@@ -26,8 +28,14 @@ namespace GameLogics.Server.Services {
 
 		protected virtual Task<ApiResponse<TResponse>> Post<TRequest, TResponse>(TRequest req, Func<TRequest, ApiResponse<TResponse>> handler) {
 			_logger.Debug(this, $"Request ({typeof(TRequest).Name}): '{req.ToString()}'");
-			var resp = handler(req);
-			_logger.Debug(this, $"Response ({typeof(TResponse).Name}): '{resp.Success}, '{resp.Result}', {resp.Error}");
+			ApiResponse<TResponse> resp;
+			try {
+				resp = handler(req);
+			} catch ( Exception e ) {
+				_logger.Error(this, $"Post: {e}");
+				resp = new ServerError(e.ToString()).AsError<TResponse>();
+			}
+			_logger.Debug(this, $"Response ({typeof(TResponse).Name}): '{resp.Success}, '{resp.Result}', {resp.Error?.Message}");
 			return Task.FromResult(resp);
 		}
 	}

@@ -41,7 +41,7 @@ namespace ConsoleClient {
 			var states = new InMemoryGameStatesRepository();
 			var register = new GameLogics.Server.Services.RegisterService(users);
 			var config = new InMemoryConfigRepository();
-			var auth = new GameLogics.Server.Services.AuthService(_logger, new MockTokenService(), users, states, config);
+			var auth = new GameLogics.Server.Services.AuthService(_logger, new MockTokenService(), users, states, config, new StateInitService());
 			var intent = new IntentService(_logger, users, states, config);
 			return new ConvertedServerApiService(_converter, _logger, _errorHandle, register, auth, intent);
 		}

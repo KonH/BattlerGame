@@ -1,3 +1,4 @@
+using GameLogics.Server.Models;
 using GameLogics.Server.Repositories.Configs;
 using GameLogics.Server.Repositories.States;
 using GameLogics.Server.Repositories.Users;
@@ -5,6 +6,7 @@ using GameLogics.Server.Services.Token;
 using GameLogics.Shared.Dao.Api;
 using GameLogics.Shared.Dao.Api.Errors;
 using GameLogics.Shared.Dao.Auth;
+using GameLogics.Shared.Models;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Services {
@@ -14,15 +16,18 @@ namespace GameLogics.Server.Services {
 		readonly IUsersRepository      _users;
 		readonly IGameStatesRepository _states;
 		readonly IConfigRepository     _config;
+		readonly StateInitService      _init;
 
 		public AuthService(
-			ICustomLogger logger, ITokenService token, IUsersRepository users, IGameStatesRepository states, IConfigRepository config
+			ICustomLogger logger, ITokenService token,
+			IUsersRepository users, IGameStatesRepository states, IConfigRepository config, StateInitService init
 		) {
 			_logger = logger;
 			_token  = token;
 			_users  = users;
 			_states = states;
 			_config = config;
+			_init   = init;
 		}
 
 		public ApiResponse<AuthResponse> RequestToken(AuthRequest req) {
@@ -35,11 +40,16 @@ namespace GameLogics.Server.Services {
 				}
 				return new ClientError("Invalid login or password").AsError<AuthResponse>();
 			}
-			var token    = _token.CreateToken(user);
-			var state    = _states.FindOrCreate(user, s => _states.Save(user, s.UpdateVersion()));
+			var token = _token.CreateToken(user);
+			var state = _states.FindOrCreate(user, s => InitAndSaveState(user, s));
 			var response = new AuthResponse(token, state, _config.Get());
 			_logger.Debug(this, $"User is logged in: '{user.Login}'");
 			return response.AsResult();
+		}
+
+		void InitAndSaveState(User user, GameState state) {
+			state = _init.Init(state, _config.Get());
+			_states.Save(user, state.UpdateVersion());
 		}
 	}
 }

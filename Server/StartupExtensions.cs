@@ -43,6 +43,7 @@ namespace Server {
 			services.AddSingleton<ITokenService, JwtTokenService>();
 			services.AddSingleton<AuthService>();
 			services.AddJwtBearerAuthentication(settings);
+			services.AddSingleton<StateInitService>();
 		}
 		
 		static void AddJwtBearerAuthentication(this IServiceCollection services, AuthSettings settings) {

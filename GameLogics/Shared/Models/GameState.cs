@@ -8,6 +8,8 @@ namespace GameLogics.Shared.Models {
 		public Dictionary<Resource, int>     Resources { get; } = new Dictionary<Resource, int>();
 		public Dictionary<string, ItemState> Items     { get; } = new Dictionary<string, ItemState>();
 		public Dictionary<string, UnitState> Units     { get; } = new Dictionary<string, UnitState>();
+		
+		public LevelState Level { get; set; } = null;
 
 		public GameState UpdateVersion() {
 			Version = UniqueId.New();

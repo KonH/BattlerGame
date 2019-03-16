@@ -29,6 +29,7 @@ namespace GameLogics.Client.Services {
 			_network.AuthToken = result.Token;
 			_state.User  = user;
 			_state.State = result.State;
+			_state.Config = result.Config;
 			
 			return true;
 		}

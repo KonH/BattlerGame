@@ -6,6 +6,7 @@ namespace UnityClient.Managers {
 		const string LoginScene    = "01_Login";
 		const string RegisterScene = "02_Register";
 		const string WorldScene    = "03_World";
+		const string LevelScene    = "04_Level";
 		
 		string ActiveScene => SceneManager.GetActiveScene().name;
 
@@ -15,6 +16,7 @@ namespace UnityClient.Managers {
 		public void GoToLogin()    => OpenScene(LoginScene);
 		public void GoToRegister() => OpenScene(RegisterScene);
 		public void GoToWorld()    => OpenScene(WorldScene);
+		public void GoToLevel()    => OpenScene(LevelScene);
 
 		void OpenScene(string name) {
 			if ( ActiveScene == name ) {

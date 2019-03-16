@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using GameLogics.Client.Services.ErrorHandle;
 using GameLogics.Shared.Dao.Api;
+using GameLogics.Shared.Dao.Api.Errors;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Services {
@@ -21,12 +22,17 @@ namespace GameLogics.Server.Services {
 		}
 
 		protected override Task<ApiResponse<TResponse>> Post<TRequest, TResponse>(TRequest req, Func<TRequest, ApiResponse<TResponse>> handler) {
-			var task = base.Post(DoubleConvert(req), handler);
-			var resp = DoubleConvert(task.Result);
-			if ( !resp.Success ) {
-				_errorHandle.OnError(resp.Error);
+			try {
+				var task = base.Post(DoubleConvert(req), handler);
+				var resp = DoubleConvert(task.Result);
+				if ( !resp.Success ) {
+					_errorHandle.OnError(resp.Error);
+				}
+				return Task.FromResult(resp);
+			} catch ( Exception e ) {
+				_logger.Error(this, $"Post: {e}");
+				return Task.FromResult(new ServerError(e.ToString()).AsError<TResponse>());
 			}
-			return Task.FromResult(resp);
 		}
 
 		T DoubleConvert<T>(T obj) {

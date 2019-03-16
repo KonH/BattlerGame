@@ -45,7 +45,14 @@ namespace UnityClient.Managers {
 				var interval = Math.Max(isLoginSuccess ? _settings.TokenRefreshInterval : _minInterval, _minInterval);
 				_nextRefreshTime = Time.realtimeSinceStartup + interval;
 				if ( isLoginSuccess ) {
-					_scene.GoToWorld();
+					switch ( _state.State ) {
+						case var s when s.Level != null:
+							_scene.GoToLevel();
+							break;
+						default:
+							_scene.GoToWorld();
+							break;
+					}
 				} else {
 					_scene.GoToLogin();
 				}
