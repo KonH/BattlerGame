@@ -16,7 +16,7 @@ namespace GameLogics.Shared.Commands {
 		}
 		
 		public override string ToString() {
-			return string.Format("{0} ('{1}')", nameof(RemoveItemCommand), Id);
+			return $"{nameof(RemoveItemCommand)} ('{Id}')";
 		}
 	}
 }
