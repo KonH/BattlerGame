@@ -1,13 +1,12 @@
-using System.IO;
 using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Repositories.Configs {
-	public class FileConfigRepository : IConfigRepository {
+	public class TextConfigRepository : IConfigRepository {
 		readonly Config _config;
 
-		public FileConfigRepository(ConvertService convert, string path) {
-			_config = convert.FromJson<Config>(File.ReadAllText(path));
+		public TextConfigRepository(ConvertService convert, string text) {
+			_config = convert.FromJson<Config>(text);
 		}
 		
 		public Config Get() {

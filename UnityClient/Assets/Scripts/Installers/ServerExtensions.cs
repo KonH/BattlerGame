@@ -20,13 +20,13 @@ namespace UnityClient.Installers {
 			if ( inMemory ) {
 				self.Bind<IUsersRepository>().To<InMemoryUsersRepository>().AsSingle();
 				self.Bind<IGameStatesRepository>().To<InMemoryGameStatesRepository>().AsSingle();
-				self.Bind<IConfigRepository>().To<InMemoryConfigRepository>().AsSingle();
 			} else {
 				self.Bind<FileStorageRepository>().FromMethod(CreateFileStorage).AsSingle();
 				self.Bind<IUsersRepository>().To<FileUsersRepository>().AsSingle();
 				self.Bind<IGameStatesRepository>().To<FileGameStatesRepository>().AsSingle();
-				self.Bind<IConfigRepository>().To<FileConfigRepository>().AsSingle();
 			}
+
+			self.Bind<IConfigRepository>().FromMethod(CreateConfigRepository).AsSingle();
 
 			self.Bind<RegisterService>().AsSingle();
 			self.Bind<AuthService>().AsSingle();
@@ -40,6 +40,12 @@ namespace UnityClient.Installers {
 			var settings = context.Container.Resolve<ServerSettings>();
 			var path     = Path.Combine(Application.persistentDataPath, settings.EmbeddedDbName);
 			return new FileStorageRepository(convert, path);
+		}
+
+		static IConfigRepository CreateConfigRepository(InjectContext context) {
+			var convert = context.Container.Resolve<ConvertService>();
+			var content = (Resources.Load("Config") as TextAsset).text;
+			return new TextConfigRepository(convert, content);
 		}
 	}
 }

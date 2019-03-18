@@ -10,7 +10,6 @@ namespace GameLogics.Server.Repositories {
 		public class FileState {
 			public Dictionary<string, User>      Users  = new Dictionary<string, User>();
 			public Dictionary<string, GameState> States = new Dictionary<string, GameState>();
-			public Config                        Config = new Config();
 		}
 		
 		readonly ConvertService _convert;

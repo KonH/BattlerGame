@@ -1,0 +1,20 @@
+{
+  "Version": "test_version",
+  "Items": {
+    "test_weapon": {
+      "Type": 1
+    }
+  },
+  "Units": {
+    "player_unit": {},
+    "enemy_unit": {}
+  },
+  "Levels": {
+    "test_level": {
+      "EnemyDescriptors": [
+        "enemy_unit",
+        "enemy_unit"
+      ]
+    }
+  }
+}

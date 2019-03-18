@@ -7,7 +7,10 @@ using UnityEngine;
 
 namespace UnityClient.Editor.ConfigEditor {
 	public class ConfigEditor : EditorWindow {		
-		static List<string> _defaultPathes = new List<string>{ "Assets/Resources/Config.json" };
+		static List<string> _defaultPathes = new List<string> {
+			"Assets/Resources/Config.json",
+			"../Server/Config.json",
+		};
 		
 		Config _config = new Config();
 		
@@ -20,7 +23,7 @@ namespace UnityClient.Editor.ConfigEditor {
 		
 		[MenuItem("Utils/Config/Open Editor")]
 		public static void Open() {
-			var window = GetWindow<ConfigEditor>();
+			var window = GetWindow<ConfigEditor>("ConfigEditor");
 			window.Show();
 			window.Load();
 		}

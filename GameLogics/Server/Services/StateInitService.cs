@@ -9,7 +9,7 @@ namespace GameLogics.Server.Services {
 	public class StateInitService {
 		readonly List<ICommand> _initCommands = new List<ICommand> {
 			new AddResourceCommand(Resource.Coins, 50),
-			new AddUnitCommand(UniqueId.New(), "test_unit", 1)
+			new AddUnitCommand(UniqueId.New(), "player_unit", 1)
 		};
 		
 		public GameState Init(GameState state, Config config) {
