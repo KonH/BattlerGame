@@ -1,9 +1,6 @@
 {
-    "name": "Managers",
+    "name": "ViewModels",
     "references": [
-        "Utils",
-        "Services",
-        "ViewModels",
         "Zenject"
     ],
     "optionalUnityReferences": [],

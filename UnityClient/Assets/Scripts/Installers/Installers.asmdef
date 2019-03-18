@@ -3,7 +3,8 @@
     "references": [
         "Zenject",
         "Managers",
-        "Services"
+        "Services",
+        "ViewModels"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
