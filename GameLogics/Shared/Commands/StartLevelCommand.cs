@@ -23,7 +23,7 @@ namespace GameLogics.Shared.Commands {
 			return config.Levels.ContainsKey(LevelDesc) && (FindPlayerUnits(state) != null);
 		}
 
-		public override void Execute(GameState state, Config config) {
+		protected override void ExecuteSingle(GameState state, Config config) {
 			var playerUnits = FindPlayerUnits(state);
 			var enemyUnits = GetEnemyUnits(config);
 			

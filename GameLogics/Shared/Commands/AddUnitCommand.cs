@@ -26,7 +26,7 @@ namespace GameLogics.Shared.Commands {
 			return config.Units.ContainsKey(Descriptor);
 		}
 
-		public override void Execute(GameState state, Config config) {
+		protected override void ExecuteSingle(GameState state, Config config) {
 			state.AddUnit(new UnitState(Descriptor, Health).WithId(Id));
 		}
 		

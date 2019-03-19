@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using GameLogics.Server.Services;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Models;
@@ -19,7 +21,15 @@ namespace UnitTests {
 
 		protected void Execute(TCommand cmd) {
 			IsValid(cmd);
-			cmd.Execute(_state, _config);
+			var _ = cmd.Execute(_state, _config);
+		}
+		
+		protected void Produces<TOtherCommand>(TCommand cmd, Func<TOtherCommand, bool> predicate = null) where TOtherCommand : ICommand {
+			IsValid(cmd);
+			Assert.Contains(
+				cmd.Execute(_state, _config),
+				c => (c is TOtherCommand oc) && ( (predicate == null) || predicate(oc) )
+			);
 		}
 
 		protected void IsValidOnServer(TCommand cmd) {

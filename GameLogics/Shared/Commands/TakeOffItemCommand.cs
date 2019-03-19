@@ -23,7 +23,7 @@ namespace GameLogics.Shared.Commands {
 			return (FindItem(unit) != null);
 		}
 
-		public override void Execute(GameState state, Config config) {
+		protected override void ExecuteSingle(GameState state, Config config) {
 			var unit = FindUnit(state);
 			var item = FindItem(unit);
 			unit.Items.Remove(item);
@@ -36,7 +36,7 @@ namespace GameLogics.Shared.Commands {
 		ItemState FindItem(UnitState state) => state.Items.Find(it => it.Id == ItemId);
 
 		public override string ToString() {
-			return $"{nameof(TakeOffItemCommand)} ()";
+			return $"{nameof(TakeOffItemCommand)} ('{ItemId}', '{UnitId}')";
 		}
 	}
 }

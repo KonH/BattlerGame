@@ -6,7 +6,7 @@ using Xunit;
 namespace UnitTests {
 	public class AddUnitCommandTest : BaseCommandTest<AddUnitCommand> {
 		public AddUnitCommandTest() {
-			_config.AddUnit("desc", new UnitConfig());
+			_config.AddUnit("desc", new UnitConfig(1));
 		}
 		
 		[Fact]

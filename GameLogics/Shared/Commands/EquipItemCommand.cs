@@ -39,7 +39,7 @@ namespace GameLogics.Shared.Commands {
 			return (itemWithSameType == null);
 		}
 
-		public override void Execute(GameState state, Config config) {
+		protected override void ExecuteSingle(GameState state, Config config) {
 			var item = FindItem(state);
 			var unit = FindUnit(state);
 			unit.Items.Add(item);
@@ -52,7 +52,7 @@ namespace GameLogics.Shared.Commands {
 		ItemState FindItem(GameState state) => state.Items.GetOrDefault(ItemId);
 
 		public override string ToString() {
-			return $"{nameof(EquipItemCommand)} ()";
+			return $"{nameof(EquipItemCommand)} ('{ItemId}', '{UnitId}')";
 		}
 	}
 }

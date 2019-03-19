@@ -21,7 +21,7 @@ namespace GameLogics.Shared.Commands {
 			return config.Items.ContainsKey(Descriptor);
 		}
 
-		public override void Execute(GameState state, Config config) {
+		protected override void ExecuteSingle(GameState state, Config config) {
 			state.AddItem(new ItemState(Descriptor).WithId(Id));
 		}
 

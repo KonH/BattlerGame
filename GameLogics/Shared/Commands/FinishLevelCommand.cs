@@ -4,6 +4,12 @@ using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
 	public class FinishLevelCommand : InternalCommand {
+		public readonly bool Win;
+
+		public FinishLevelCommand(bool win) {
+			Win = win;
+		}
+		
 		public override bool IsValid(GameState state, Config config) {
 			if ( state.Level == null ) {
 				return false;
@@ -11,7 +17,7 @@ namespace GameLogics.Shared.Commands {
 			return true;
 		}
 
-		public override void Execute(GameState state, Config config) {
+		protected override void ExecuteSingle(GameState state, Config config) {
 			foreach ( var unit in state.Level.PlayerUnits ) {
 				state.AddUnit(unit);
 			}
@@ -22,7 +28,7 @@ namespace GameLogics.Shared.Commands {
 		}
 
 		public override string ToString() {
-			return $"{nameof(FinishLevelCommand)}";
+			return $"{nameof(FinishLevelCommand)} ({Win})";
 		}
 	}
 }

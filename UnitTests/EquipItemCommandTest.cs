@@ -6,7 +6,7 @@ using Xunit;
 namespace UnitTests {	
 	public class EquipItemCommandTest : BaseCommandTest<EquipItemCommand> {
 		public EquipItemCommandTest() {
-			_config.AddUnit("unit_desc", new UnitConfig());
+			_config.AddUnit("unit_desc", new UnitConfig(1));
 			_config.AddItem("item_desc", new ItemConfig { Type = ItemType.Weapon });
 			_state.AddUnit(new UnitState("unit_desc", 1).WithId("unit_id"));
 			_state.AddItem(new ItemState("item_desc").WithId("item_id"));

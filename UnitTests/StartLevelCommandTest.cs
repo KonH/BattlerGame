@@ -8,8 +8,8 @@ namespace UnitTests {
 	public class StartLevelCommandTest : BaseCommandTest<StartLevelCommand> {
 		public StartLevelCommandTest() {
 			_config
-				.AddUnit("unit_desc",  new UnitConfig())
-				.AddUnit("enemy_desc", new UnitConfig())
+				.AddUnit("unit_desc",  new UnitConfig(1))
+				.AddUnit("enemy_desc", new UnitConfig(1))
 				.AddLevel("level_desc", new LevelConfig { EnemyDescriptors = { "enemy_desc" } });
 			_state
 				.AddUnit(new UnitState("unit_desc", 1).WithId("unit_id"));

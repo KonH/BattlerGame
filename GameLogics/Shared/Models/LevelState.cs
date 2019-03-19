@@ -11,5 +11,19 @@ namespace GameLogics.Shared.Models {
 			PlayerUnits = playerUnits;
 			EnemyUnits  = enemyUnits;
 		}
+
+		public UnitState FindUnitById(string id) {
+			foreach ( var unit in PlayerUnits ) {
+				if ( unit.Id == id ) {
+					return unit;
+				}
+			}
+			foreach ( var unit in EnemyUnits ) {
+				if ( unit.Id == id ) {
+					return unit;
+				}
+			}
+			return null;
+		}
 	}
 }

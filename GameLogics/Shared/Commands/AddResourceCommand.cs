@@ -14,7 +14,7 @@ namespace GameLogics.Shared.Commands {
 
 		public override bool IsValid(GameState state, Config config) => (Kind != Resource.Unknown) && (Count > 0);
 
-		public override void Execute(GameState state, Config config) {
+		protected override void ExecuteSingle(GameState state, Config config) {
 			var oldValue = state.Resources.GetOrDefault(Kind);
 			state.Resources[Kind] = oldValue + Count;
 		}

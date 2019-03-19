@@ -27,7 +27,7 @@ namespace GameLogics.Client.Services {
 			}
 			var result = response.Result;
 			foreach ( var cmd in commands ) {
-				cmd.Execute(state, _state.Config);
+				cmd.TryExecute(state, _state.Config);
 			}
 			state.Version = result.NewVersion;
 			OnStateUpdated(state);

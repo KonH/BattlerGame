@@ -8,8 +8,8 @@ namespace UnitTests {
 	public class FinishLevelCommandTest : BaseCommandTest<FinishLevelCommand> {
 		public FinishLevelCommandTest() {
 			_config
-				.AddUnit("unit_desc",  new UnitConfig())
-				.AddUnit("enemy_desc", new UnitConfig())
+				.AddUnit("unit_desc",  new UnitConfig(1))
+				.AddUnit("enemy_desc", new UnitConfig(1))
 				.AddLevel("level_desc", new LevelConfig { EnemyDescriptors = { "enemy_desc" } });
 			_state.Level = new LevelState(
 				"level_desc", new List<UnitState> { new UnitState("unit_desc", 1).WithId("unit_id") }, new List<UnitState>()
@@ -20,26 +20,26 @@ namespace UnitTests {
 		void CantFinishLevelIfNotStarted() {
 			_state.Level = null;
 			
-			IsInvalid(new FinishLevelCommand());
+			IsInvalid(new FinishLevelCommand(true));
 		}
 
 		[Fact]
 		void IsLevelStateCleared() {
-			Execute(new FinishLevelCommand());
+			Execute(new FinishLevelCommand(true));
 			
 			Assert.Null(_state.Level);
 		}
 
 		[Fact]
 		void IsPlayerUnitsReturned() {
-			Execute(new FinishLevelCommand());
+			Execute(new FinishLevelCommand(true));
 			
 			Assert.True(_state.Units.ContainsKey("unit_id"));
 		}
 		
 		[Fact]
 		void CantBeCalledDirectly() {
-			IsInvalidOnServer(new FinishLevelCommand());
+			IsInvalidOnServer(new FinishLevelCommand(true));
 		}
 	}
 }

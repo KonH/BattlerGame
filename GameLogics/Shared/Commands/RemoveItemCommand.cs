@@ -11,7 +11,7 @@ namespace GameLogics.Shared.Commands {
 
 		public override bool IsValid(GameState state, Config config) => !string.IsNullOrEmpty(Id) && state.Items.ContainsKey(Id);
 		
-		public override void Execute(GameState state, Config config) {
+		protected override void ExecuteSingle(GameState state, Config config) {
 			state.Items.Remove(Id);
 		}
 		
