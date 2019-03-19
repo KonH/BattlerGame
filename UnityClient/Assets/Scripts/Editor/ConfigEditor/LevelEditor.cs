@@ -5,8 +5,10 @@ namespace UnityClient.Editor.ConfigEditor {
 	class LevelEditor : DictEditor<LevelConfig> {
 		public Config Context = null;
 		
-		UnitDescEditor _unitDescsEditor = new UnitDescEditor(); 
-		
+		UnitDescEditor _unitDescsEditor = new UnitDescEditor();
+
+		protected override LevelConfig New() => new LevelConfig();
+
 		protected override void Update(LevelConfig level) {
 			_unitDescsEditor.Context = Context;
 			_unitDescsEditor.Update("Enemies", level.EnemyDescriptors);

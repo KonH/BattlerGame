@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Dao.Intent;
@@ -8,6 +9,7 @@ using GameLogics.Shared.Services;
 namespace GameLogics.Client.Services {
 	public class GameStateUpdateService {
 		public event Action<GameState> OnStateUpdated = delegate {};
+		public event Action<ICommand> OnCommandApplied = delegate(ICommand cmd) {};
 		
 		public GameState State => _state.State;
 		
@@ -26,11 +28,17 @@ namespace GameLogics.Client.Services {
 				return;
 			}
 			var result = response.Result;
-			foreach ( var cmd in commands ) {
-				cmd.TryExecute(state, _state.Config);
-			}
+			CallCommandTree(commands);
 			state.Version = result.NewVersion;
 			OnStateUpdated(state);
+		}
+
+		void CallCommandTree(ICollection<ICommand> commands) {
+			foreach ( var cmd in commands ) {
+				var subCommands = cmd.Execute(_state.State, _state.Config);
+				OnCommandApplied(cmd);
+				CallCommandTree(subCommands);
+			}
 		}
 	}
 }

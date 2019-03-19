@@ -4,6 +4,8 @@ using UnityEditor;
 
 namespace UnityClient.Editor.ConfigEditor {
 	class ItemEditor : DictEditor<ItemConfig> {
+		protected override ItemConfig New() => new ItemConfig();
+
 		protected override void Update(ItemConfig item) {
 			item.Type = (ItemType)EditorGUILayout.EnumPopup("Type", item.Type);
 		}

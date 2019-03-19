@@ -1,10 +1,6 @@
 {
-    "name": "ViewModels",
-    "references": [
-        "Zenject",
-        "Models",
-        "Services"
-    ],
+    "name": "Models",
+    "references": [],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],

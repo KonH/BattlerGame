@@ -6,8 +6,12 @@
     }
   },
   "Units": {
-    "player_unit": {},
-    "enemy_unit": {}
+    "player_unit": {
+      "BaseDamage": 2
+    },
+    "enemy_unit": {
+      "BaseDamage": 1
+    }
   },
   "Levels": {
     "test_level": {

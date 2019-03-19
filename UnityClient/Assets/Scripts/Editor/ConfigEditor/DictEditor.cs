@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace UnityClient.Editor.ConfigEditor {
-	abstract class DictEditor<TItem> where TItem : class, new() {
+	abstract class DictEditor<TItem> where TItem : class {
 		public bool UseVerticalLayout = false;
 
 		bool _active = false;
@@ -48,10 +48,11 @@ namespace UnityClient.Editor.ConfigEditor {
 				}
 			}
 			if ( !items.ContainsKey("New") && GUILayout.Button("Add") ) {
-				items.Add("New", new TItem());
+				items.Add("New", New());
 			}
 		}
 
+		protected abstract TItem New();
 		protected abstract void Update(TItem item);
 	}
 }
