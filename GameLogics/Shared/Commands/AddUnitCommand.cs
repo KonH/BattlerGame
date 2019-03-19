@@ -2,7 +2,7 @@ using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
-	public class AddUnitCommand : ICommand {
+	public class AddUnitCommand : InternalCommand {
 		public readonly string Id;
 		public readonly string Descriptor;
 		public readonly int    Health;
@@ -13,7 +13,7 @@ namespace GameLogics.Shared.Commands {
 			Health     = health;
 		}
 
-		public bool IsValid(GameState state, Config config) {
+		public override bool IsValid(GameState state, Config config) {
 			if ( string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(Descriptor) ) {
 				return false;
 			}
@@ -26,7 +26,7 @@ namespace GameLogics.Shared.Commands {
 			return config.Units.ContainsKey(Descriptor);
 		}
 
-		public void Execute(GameState state, Config config) {
+		public override void Execute(GameState state, Config config) {
 			state.AddUnit(new UnitState(Descriptor, Health).WithId(Id));
 		}
 		

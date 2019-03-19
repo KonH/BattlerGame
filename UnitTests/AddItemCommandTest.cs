@@ -38,5 +38,12 @@ namespace UnitTests {
 			Assert.True(_state.Items.ContainsKey(item.Id));
 			Assert.Equal(item.Descriptor, _state.Items[item.Id].Descriptor);
 		}
+
+		[Fact]
+		void CantBeCalledDirectly() {
+			var item = new ItemState("desc").WithNewId();
+			
+			IsInvalidOnServer(new AddItemCommand(item.Id, item.Descriptor));
+		}
 	}
 }

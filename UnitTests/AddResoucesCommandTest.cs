@@ -22,5 +22,10 @@ namespace UnitTests {
 
 			Assert.Equal(1, _state.Resources.GetOrDefault(Resource.Coins));
 		}
+
+		[Fact]
+		void CantBeCalledDirectly() {
+			IsInvalidOnServer(new AddResourceCommand(Resource.Coins, 1));
+		}
 	}
 }

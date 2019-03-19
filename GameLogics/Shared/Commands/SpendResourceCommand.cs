@@ -3,7 +3,7 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
-	public sealed class SpendResourceCommand : ICommand {
+	public sealed class SpendResourceCommand : BaseCommand {
 		public readonly Resource Kind;
 		public readonly int      Count;
 
@@ -12,9 +12,9 @@ namespace GameLogics.Shared.Commands {
 			Count = count;
 		}
 
-		public bool IsValid(GameState state, Config config) => (Kind != Resource.Unknown) && (Count > 0);
+		public override bool IsValid(GameState state, Config config) => (Kind != Resource.Unknown) && (Count > 0);
 
-		public void Execute(GameState state, Config config) {
+		public override void Execute(GameState state, Config config) {
 			var oldValue = state.Resources.GetOrDefault(Kind);
 			state.Resources[Kind] = oldValue - Count;
 		}

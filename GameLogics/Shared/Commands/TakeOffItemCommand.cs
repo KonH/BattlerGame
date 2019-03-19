@@ -3,7 +3,7 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
-	public class TakeOffItemCommand : ICommand {
+	public class TakeOffItemCommand : BaseCommand {
 		public readonly string ItemId;
 		public readonly string UnitId;
 
@@ -12,7 +12,7 @@ namespace GameLogics.Shared.Commands {
 			UnitId = unitId;
 		}
 		
-		public bool IsValid(GameState state, Config config) {
+		public override bool IsValid(GameState state, Config config) {
 			if ( string.IsNullOrEmpty(ItemId) || string.IsNullOrEmpty(UnitId) ) {
 				return false;
 			}
@@ -23,7 +23,7 @@ namespace GameLogics.Shared.Commands {
 			return (FindItem(unit) != null);
 		}
 
-		public void Execute(GameState state, Config config) {
+		public override void Execute(GameState state, Config config) {
 			var unit = FindUnit(state);
 			var item = FindItem(unit);
 			unit.Items.Remove(item);

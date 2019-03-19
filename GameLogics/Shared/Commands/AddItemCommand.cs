@@ -2,7 +2,7 @@ using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
-	public class AddItemCommand : ICommand {
+	public class AddItemCommand : InternalCommand {
 		public readonly string Id;
 		public readonly string Descriptor;
 
@@ -11,7 +11,7 @@ namespace GameLogics.Shared.Commands {
 			Descriptor = descriptor;
 		}
 
-		public bool IsValid(GameState state, Config config) {
+		public override bool IsValid(GameState state, Config config) {
 			if ( string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(Descriptor) ) {
 				return false;
 			}
@@ -21,7 +21,7 @@ namespace GameLogics.Shared.Commands {
 			return config.Items.ContainsKey(Descriptor);
 		}
 
-		public void Execute(GameState state, Config config) {
+		public override void Execute(GameState state, Config config) {
 			state.AddItem(new ItemState(Descriptor).WithId(Id));
 		}
 

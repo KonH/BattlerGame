@@ -1,3 +1,4 @@
+using GameLogics.Server.Services;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
@@ -19,6 +20,14 @@ namespace UnitTests {
 		protected void Execute(TCommand cmd) {
 			IsValid(cmd);
 			cmd.Execute(_state, _config);
+		}
+
+		protected void IsValidOnServer(TCommand cmd) {
+			Assert.True(IntentService.TryExecuteClientCommand(_state, _config, cmd));
+		}
+		
+		protected void IsInvalidOnServer(TCommand cmd) {
+			Assert.False(IntentService.TryExecuteClientCommand(_state, _config, cmd));
 		}
 	}
 }

@@ -3,15 +3,15 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
-	public class FinishLevelCommand : ICommand {
-		public bool IsValid(GameState state, Config config) {
+	public class FinishLevelCommand : InternalCommand {
+		public override bool IsValid(GameState state, Config config) {
 			if ( state.Level == null ) {
 				return false;
 			}
 			return true;
 		}
 
-		public void Execute(GameState state, Config config) {
+		public override void Execute(GameState state, Config config) {
 			foreach ( var unit in state.Level.PlayerUnits ) {
 				state.AddUnit(unit);
 			}

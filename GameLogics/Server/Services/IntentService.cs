@@ -1,9 +1,12 @@
 using GameLogics.Server.Repositories.Configs;
 using GameLogics.Server.Repositories.States;
 using GameLogics.Server.Repositories.Users;
+using GameLogics.Shared.Commands;
 using GameLogics.Shared.Dao.Api;
 using GameLogics.Shared.Dao.Api.Errors;
 using GameLogics.Shared.Dao.Intent;
+using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Services {
@@ -41,16 +44,22 @@ namespace GameLogics.Server.Services {
 			var config = _config.Get();
 			var commands = req.Commands;
 			foreach ( var command in commands ) {
-				if ( !command.IsValid(state, config) ) {
+				if ( !TryExecuteClientCommand(state, config, command) ) {
 					return new ClientError($"Invalid command: '{command}'").AsError<IntentResponse>();
 				}
-				command.Execute(state, config);
 			}
 			var oldVersion = state.Version;
 			state.UpdateVersion();
 			state = _states.Save(user, state);
 			_logger.Debug(this, $"State updated: version was '{oldVersion}', changed to '{state.Version}'");
 			return new IntentResponse(state.Version).AsResult();
+		}
+
+		public static bool TryExecuteClientCommand(GameState state, Config config, ICommand command) {
+			if ( command is InternalCommand ) {
+				return false;
+			}
+			return command.TryExecute(state, config);
 		}
 	}
 }

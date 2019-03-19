@@ -8,5 +8,6 @@ namespace GameLogics.Shared.Commands {
 	public interface ICommand {
 		bool IsValid(GameState state, Config config);
 		void Execute(GameState state, Config config);
+		bool TryExecute(GameState state, Config config);
 	}
 }

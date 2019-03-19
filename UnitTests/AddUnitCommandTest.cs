@@ -40,5 +40,12 @@ namespace UnitTests {
 			Assert.Equal(unit.Descriptor, _state.Units[unit.Id].Descriptor);
 			Assert.Equal(1, _state.Units[unit.Id].Health);
 		}
+		
+		[Fact]
+		void CantBeCalledDirectly() {
+			var unit = new UnitState("desc", 1).WithNewId();
+			
+			IsInvalidOnServer(new AddUnitCommand(unit.Id, unit.Descriptor, 1));
+		}
 	}
 }

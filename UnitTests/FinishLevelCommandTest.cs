@@ -36,5 +36,10 @@ namespace UnitTests {
 			
 			Assert.True(_state.Units.ContainsKey("unit_id"));
 		}
+		
+		[Fact]
+		void CantBeCalledDirectly() {
+			IsInvalidOnServer(new FinishLevelCommand());
+		}
 	}
 }
