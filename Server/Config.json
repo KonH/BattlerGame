@@ -18,7 +18,18 @@
       "EnemyDescriptors": [
         "enemy_unit",
         "enemy_unit"
-      ]
+      ],
+      "Reward": {
+        "Resources": {
+          "Coins": 1000
+        },
+        "Items": [
+          "test_weapon"
+        ],
+        "Units": [
+          "player_unit"
+        ]
+      }
     }
   }
 }
