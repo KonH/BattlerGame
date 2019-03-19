@@ -6,21 +6,21 @@ namespace UnityClient.Services {
 	public class LevelService {
 		readonly GameStateUpdateService _updateService;
 
-		string _selectedUnitId = string.Empty;
+		ulong? _selectedUnitId;
 		
 		public LevelService(GameStateUpdateService updateService) {
 			_updateService = updateService;
 		}
 		
-		public void SelectUnit(string unitId) {
+		public void SelectUnit(ulong unitId) {
 			_selectedUnitId = unitId;
 		}
 
-		public Task AttackUnit(string unitId) {
-			if ( string.IsNullOrEmpty(_selectedUnitId) ) {
+		public Task AttackUnit(ulong unitId) {
+			if ( !_selectedUnitId.HasValue ) {
 				return Task.CompletedTask;
 			}
-			return _updateService.Update(new AttackCommand(_selectedUnitId, unitId));
+			return _updateService.Update(new AttackCommand(_selectedUnitId.Value, unitId));
 		}
 	}
 }

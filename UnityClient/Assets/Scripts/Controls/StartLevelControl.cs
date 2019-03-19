@@ -21,7 +21,7 @@ namespace UnityClient.Controls {
 		}
 
 		public void Execute() {
-			var playerUnits = new List<string>(_service.State.Units.Keys);
+			var playerUnits = new List<ulong>(_service.State.Units.Keys);
 			_runner.Run(async () => {
 				await _service.Update(new StartLevelCommand(LevelDesc, playerUnits));
 				_scene.GoToLevel();

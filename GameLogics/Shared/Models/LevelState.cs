@@ -12,7 +12,7 @@ namespace GameLogics.Shared.Models {
 			EnemyUnits  = enemyUnits;
 		}
 
-		public UnitState FindUnitById(string id) {
+		public UnitState FindUnitById(ulong id) {
 			foreach ( var unit in PlayerUnits ) {
 				if ( unit.Id == id ) {
 					return unit;

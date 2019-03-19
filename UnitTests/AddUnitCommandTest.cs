@@ -11,15 +11,13 @@ namespace UnitTests {
 		
 		[Fact]
 		void CantAddInvalidUnit() {
-			IsInvalid(new AddUnitCommand(null, "desc", 1));
-			IsInvalid(new AddUnitCommand("id", null, 1));
-			IsInvalid(new AddUnitCommand(null, null, 1));
-			IsInvalid(new AddUnitCommand("id", "desc", -1));
+			IsInvalid(new AddUnitCommand(_state.EntityId, null, 1));
+			IsInvalid(new AddUnitCommand(_state.EntityId, "desc", -1));
 		}
 		
 		[Fact]
 		void CantAddAlreadyExistingUnit() {
-			var unit = new UnitState("desc", 1).WithNewId();
+			var unit = new UnitState("desc", 1).WithId(NewId());
 			_state.AddUnit(unit);
 			
 			IsInvalid(new AddUnitCommand(unit.Id, "desc", 1));
@@ -27,12 +25,12 @@ namespace UnitTests {
 
 		[Fact]
 		void CantAddUnknownUnit() {
-			IsInvalid(new AddUnitCommand("id", "unknown_desc", 1));
+			IsInvalid(new AddUnitCommand(_state.EntityId, "unknown_desc", 1));
 		}
 		
 		[Fact]
 		void UnitWasAdded() {
-			var unit = new UnitState("desc", 1).WithNewId();
+			var unit = new UnitState("desc", 1).WithId(NewId());
 			
 			Execute(new AddUnitCommand(unit.Id, unit.Descriptor, 1));
 			
@@ -43,7 +41,7 @@ namespace UnitTests {
 		
 		[Fact]
 		void CantBeCalledDirectly() {
-			var unit = new UnitState("desc", 1).WithNewId();
+			var unit = new UnitState("desc", 1).WithId(NewId());
 			
 			IsInvalidOnServer(new AddUnitCommand(unit.Id, unit.Descriptor, 1));
 		}

@@ -11,14 +11,12 @@ namespace UnitTests {
 		
 		[Fact]
 		void CantAddInvalidItem() {
-			IsInvalid(new AddItemCommand(null, "desc"));
-			IsInvalid(new AddItemCommand("id", null));
-			IsInvalid(new AddItemCommand(null, null));
+			IsInvalid(new AddItemCommand(_state.EntityId, null));
 		}
 		
 		[Fact]
 		void CantAddAlreadyExistingItem() {
-			var item = new ItemState("desc").WithNewId();
+			var item = new ItemState("desc").WithId(NewId());
 			_state.AddItem(item);
 			
 			IsInvalid(new AddItemCommand(item.Id, "desc"));
@@ -26,12 +24,12 @@ namespace UnitTests {
 		
 		[Fact]
 		void CantAddUnknownItem() {
-			IsInvalid(new AddItemCommand("id", "unknown_desc"));
+			IsInvalid(new AddItemCommand(NewId(), "unknown_desc"));
 		}
 		
 		[Fact]
 		void ItemWasAdded() {
-			var item = new ItemState("desc").WithNewId();
+			var item = new ItemState("desc").WithId(NewId());
 			
 			Execute(new AddItemCommand(item.Id, item.Descriptor));
 			
@@ -41,7 +39,7 @@ namespace UnitTests {
 
 		[Fact]
 		void CantBeCalledDirectly() {
-			var item = new ItemState("desc").WithNewId();
+			var item = new ItemState("desc").WithId(NewId());
 			
 			IsInvalidOnServer(new AddItemCommand(item.Id, item.Descriptor));
 		}

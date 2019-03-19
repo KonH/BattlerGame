@@ -6,6 +6,8 @@ using Xunit;
 
 namespace UnitTests {
 	public class FinishLevelCommandTest : BaseCommandTest<FinishLevelCommand> {
+		ulong _unitId;
+		
 		public FinishLevelCommandTest() {
 			_config
 				.AddUnit("unit_desc",  new UnitConfig(1))
@@ -20,8 +22,9 @@ namespace UnitTests {
 						Units     = { "reward_unit" },
 					}
 				});
+			_unitId = NewId();
 			_state.Level = new LevelState(
-				"level_desc", new List<UnitState> { new UnitState("unit_desc", 1).WithId("unit_id") }, new List<UnitState>()
+				"level_desc", new List<UnitState> { new UnitState("unit_desc", 1).WithId(_unitId) }, new List<UnitState>()
 			);
 		}
 
@@ -43,7 +46,7 @@ namespace UnitTests {
 		void IsPlayerUnitsReturned() {
 			Execute(new FinishLevelCommand(true));
 			
-			Assert.True(_state.Units.ContainsKey("unit_id"));
+			Assert.True(_state.Units.ContainsKey(_unitId));
 		}
 		
 		[Fact]

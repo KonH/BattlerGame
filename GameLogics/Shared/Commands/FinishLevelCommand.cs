@@ -34,10 +34,10 @@ namespace GameLogics.Shared.Commands {
 				result.Add(new AddResourceCommand(pair.Key, pair.Value));
 			}
 			foreach ( var itemDesc in reward.Items ) {
-				result.Add(new AddItemCommand("?", itemDesc));
+				result.Add(new AddItemCommand(state.NewEntityId(), itemDesc));
 			}
 			foreach ( var unitDesc in reward.Units ) {
-				result.Add(new AddUnitCommand("?", unitDesc, 1));
+				result.Add(new AddUnitCommand(state.NewEntityId(), unitDesc, 1));
 			}
 			return result;
 		}

@@ -4,9 +4,9 @@ using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
 	public class KillUnitCommand : InternalCommand {
-		public readonly string UnitId;
+		public readonly ulong UnitId;
 		
-		public KillUnitCommand(string unitId) {
+		public KillUnitCommand(ulong unitId) {
 			UnitId = unitId;
 		}
 		

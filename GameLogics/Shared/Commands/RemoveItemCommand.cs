@@ -3,13 +3,13 @@ using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
 	public class RemoveItemCommand : BaseCommand {
-		public readonly string Id;
+		public readonly ulong Id;
 
-		public RemoveItemCommand(string id) {
+		public RemoveItemCommand(ulong id) {
 			Id = id;
 		}
 
-		public override bool IsValid(GameState state, Config config) => !string.IsNullOrEmpty(Id) && state.Items.ContainsKey(Id);
+		public override bool IsValid(GameState state, Config config) => state.Items.ContainsKey(Id);
 		
 		protected override void ExecuteSingle(GameState state, Config config) {
 			state.Items.Remove(Id);

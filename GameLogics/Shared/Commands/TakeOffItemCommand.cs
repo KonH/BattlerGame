@@ -4,18 +4,15 @@ using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
 	public class TakeOffItemCommand : BaseCommand {
-		public readonly string ItemId;
-		public readonly string UnitId;
+		public readonly ulong ItemId;
+		public readonly ulong UnitId;
 
-		public TakeOffItemCommand(string itemId, string unitId) {
+		public TakeOffItemCommand(ulong itemId, ulong unitId) {
 			ItemId = itemId;
 			UnitId = unitId;
 		}
 		
 		public override bool IsValid(GameState state, Config config) {
-			if ( string.IsNullOrEmpty(ItemId) || string.IsNullOrEmpty(UnitId) ) {
-				return false;
-			}
 			var unit = FindUnit(state);
 			if ( unit == null ) {
 				return false;

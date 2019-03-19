@@ -6,17 +6,20 @@ using Xunit;
 
 namespace UnitTests {
 	public class StartLevelCommandTest : BaseCommandTest<StartLevelCommand> {
+		ulong _unitId;
+		
 		public StartLevelCommandTest() {
 			_config
 				.AddUnit("unit_desc",  new UnitConfig(1))
 				.AddUnit("enemy_desc", new UnitConfig(1))
 				.AddLevel("level_desc", new LevelConfig { EnemyDescriptors = { "enemy_desc" } });
+			_unitId = NewId();
 			_state
-				.AddUnit(new UnitState("unit_desc", 1).WithId("unit_id"));
+				.AddUnit(new UnitState("unit_desc", 1).WithId(_unitId));
 		}
 
-		string       LevelDesc    => "level_desc";
-		List<string> PlayersUnits => new List<string> { "unit_id" };
+		string      LevelDesc    => "level_desc";
+		List<ulong> PlayersUnits => new List<ulong> { _unitId };
 
 		[Fact]
 		void IsStateIsNullBefore() {
@@ -36,12 +39,12 @@ namespace UnitTests {
 
 		[Fact]
 		void CantStartWithoutUnits() {
-			IsInvalid(new StartLevelCommand(LevelDesc, new List<string>()));
+			IsInvalid(new StartLevelCommand(LevelDesc, new List<ulong>()));
 		}
 		
 		[Fact]
 		void CantStartWithUnknownUnits() {
-			IsInvalid(new StartLevelCommand(LevelDesc, new List<string> { "other_unit" }));
+			IsInvalid(new StartLevelCommand(LevelDesc, new List<ulong> { InvalidId }));
 		}
 
 		[Fact]
@@ -56,14 +59,14 @@ namespace UnitTests {
 		void IsLevelContainsPlayerUnits() {
 			Execute(new StartLevelCommand(LevelDesc, PlayersUnits));
 
-			Assert.Contains(_state.Level.PlayerUnits, u => u.Id == "unit_id");
+			Assert.Contains(_state.Level.PlayerUnits, u => u.Id == _unitId);
 		}
 
 		[Fact]
 		void IsPlayerUnitsRemoved() {
 			Execute(new StartLevelCommand(LevelDesc, PlayersUnits));
 			
-			Assert.False(_state.Units.ContainsKey("unit_id"));
+			Assert.False(_state.Units.ContainsKey(_unitId));
 		}
 		
 		[Fact]
@@ -80,7 +83,7 @@ namespace UnitTests {
 			var units = _state.Level.EnemyUnits;
 			Assert.NotEmpty(units);
 			for ( var i = 0; i < units.Count; i++ ) {
-				Assert.Equal(i.ToString(), units[i].Id);
+				Assert.Equal((ulong)i, units[i].Id);
 			}
 		}
 	}

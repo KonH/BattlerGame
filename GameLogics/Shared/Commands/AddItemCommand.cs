@@ -3,16 +3,16 @@ using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
 	public class AddItemCommand : InternalCommand {
-		public readonly string Id;
+		public readonly ulong  Id;
 		public readonly string Descriptor;
 
-		public AddItemCommand(string id, string descriptor) {
+		public AddItemCommand(ulong id, string descriptor) {
 			Id         = id;
 			Descriptor = descriptor;
 		}
 
 		public override bool IsValid(GameState state, Config config) {
-			if ( string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(Descriptor) ) {
+			if ( string.IsNullOrEmpty(Descriptor) ) {
 				return false;
 			}
 			if ( state.Items.ContainsKey(Id) ) {

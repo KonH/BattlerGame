@@ -5,15 +5,21 @@ namespace GameLogics.Shared.Models {
 	public sealed class GameState {
 		public string Version { get; set; } = string.Empty;
 		
-		public Dictionary<Resource, int>     Resources { get; } = new Dictionary<Resource, int>();
-		public Dictionary<string, ItemState> Items     { get; } = new Dictionary<string, ItemState>();
-		public Dictionary<string, UnitState> Units     { get; } = new Dictionary<string, UnitState>();
+		public ulong                        EntityId  { get; private set; }
+		public Dictionary<Resource, int>    Resources { get; } = new Dictionary<Resource, int>();
+		public Dictionary<ulong, ItemState> Items     { get; } = new Dictionary<ulong, ItemState>();
+		public Dictionary<ulong, UnitState> Units     { get; } = new Dictionary<ulong, UnitState>();
 		
 		public LevelState Level { get; set; } = null;
 
 		public GameState UpdateVersion() {
 			Version = UniqueId.New();
 			return this;
+		}
+
+		public ulong NewEntityId() {
+			EntityId++;
+			return EntityId;
 		}
 
 		public GameState AddItem(ItemState item) {

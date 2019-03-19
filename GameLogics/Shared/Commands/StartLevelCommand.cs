@@ -5,10 +5,10 @@ using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
 	public class StartLevelCommand : BaseCommand {
-		public readonly string       LevelDesc;
-		public readonly List<string> PlayerUnits;
+		public readonly string      LevelDesc;
+		public readonly List<ulong> PlayerUnits;
 
-		public StartLevelCommand(string levelDesc, List<string> playerUnits) {
+		public StartLevelCommand(string levelDesc, List<ulong> playerUnits) {
 			LevelDesc   = levelDesc;
 			PlayerUnits = playerUnits;
 		}
@@ -53,7 +53,7 @@ namespace GameLogics.Shared.Commands {
 			var enemyUnits  = new List<UnitState>();
 			for ( var i = 0; i < levelConfig.EnemyDescriptors.Count; i++ ) {
 				var enemyDesc = levelConfig.EnemyDescriptors[i];
-				enemyUnits.Add(new UnitState(enemyDesc, 1).WithId(i.ToString()));
+				enemyUnits.Add(new UnitState(enemyDesc, 1).WithId((ulong)i));
 			}
 			return enemyUnits;
 		}

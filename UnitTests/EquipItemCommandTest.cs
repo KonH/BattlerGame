@@ -5,62 +5,61 @@ using Xunit;
 
 namespace UnitTests {	
 	public class EquipItemCommandTest : BaseCommandTest<EquipItemCommand> {
+		ulong _unitId;
+		ulong _itemId;
+		
 		public EquipItemCommandTest() {
 			_config.AddUnit("unit_desc", new UnitConfig(1));
 			_config.AddItem("item_desc", new ItemConfig { Type = ItemType.Weapon });
-			_state.AddUnit(new UnitState("unit_desc", 1).WithId("unit_id"));
-			_state.AddItem(new ItemState("item_desc").WithId("item_id"));
-		}
-		
-		[Fact]
-		void CantEquipWithInvalidParams() {
-			IsInvalid(new EquipItemCommand(null, "unit_id"));
-			IsInvalid(new EquipItemCommand("item_id", null));
-			IsInvalid(new EquipItemCommand(null, null));
+			_unitId = NewId();
+			_itemId = NewId();
+			_state.AddUnit(new UnitState("unit_desc", 1).WithId(_unitId));
+			_state.AddItem(new ItemState("item_desc").WithId(_itemId));
 		}
 
 		[Fact]
 		void CantEquipUnknownItem() {
-			IsInvalid(new EquipItemCommand("unknown_id", "unit_id"));
+			IsInvalid(new EquipItemCommand(InvalidId, _unitId));
 		}
 
 		[Fact]
 		void CantEquipToUnknownUnit() {
-			IsInvalid(new EquipItemCommand("item_id", "unknown_id"));
+			IsInvalid(new EquipItemCommand(_itemId, InvalidId));
 		}
 		
 		[Fact]
 		void CantEquipItemWithoutDescription() {
-			_state.Items["item_id"].Descriptor = "invalid";
-			IsInvalid(new EquipItemCommand("item_id", "unit_id"));
+			_state.Items[_itemId].Descriptor = "invalid";
+			IsInvalid(new EquipItemCommand(_itemId, _unitId));
 		}
 
 		[Fact]
 		void CantEquipToUnitWithoutDescription() {
-			_state.Units["unit_id"].Descriptor = "invalid";
-			IsInvalid(new EquipItemCommand("item_id", "unit_id"));
+			_state.Units[_unitId].Descriptor = "invalid";
+			IsInvalid(new EquipItemCommand(_itemId, _unitId));
 		}
 
 		[Fact]
 		void CantEquipItemWithSameType() {
-			Execute(new EquipItemCommand("item_id", "unit_id"));
+			Execute(new EquipItemCommand(_itemId, _unitId));
 
-			_state.AddItem(new ItemState("item_desc").WithId("another_item_id"));
-			IsInvalid(new EquipItemCommand("another_item_id", "unit_id"));
+			var id = NewId();
+			_state.AddItem(new ItemState("item_desc").WithId(id));
+			IsInvalid(new EquipItemCommand(id, _unitId));
 		}
 		
 		[Fact]
 		void ItemWasEquiped() {
-			Execute(new EquipItemCommand("item_id", "unit_id"));
+			Execute(new EquipItemCommand(_itemId, _unitId));
 			
-			Assert.Contains(_state.Units["unit_id"].Items, it => (it.Id == "item_id"));
+			Assert.Contains(_state.Units[_unitId].Items, it => (it.Id == _itemId));
 		}
 		
 		[Fact]
 		void ItemWasRemovedFromInventory() {
-			Execute(new EquipItemCommand("item_id", "unit_id"));
+			Execute(new EquipItemCommand(_itemId, _unitId));
 			
-			Assert.False(_state.Items.ContainsKey("item_id"));
+			Assert.False(_state.Items.ContainsKey(_itemId));
 		}
 	}
 }

@@ -4,10 +4,10 @@ using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
 	public class AttackCommand : BaseCommand {
-		public readonly string DealerId;
-		public readonly string TargetId;
+		public readonly ulong DealerId;
+		public readonly ulong TargetId;
 
-		public AttackCommand(string dealerId, string targetId) {
+		public AttackCommand(ulong dealerId, ulong targetId) {
 			DealerId = dealerId;
 			TargetId = targetId;
 		}

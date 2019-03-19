@@ -4,18 +4,15 @@ using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
 	public class EquipItemCommand : BaseCommand {
-		public readonly string ItemId;
-		public readonly string UnitId;
+		public readonly ulong ItemId;
+		public readonly ulong UnitId;
 
-		public EquipItemCommand(string itemId, string unitId) {
+		public EquipItemCommand(ulong itemId, ulong unitId) {
 			ItemId = itemId;
 			UnitId = unitId;
 		}
 		
 		public override bool IsValid(GameState state, Config config) {
-			if ( string.IsNullOrEmpty(ItemId) || string.IsNullOrEmpty(UnitId) ) {
-				return false;
-			}
 			var item = FindItem(state);
 			if ( item == null ) {
 				return false;

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Models {
 	public class UnitState {
-		public string Id         { get; set; }
+		public ulong  Id         { get; set; }
 		public string Descriptor { get; set; }
 		public int    Health     { get; set; }
 		
@@ -14,11 +13,9 @@ namespace GameLogics.Shared.Models {
 			Health     = health;
 		}
 
-		public UnitState WithId(string id) {
+		public UnitState WithId(ulong id) {
 			Id = id;
 			return this;
 		}
-
-		public UnitState WithNewId() => WithId(UniqueId.New());
 	}
 }

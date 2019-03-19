@@ -10,6 +10,12 @@ namespace UnitTests {
 		protected GameState _state  = new GameState();
 		protected Config    _config = new Config();
 
+		protected ulong InvalidId => ulong.MaxValue;
+		
+		protected ulong NewId() {
+			return _state.NewEntityId();
+		}
+		
 		protected void IsValid(TCommand cmd) {
 			Assert.True(cmd.IsValid(_state, _config));
 		}

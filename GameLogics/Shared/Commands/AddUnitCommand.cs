@@ -3,18 +3,18 @@ using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
 	public class AddUnitCommand : InternalCommand {
-		public readonly string Id;
+		public readonly ulong  Id;
 		public readonly string Descriptor;
 		public readonly int    Health;
 
-		public AddUnitCommand(string id, string descriptor, int health) {
+		public AddUnitCommand(ulong id, string descriptor, int health) {
 			Id         = id;
 			Descriptor = descriptor;
 			Health     = health;
 		}
 
 		public override bool IsValid(GameState state, Config config) {
-			if ( string.IsNullOrEmpty(Id) || string.IsNullOrEmpty(Descriptor) ) {
+			if ( string.IsNullOrEmpty(Descriptor) ) {
 				return false;
 			}
 			if ( Health < 0 ) {
