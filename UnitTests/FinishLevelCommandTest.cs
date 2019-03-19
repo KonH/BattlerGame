@@ -10,7 +10,16 @@ namespace UnitTests {
 			_config
 				.AddUnit("unit_desc",  new UnitConfig(1))
 				.AddUnit("enemy_desc", new UnitConfig(1))
-				.AddLevel("level_desc", new LevelConfig { EnemyDescriptors = { "enemy_desc" } });
+				.AddLevel("level_desc", new LevelConfig {
+					EnemyDescriptors = {
+						"enemy_desc",
+					},
+					Reward = {
+						Resources = { { Resource.Coins, 1 } },
+						Items     = { "reward_item" },
+						Units     = { "reward_unit" },
+					}
+				});
 			_state.Level = new LevelState(
 				"level_desc", new List<UnitState> { new UnitState("unit_desc", 1).WithId("unit_id") }, new List<UnitState>()
 			);
@@ -40,6 +49,25 @@ namespace UnitTests {
 		[Fact]
 		void CantBeCalledDirectly() {
 			IsInvalidOnServer(new FinishLevelCommand(true));
+		}
+
+		[Fact]
+		void IsRewardsGainedIfLevelWon() {
+			ProducesAll(
+				new FinishLevelCommand(true),
+				ic => {
+					switch ( ic ) {
+						case AddResourceCommand c: return (c.Kind == Resource.Coins) && (c.Count == 1);
+						case AddItemCommand c:     return (c.Descriptor == "reward_item");
+						case AddUnitCommand c:     return (c.Descriptor == "reward_unit");
+						default:                   return false;
+					}
+				});
+		}
+		
+		[Fact]
+		void IsRewardsNotGainedIfLevelFailed() {
+			ProducesNone(new FinishLevelCommand(false));
 		}
 	}
 }

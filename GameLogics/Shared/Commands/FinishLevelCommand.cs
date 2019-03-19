@@ -1,6 +1,7 @@
+using System;
+using System.Collections.Generic;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
-using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
 	public class FinishLevelCommand : InternalCommand {
@@ -17,14 +18,28 @@ namespace GameLogics.Shared.Commands {
 			return true;
 		}
 
-		protected override void ExecuteSingle(GameState state, Config config) {
+		public override List<ICommand> Execute(GameState state, Config config) {
 			foreach ( var unit in state.Level.PlayerUnits ) {
 				state.AddUnit(unit);
 			}
+			var reward = config.Levels[state.Level.Descriptor].Reward;
 			state.Level = null;
 
-			// temp
-			state.Resources[Resource.Coins] = state.Resources.GetOrDefault(Resource.Coins) + 100;
+			if ( !Win ) {
+				return NoSubCommands;
+			}
+			
+			var result = new List<ICommand>();
+			foreach ( var pair in reward.Resources) {
+				result.Add(new AddResourceCommand(pair.Key, pair.Value));
+			}
+			foreach ( var itemDesc in reward.Items ) {
+				result.Add(new AddItemCommand("?", itemDesc));
+			}
+			foreach ( var unitDesc in reward.Units ) {
+				result.Add(new AddUnitCommand("?", unitDesc, 1));
+			}
+			return result;
 		}
 
 		public override string ToString() {
