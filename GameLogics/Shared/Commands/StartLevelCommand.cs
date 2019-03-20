@@ -40,6 +40,7 @@ namespace GameLogics.Shared.Commands {
 			var enemyUnits = CreateEnemyUnits(state, config);
 			
 			state.Level = new LevelState(LevelDesc, playerUnits, enemyUnits);
+			state.Level.PlayerTurn = true;
 			
 			foreach ( var unitId in PlayerUnits ) {
 				state.Units.Remove(unitId);

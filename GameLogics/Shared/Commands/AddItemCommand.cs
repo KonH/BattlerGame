@@ -26,7 +26,7 @@ namespace GameLogics.Shared.Commands {
 		}
 
 		public override string ToString() {
-			return $"{nameof(AddItemCommand)} ('{Id}', '{Descriptor}')";
+			return $"{nameof(AddItemCommand)} ({Id}, '{Descriptor}')";
 		}
 	}
 }

@@ -49,7 +49,7 @@ namespace GameLogics.Shared.Commands {
 		ItemState FindItem(GameState state) => state.Items.GetOrDefault(ItemId);
 
 		public override string ToString() {
-			return $"{nameof(EquipItemCommand)} ('{ItemId}', '{UnitId}')";
+			return $"{nameof(EquipItemCommand)} ({ItemId}, {UnitId})";
 		}
 	}
 }

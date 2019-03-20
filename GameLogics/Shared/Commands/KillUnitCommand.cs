@@ -54,7 +54,7 @@ namespace GameLogics.Shared.Commands {
 		}
 
 		public override string ToString() {
-			return $"{nameof(KillUnitCommand)} ('{UnitId}')";
+			return $"{nameof(KillUnitCommand)} ({UnitId})";
 		}
 	}
 }

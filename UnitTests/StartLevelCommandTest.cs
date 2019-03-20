@@ -95,5 +95,12 @@ namespace UnitTests {
 				Assert.Equal(startId + 1 + (ulong)i, units[i].Id);
 			}
 		}
+
+		[Fact]
+		void IsLevelStartedWithPlayerTurn() {
+			Execute(new StartLevelCommand(LevelDesc, PlayersUnits));
+			
+			Assert.True(_state.Level.PlayerTurn);
+		}
 	}
 }

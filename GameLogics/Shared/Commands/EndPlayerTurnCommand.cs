@@ -1,0 +1,22 @@
+using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.Configs;
+
+namespace GameLogics.Shared.Commands {
+	public class EndPlayerTurnCommand : BaseCommand {
+		public override bool IsValid(GameState state, Config config) {
+			if ( state.Level == null ) {
+				return false;
+			}
+			return state.Level.PlayerTurn;
+		}
+
+		protected override void ExecuteSingle(GameState state, Config config) {
+			state.Level.PlayerTurn = false;
+			state.Level.MovedUnits.Clear();
+		}
+
+		public override string ToString() {
+			return $"{nameof(EndPlayerTurnCommand)}";
+		}
+	}
+}

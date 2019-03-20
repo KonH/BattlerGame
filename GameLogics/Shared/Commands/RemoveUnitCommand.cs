@@ -20,7 +20,7 @@ namespace GameLogics.Shared.Commands {
 		}
 		
 		public override string ToString() {
-			return $"{nameof(RemoveUnitCommand)} ('{Id}')";
+			return $"{nameof(RemoveUnitCommand)} ({Id})";
 		}
 	}
 }

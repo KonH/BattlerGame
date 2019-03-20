@@ -32,6 +32,7 @@ namespace UnityClient.Installers {
 			Container.Bind<GameSceneManager>().AsSingle();
 			Container.Bind<IErrorHandleStrategy>().To<ReloadErrorHandleStrategy>().AsSingle();
 			Container.Bind(typeof(StartupManager), typeof(ITickable)).To<StartupManager>().AsSingle().NonLazy();
+			Container.Bind<CommandRunner>().ToSelf().AsSingle();
 		}
 
 		void BindApiService() {

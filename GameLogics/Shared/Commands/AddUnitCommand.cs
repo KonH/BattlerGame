@@ -31,7 +31,7 @@ namespace GameLogics.Shared.Commands {
 		}
 		
 		public override string ToString() {
-			return $"{nameof(AddUnitCommand)} ('{Id}', '{Descriptor}', {Health})";
+			return $"{nameof(AddUnitCommand)} ({Id}, '{Descriptor}', {Health})";
 		}
 	}
 }

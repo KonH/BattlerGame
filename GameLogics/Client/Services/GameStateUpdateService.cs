@@ -21,6 +21,10 @@ namespace GameLogics.Client.Services {
 			_state = state;
 		}
 
+		public bool IsValid(ICommand command) {
+			return command.IsValid(_state.State, _state.Config);
+		}
+		
 		public async Task Update(params ICommand[] commands) {
 			var state = _state.State;
 			var response = await _api.Post(new IntentRequest(_state.User.Login, state.Version, commands));

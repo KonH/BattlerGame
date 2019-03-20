@@ -16,20 +16,29 @@ namespace GameLogics.Shared.Commands {
 			if ( state.Level == null ) {
 				return false;
 			}
-			var dealer = state.Level.FindUnitById(DealerId);
+			var level = state.Level;
+			if ( level.MovedUnits.Contains(DealerId) ) {
+				return false;
+			}
+			var dealer = level.FindUnitById(DealerId);
 			if ( dealer == null ) {
+				return false;
+			}
+			var isPlayerUnit = level.PlayerUnits.Contains(dealer);
+			if ( isPlayerUnit && !level.PlayerTurn ) {
 				return false;
 			}
 			if ( !config.Units.ContainsKey(dealer.Descriptor) ) {
 				return false;
 			}
-			if ( state.Level.FindUnitById(TargetId) == null ) {
+			if ( level.FindUnitById(TargetId) == null ) {
 				return false;
 			}
 			return true;
 		}
 
 		public override List<ICommand> Execute(GameState state, Config config) {
+			state.Level.MovedUnits.Add(DealerId);
 			var dealer = state.Level.FindUnitById(DealerId);
 			var damage = config.Units[dealer.Descriptor].BaseDamage;
 			var target = state.Level.FindUnitById(TargetId);
@@ -41,7 +50,7 @@ namespace GameLogics.Shared.Commands {
 		}
 
 		public override string ToString() {
-			return $"{nameof(AttackCommand)} ('{DealerId}', '{TargetId}')";
+			return $"{nameof(AttackCommand)} ({DealerId}, {TargetId})";
 		}
 	}
 }

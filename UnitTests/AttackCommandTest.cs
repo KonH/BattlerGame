@@ -18,6 +18,7 @@ namespace UnitTests {
 				new List<UnitState> { new UnitState("player_unit", 2).WithId(_playerId) },
 				new List<UnitState> { new UnitState("enemy_unit", 2).WithId(_enemyId) }
 			);
+			_state.Level.PlayerTurn = true;
 		}
 		
 		[Fact]
@@ -57,6 +58,27 @@ namespace UnitTests {
 			_state.Level.EnemyUnits[0].Health = 1;
 			
 			Produces<KillUnitCommand>(new AttackCommand(_playerId, _enemyId));
+		}
+
+		[Fact]
+		void CantAttackIfOtherSideTurn() {
+			_state.Level.PlayerTurn = false;
+			
+			IsInvalid(new AttackCommand(_playerId, _enemyId));
+		}
+
+		[Fact]
+		void IsUnitAddedToMovedUnits() {
+			Execute(new AttackCommand(_playerId, _enemyId));
+
+			Assert.Contains(_state.Level.MovedUnits, id => (id == _playerId));
+		}
+		
+		[Fact]
+		void CantAttackAlreadyMovedUnit() {
+			_state.Level.MovedUnits.Add(_playerId);
+			
+			IsInvalid(new AttackCommand(_playerId, _enemyId));
 		}
 	}
 }

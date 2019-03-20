@@ -9,23 +9,32 @@ namespace UnityClient.Controls {
 	public class StartLevelControl : MonoBehaviour {
 		public string LevelDesc;
 
-		MainThreadRunner       _runner;
-		GameStateUpdateService _service;
-		GameSceneManager       _scene;
+		CommandRunner    _runner;
+		GameSceneManager _scene;
 		
 		[Inject]
-		public void Init(MainThreadRunner runner, GameStateUpdateService service, GameSceneManager scene) {
-			_runner  = runner;
-			_service = service;
-			_scene   = scene;
+		public void Init(CommandRunner runner, GameSceneManager scene) {
+			_runner = runner;
+			_scene  = scene;
+
+			_runner.Updater.OnCommandApplied += OnCommand;
+		}
+
+		void OnDestroy() {
+			if ( _runner != null ) {
+				_runner.Updater.OnCommandApplied -= OnCommand;
+			}
+		}
+
+		void OnCommand(ICommand command) {
+			if ( command is StartLevelCommand ) {
+				_scene.GoToLevel();
+			}
 		}
 
 		public void Execute() {
-			var playerUnits = new List<ulong>(_service.State.Units.Keys);
-			_runner.Run(async () => {
-				await _service.Update(new StartLevelCommand(LevelDesc, playerUnits));
-				_scene.GoToLevel();
-			});
+			var playerUnits = new List<ulong>(_runner.Updater.State.Units.Keys);
+			_runner.TryAddCommand(new StartLevelCommand(LevelDesc, playerUnits));
 		}
 	}
 }

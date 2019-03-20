@@ -33,7 +33,7 @@ namespace GameLogics.Shared.Commands {
 		ItemState FindItem(UnitState state) => state.Items.Find(it => it.Id == ItemId);
 
 		public override string ToString() {
-			return $"{nameof(TakeOffItemCommand)} ('{ItemId}', '{UnitId}')";
+			return $"{nameof(TakeOffItemCommand)} ({ItemId}, {UnitId})";
 		}
 	}
 }
