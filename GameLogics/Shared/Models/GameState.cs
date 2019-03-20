@@ -5,7 +5,7 @@ namespace GameLogics.Shared.Models {
 	public sealed class GameState {
 		public string Version { get; set; } = string.Empty;
 		
-		public ulong                        EntityId  { get; private set; }
+		public ulong                        EntityId  { get; set; }
 		public Dictionary<Resource, int>    Resources { get; } = new Dictionary<Resource, int>();
 		public Dictionary<ulong, ItemState> Items     { get; } = new Dictionary<ulong, ItemState>();
 		public Dictionary<ulong, UnitState> Units     { get; } = new Dictionary<ulong, UnitState>();

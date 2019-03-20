@@ -8,8 +8,8 @@ using GameLogics.Shared.Services;
 
 namespace GameLogics.Client.Services {
 	public class GameStateUpdateService {
-		public event Action<GameState> OnStateUpdated = delegate {};
-		public event Action<ICommand> OnCommandApplied = delegate(ICommand cmd) {};
+		public event Action<GameState> OnStateUpdated   = delegate {};
+		public event Action<ICommand>  OnCommandApplied = delegate(ICommand cmd) {};
 		
 		public GameState State => _state.State;
 		

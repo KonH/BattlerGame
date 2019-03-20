@@ -17,15 +17,27 @@ namespace GameLogics.Shared.Commands {
 			if ( string.IsNullOrEmpty(LevelDesc) ) {
 				return false;
 			}
+			if ( !config.Levels.ContainsKey(LevelDesc) ) {
+				return false;
+			}
 			if ( (PlayerUnits == null) || (PlayerUnits.Count == 0) ) {
 				return false;
 			}
-			return config.Levels.ContainsKey(LevelDesc) && (FindPlayerUnits(state) != null);
+			var playerUnits = FindPlayerUnits(state);
+			if ( playerUnits == null ) {
+				return false;
+			}
+			foreach ( var unit in playerUnits ) {
+				if ( unit.Health <= 0 ) {
+					return false;
+				}
+			}
+			return true;
 		}
 
 		protected override void ExecuteSingle(GameState state, Config config) {
 			var playerUnits = FindPlayerUnits(state);
-			var enemyUnits = GetEnemyUnits(config);
+			var enemyUnits = CreateEnemyUnits(state, config);
 			
 			state.Level = new LevelState(LevelDesc, playerUnits, enemyUnits);
 			
@@ -48,12 +60,12 @@ namespace GameLogics.Shared.Commands {
 			return playerUnits;
 		}
 
-		List<UnitState> GetEnemyUnits(Config config) {
+		List<UnitState> CreateEnemyUnits(GameState state, Config config) {
 			var levelConfig = FindLevelConfig(config);
 			var enemyUnits  = new List<UnitState>();
 			for ( var i = 0; i < levelConfig.EnemyDescriptors.Count; i++ ) {
 				var enemyDesc = levelConfig.EnemyDescriptors[i];
-				enemyUnits.Add(new UnitState(enemyDesc, 1).WithId((ulong)i));
+				enemyUnits.Add(new UnitState(enemyDesc, 1).WithId(state.NewEntityId()));
 			}
 			return enemyUnits;
 		}

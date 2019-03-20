@@ -12,7 +12,13 @@ namespace UnityClient.Managers {
 		}
 
 		public void Run(Func<Task> task) {
-			Task.Factory.StartNew(task, CancellationToken.None, TaskCreationOptions.None, _scheduler);
+			Task.Factory.StartNew(async () => {
+				try {
+					await task();
+				} catch ( Exception e ) {
+					Debug.LogErrorFormat("MainThreadRunner.Run: {0}", e);
+				}
+			}, CancellationToken.None, TaskCreationOptions.None, _scheduler);
 		}
 	}
 

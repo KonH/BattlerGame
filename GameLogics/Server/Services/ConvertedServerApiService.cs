@@ -23,8 +23,8 @@ namespace GameLogics.Server.Services {
 
 		protected override Task<ApiResponse<TResponse>> Post<TRequest, TResponse>(TRequest req, Func<TRequest, ApiResponse<TResponse>> handler) {
 			try {
-				var task = base.Post(DoubleConvert(req), handler);
-				var resp = DoubleConvert(task.Result);
+				var task = base.Post(_convert.DoubleConvert(req), handler);
+				var resp = _convert.DoubleConvert(task.Result);
 				if ( !resp.Success ) {
 					_errorHandle.OnError(resp.Error);
 				}
@@ -33,12 +33,6 @@ namespace GameLogics.Server.Services {
 				_logger.Error(this, $"Post: {e}");
 				return Task.FromResult(new ServerError(e.ToString()).AsError<TResponse>());
 			}
-		}
-
-		T DoubleConvert<T>(T obj) {
-			var json = _convert.ToJson(obj);
-			var newObj = _convert.FromJson<T>(json);
-			return newObj;
 		}
 	}
 }

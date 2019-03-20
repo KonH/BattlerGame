@@ -46,6 +46,13 @@ namespace UnitTests {
 		void CantStartWithUnknownUnits() {
 			IsInvalid(new StartLevelCommand(LevelDesc, new List<ulong> { InvalidId }));
 		}
+		
+		[Fact]
+		void CantStartWithDeadUnits() {
+			_state.Units[_unitId].Health = 0;
+			
+			IsInvalid(new StartLevelCommand(LevelDesc, new List<ulong> { _unitId }));
+		}
 
 		[Fact]
 		void IsLevelStarted() {
@@ -77,13 +84,15 @@ namespace UnitTests {
 		}
 		
 		[Fact]
-		void IsEnemyUnitsHasFakeIds() {
+		void IsEnemyUnitsHasRealIds() {
+			var startId = _state.EntityId;
+			
 			Execute(new StartLevelCommand(LevelDesc, PlayersUnits));
 			
 			var units = _state.Level.EnemyUnits;
 			Assert.NotEmpty(units);
 			for ( var i = 0; i < units.Count; i++ ) {
-				Assert.Equal((ulong)i, units[i].Id);
+				Assert.Equal(startId + 1 + (ulong)i, units[i].Id);
 			}
 		}
 	}

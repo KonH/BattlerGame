@@ -14,5 +14,11 @@ namespace GameLogics.Shared.Services {
 		public T FromJson<T>(string json) {
 			return JsonConvert.DeserializeObject<T>(json, _settings);
 		}
+		
+		public T DoubleConvert<T>(T obj) {
+			var json   = ToJson(obj);
+			var newObj = FromJson<T>(json);
+			return newObj;
+		}
 	}
 }
