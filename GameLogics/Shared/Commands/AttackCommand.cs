@@ -40,13 +40,18 @@ namespace GameLogics.Shared.Commands {
 		public override List<ICommand> Execute(GameState state, Config config) {
 			state.Level.MovedUnits.Add(DealerId);
 			var dealer = state.Level.FindUnitById(DealerId);
-			var damage = config.Units[dealer.Descriptor].BaseDamage;
+			var damage = GetDamage(state, config);
 			var target = state.Level.FindUnitById(TargetId);
 			target.Health -= damage;
 			if ( target.Health <= 0 ) {
 				return WithSubCommand(new KillUnitCommand(target.Id));
 			}
 			return NoSubCommands;
+		}
+
+		public int GetDamage(GameState state, Config config) {
+			var dealer = state.Level.FindUnitById(DealerId);
+			return config.Units[dealer.Descriptor].BaseDamage;
 		}
 
 		public override string ToString() {

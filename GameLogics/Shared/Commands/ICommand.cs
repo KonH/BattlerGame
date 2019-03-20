@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
-using JetBrains.Annotations;
 
 namespace GameLogics.Shared.Commands {
 	/// <summary>
@@ -9,8 +8,8 @@ namespace GameLogics.Shared.Commands {
 	/// </summary>
 	public interface ICommand {
 		bool IsValid(GameState state, Config config);
-		[Pure]
 		List<ICommand> Execute(GameState state, Config config);
 		bool TryExecute(GameState state, Config config);
+		List<ICommand> GetAllSubCommands(GameState state, Config config);
 	}
 }

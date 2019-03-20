@@ -19,6 +19,9 @@ namespace UnityClient.Controls {
 			_runner   = runner;
 			_scene    = scene;
 			_register = register;
+
+			Login.text    = "test";
+			Password.text = "test";
 		}
 		
 		public void Register() {

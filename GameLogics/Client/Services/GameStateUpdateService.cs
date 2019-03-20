@@ -12,13 +12,15 @@ namespace GameLogics.Client.Services {
 		public event Action<ICommand>  OnCommandApplied = delegate(ICommand cmd) {};
 		
 		public GameState State => _state.State;
-		
+
+		readonly ICustomLogger      _logger;
 		readonly IApiService        _api;
 		readonly ClientStateService _state;
 
-		public GameStateUpdateService(IApiService api, ClientStateService state) {
-			_api   = api;
-			_state = state;
+		public GameStateUpdateService(ICustomLogger logger, IApiService api, ClientStateService state) {
+			_logger = logger;
+			_api    = api;
+			_state  = state;
 		}
 
 		public bool IsValid(ICommand command) {
@@ -40,6 +42,7 @@ namespace GameLogics.Client.Services {
 		void CallCommandTree(ICollection<ICommand> commands) {
 			foreach ( var cmd in commands ) {
 				var subCommands = cmd.Execute(_state.State, _state.Config);
+				_logger.DebugFormat(this, "OnCommandApplied: {0}", cmd);
 				OnCommandApplied(cmd);
 				CallCommandTree(subCommands);
 			}

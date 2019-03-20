@@ -8,7 +8,7 @@ namespace GameLogics.Server.Services {
 	public class StateInitService {
 		readonly List<Func<GameState, ICommand>> _initCommands = new List<Func<GameState, ICommand>> {
 			_ => new AddResourceCommand(Resource.Coins, 50),
-			s => new AddUnitCommand(s.NewEntityId(), "player_unit", 1)
+			s => new AddUnitCommand(s.NewEntityId(), "player_unit", 5)
 		};
 		
 		public GameState Init(GameState state, Config config) {

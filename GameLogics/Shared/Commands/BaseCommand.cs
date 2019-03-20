@@ -27,6 +27,16 @@ namespace GameLogics.Shared.Commands {
 			}
 			return false;
 		}
+		
+		public List<ICommand> GetAllSubCommands(GameState state, Config config) {
+			var result = new List<ICommand>();
+			var subCommands = Execute(state, config);
+			foreach ( var subCommand in subCommands ) {
+				result.Add(subCommand);
+				result.AddRange(subCommand.GetAllSubCommands(state, config));
+			}
+			return result;
+		}
 
 		protected List<ICommand> WithSubCommand(ICommand cmd) {
 			return new List<ICommand> { cmd };

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 using GameLogics.Server.Services;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Models;
@@ -43,6 +45,18 @@ namespace UnitTests {
 				cmd.Execute(_state, _config),
 				c => predicate(c)
 			);
+		}
+
+		protected List<ICommand> GetAllSubCommands(TCommand cmd) {
+			return cmd.GetAllSubCommands(_state, _config);
+		}
+
+		protected void ProducesInSubCommands<TOtherCommand>(TCommand cmd, Func<TOtherCommand, bool> predicate = null) where TOtherCommand : ICommand {
+			IsValid(cmd);
+			var produces = GetAllSubCommands(cmd);
+			Assert.Contains(
+				produces,
+				c => (c is TOtherCommand oc) && ((predicate == null) || predicate(oc)));
 		}
 		
 		protected void ProducesNone(TCommand cmd) {

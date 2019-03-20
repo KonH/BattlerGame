@@ -66,7 +66,7 @@ namespace ConsoleClient {
 		
 		static async Task AddResourceCase() {
 			Console.WriteLine($"AddResourceCase: starting Coins: {GetCoinsCount()}");
-			var updater = new GameStateUpdateService(_api, _state);
+			var updater = new GameStateUpdateService(_logger, _api, _state);
 			updater.OnStateUpdated += _ => Console.WriteLine("AddResourceCase: state updated"); 
 			await updater.Update(new AddResourceCommand(Resource.Coins, 1));
 			Console.WriteLine("AddResourceCase: result commands:");
