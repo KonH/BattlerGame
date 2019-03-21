@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 
@@ -11,14 +10,14 @@ namespace GameLogics.Shared.Commands {
 			Win = win;
 		}
 		
-		public override bool IsValid(GameState state, Config config) {
+		protected override bool IsValid(GameState state, Config config) {
 			if ( state.Level == null ) {
 				return false;
 			}
 			return true;
 		}
 
-		public override List<ICommand> Execute(GameState state, Config config) {
+		protected override void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			foreach ( var unit in state.Level.PlayerUnits ) {
 				state.AddUnit(unit);
 			}
@@ -26,20 +25,18 @@ namespace GameLogics.Shared.Commands {
 			state.Level = null;
 
 			if ( !Win ) {
-				return NoSubCommands;
+				return;
 			}
 			
-			var result = new List<ICommand>();
-			foreach ( var pair in reward.Resources) {
-				result.Add(new AddResourceCommand(pair.Key, pair.Value));
+			foreach ( var pair in reward.Resources ) {
+				buffer.AddCommand(new AddResourceCommand(pair.Key, pair.Value));
 			}
 			foreach ( var itemDesc in reward.Items ) {
-				result.Add(new AddItemCommand(state.NewEntityId(), itemDesc));
+				buffer.AddCommand(new AddItemCommand(state.NewEntityId(), itemDesc));
 			}
 			foreach ( var unitDesc in reward.Units ) {
-				result.Add(new AddUnitCommand(state.NewEntityId(), unitDesc, 1));
+				buffer.AddCommand(new AddUnitCommand(state.NewEntityId(), unitDesc, 1));
 			}
-			return result;
 		}
 
 		public override string ToString() {

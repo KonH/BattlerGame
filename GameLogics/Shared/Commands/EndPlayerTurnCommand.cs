@@ -1,22 +1,22 @@
-using System.Collections.Generic;
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Shared.Commands {
 	public class EndPlayerTurnCommand : BaseCommand {
-		public override bool IsValid(GameState state, Config config) {
+		protected override bool IsValid(GameState state, Config config) {
 			if ( state.Level == null ) {
 				return false;
 			}
 			return state.Level.PlayerTurn;
 		}
 
-		public override List<ICommand> Execute(GameState state, Config config) {
+		protected override void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			state.Level.PlayerTurn = false;
 			state.Level.MovedUnits.Clear();
 
-			return LevelAiService.CreateCommands(state, config);
+			LevelAiService.AddCommands(state, config, buffer);
 		}
 
 		public override string ToString() {

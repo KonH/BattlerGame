@@ -1,5 +1,6 @@
 ﻿using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 using UnityClient.Models;

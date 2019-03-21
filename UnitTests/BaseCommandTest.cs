@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using GameLogics.Server.Services;
-using GameLogics.Shared.Commands;
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
-	public class BaseCommandTest<TCommand> where TCommand : class, ICommand {
+	public class BaseCommandTest<TCommand> where TCommand : class, ICompositeCommand {
 		protected GameState _state  = new GameState();
 		protected Config    _config = new Config();
 
@@ -19,57 +18,49 @@ namespace UnitTests {
 		}
 		
 		protected void IsValid(TCommand cmd) {
-			Assert.True(cmd.IsValid(_state, _config));
+			Assert.True(cmd.IsFirstCommandValid(_state, _config));
 		}
 		
 		protected void IsInvalid(TCommand cmd) {
-			Assert.False(cmd.IsValid(_state, _config));
+			Assert.False(cmd.IsFirstCommandValid(_state, _config));
 		}
 
-		protected void Execute(TCommand cmd) {
-			IsValid(cmd);
-			var _ = cmd.Execute(_state, _config);
+		protected List<ICommand> Execute(TCommand cmd) {
+			var result = new List<ICommand>();
+			foreach ( var c in cmd.AsEnumerable() ) {
+				Assert.True(c.IsCommandValid(_state, _config), $"Command {c} is invalid!");
+				c.ExecuteCommand(_state, _config);
+				result.Add(c);
+			}
+			return result;
 		}
 		
 		protected void Produces<TOtherCommand>(TCommand cmd, Func<TOtherCommand, bool> predicate = null) where TOtherCommand : ICommand {
-			IsValid(cmd);
+			var commands = Execute(cmd);
 			Assert.Contains(
-				cmd.Execute(_state, _config),
+				commands,
 				c => (c is TOtherCommand oc) && ( (predicate == null) || predicate(oc) )
 			);
 		}
 		
 		protected void ProducesAll(TCommand cmd, Func<ICommand, bool> predicate) {
-			IsValid(cmd);
+			var commands = Execute(cmd);
 			Assert.Contains(
-				cmd.Execute(_state, _config),
+				commands,
 				c => predicate(c)
 			);
 		}
-
-		protected List<ICommand> GetAllSubCommands(TCommand cmd) {
-			return cmd.GetAllSubCommands(_state, _config);
-		}
-
-		protected void ProducesInSubCommands<TOtherCommand>(TCommand cmd, Func<TOtherCommand, bool> predicate = null) where TOtherCommand : ICommand {
-			IsValid(cmd);
-			var produces = GetAllSubCommands(cmd);
-			Assert.Contains(
-				produces,
-				c => (c is TOtherCommand oc) && ((predicate == null) || predicate(oc)));
-		}
 		
 		protected void ProducesNone(TCommand cmd) {
-			IsValid(cmd);
-			Assert.Empty(cmd.Execute(_state, _config));
+			Assert.Single(Execute(cmd));
 		}
 
 		protected void IsValidOnServer(TCommand cmd) {
-			Assert.True(IntentService.TryExecuteClientCommand(_state, _config, cmd));
+			Assert.True(IntentService.IsValidAsFirstCommand(cmd));
 		}
 		
 		protected void IsInvalidOnServer(TCommand cmd) {
-			Assert.False(IntentService.TryExecuteClientCommand(_state, _config, cmd));
+			Assert.False(IntentService.IsValidAsFirstCommand(cmd));
 		}
 	}
 }

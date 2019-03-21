@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using GameLogics.Client.Services;
-using GameLogics.Shared.Commands;
-using UnityEngine;
+﻿using GameLogics.Client.Services;
+using GameLogics.Shared.Commands.Base;
 
 namespace UnityClient.Managers {
 	public class CommandRunner {
@@ -17,11 +14,11 @@ namespace UnityClient.Managers {
 			Updater = updateService;
 		}
 
-		public bool IsValid(ICommand command) {
+		public bool IsValid(ICompositeCommand command) {
 			return Updater.IsValid(command);
 		}
 
-		public bool TryAddCommand(ICommand command) {
+		public bool TryAddCommand(ICompositeCommand command) {
 			if ( _hasRunningCommand ) {
 				return false;
 			}

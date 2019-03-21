@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 
@@ -12,7 +13,7 @@ namespace GameLogics.Shared.Commands {
 			TargetId = targetId;
 		}
 		
-		public override bool IsValid(GameState state, Config config) {
+		protected override bool IsValid(GameState state, Config config) {
 			if ( state.Level == null ) {
 				return false;
 			}
@@ -37,16 +38,15 @@ namespace GameLogics.Shared.Commands {
 			return true;
 		}
 
-		public override List<ICommand> Execute(GameState state, Config config) {
+		protected override void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			state.Level.MovedUnits.Add(DealerId);
 			var dealer = state.Level.FindUnitById(DealerId);
 			var damage = GetDamage(state, config);
 			var target = state.Level.FindUnitById(TargetId);
 			target.Health -= damage;
 			if ( target.Health <= 0 ) {
-				return WithSubCommand(new KillUnitCommand(target.Id));
+				buffer.AddCommand(new KillUnitCommand(target.Id));
 			}
-			return NoSubCommands;
 		}
 
 		public int GetDamage(GameState state, Config config) {

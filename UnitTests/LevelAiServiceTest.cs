@@ -31,33 +31,33 @@ namespace UnitTests {
 		
 		[Fact]
 		void IsAiCommandsPresent() {
-			var commands = GetAllSubCommands(new EndPlayerTurnCommand());
+			var commands = Execute(new EndPlayerTurnCommand());
 			
 			Assert.NotEmpty(commands);
 		}
 
 		[Fact]
 		void IsAiAttackFirstPlayer() {
-			ProducesInSubCommands<AttackCommand>(new EndPlayerTurnCommand(), cmd => (cmd.DealerId == _enemyIds[0]) && (cmd.TargetId == _playerIds[0]));
+			Produces<AttackCommand>(new EndPlayerTurnCommand(), cmd => (cmd.DealerId == _enemyIds[0]) && (cmd.TargetId == _playerIds[0]));
 		}
 
 		[Fact]
 		void IsAiAttackSecondPlayer() {
 			_state.Level.PlayerUnits.RemoveAt(0);
 			
-			ProducesInSubCommands<AttackCommand>(new EndPlayerTurnCommand(), cmd => (cmd.DealerId == _enemyIds[0]) && (cmd.TargetId == _playerIds[1]));
+			Produces<AttackCommand>(new EndPlayerTurnCommand(), cmd => (cmd.DealerId == _enemyIds[0]) && (cmd.TargetId == _playerIds[1]));
 		}
 
 		[Fact]
 		void IsAiEndsTurn() {
-			ProducesInSubCommands<EndEnemyTurnCommand>(new EndPlayerTurnCommand());
+			Produces<EndEnemyTurnCommand>(new EndPlayerTurnCommand());
 		}
 		
 		[Fact]
 		void IsLevelWasFinished() {
 			_state.Level.PlayerUnits.RemoveAt(0);
 
-			ProducesInSubCommands<FinishLevelCommand>(new EndPlayerTurnCommand());
+			Produces<FinishLevelCommand>(new EndPlayerTurnCommand());
 		}
 	}
 }

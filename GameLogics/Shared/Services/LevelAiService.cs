@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using GameLogics.Shared.Commands;
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Services {
 	public static class LevelAiService {
-		public static List<ICommand> CreateCommands(GameState state, Config config) {
-			var result = new List<ICommand>();
+		public static void AddCommands(GameState state, Config config, ICommandBuffer buffer) {
 			var level = state.Level;
 			var damages = new Dictionary<ulong, int>();
 			foreach ( var enemy in level.EnemyUnits ) {
@@ -17,14 +17,13 @@ namespace GameLogics.Shared.Services {
 				}
 				var playerId = playerUnit.Id;
 				var attackCommand = new AttackCommand(enemyId, playerId);
-				result.Add(attackCommand);
+				buffer.AddCommand(attackCommand);
 				var damage = attackCommand.GetDamage(state, config);
 				damages[playerId] = damages.GetOrDefault(playerId) + damage;
 			}
 			if ( TrySelectPlayerToAttack(level.PlayerUnits, damages, out var _) ) { // Level not finished yet
-				result.Add(new EndEnemyTurnCommand());
+				buffer.AddCommand(new EndEnemyTurnCommand());
 			}
-			return result;
 		}
 
 		static bool TrySelectPlayerToAttack(List<UnitState> playerUnits, Dictionary<ulong, int> damages, out UnitState playerUnit) {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
@@ -9,6 +10,8 @@ namespace UnitTests {
 		ulong _enemyId;
 		
 		public KillUnitCommandTest() {
+			_config
+				.AddLevel("level_desc", new LevelConfig());
 			_playerId = NewId();
 			_enemyId = NewId();
 			_state.Level = new LevelState(
@@ -36,19 +39,11 @@ namespace UnitTests {
 		void CantKillUnknownUnit() {
 			IsInvalid(new KillUnitCommand(InvalidId));
 		}
-		
-		[Fact]
-		void IsEnemyUnitWasRemoved() {
-			Execute(new KillUnitCommand(_enemyId));
-
-			Assert.Empty(_state.Level.EnemyUnits);
-		}
 
 		[Fact]
 		void IsPlayerUnitWasReturned() {
 			Execute(new KillUnitCommand(_playerId));
 
-			Assert.Empty(_state.Level.PlayerUnits);
 			Assert.Contains(_state.Units.Values, u => u.Id == _playerId);
 		}
 		

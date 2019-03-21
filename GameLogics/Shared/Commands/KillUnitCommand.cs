@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 
@@ -10,7 +11,7 @@ namespace GameLogics.Shared.Commands {
 			UnitId = unitId;
 		}
 		
-		public override bool IsValid(GameState state, Config config) {
+		protected override bool IsValid(GameState state, Config config) {
 			if ( state.Level == null ) {
 				return false;
 			}
@@ -21,19 +22,18 @@ namespace GameLogics.Shared.Commands {
 			return true;
 		}
 
-		public override List<ICommand> Execute(GameState state, Config config) {
+		protected override void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			var level = state.Level;
 			if ( TryKill(level.PlayerUnits, out var player) ) {
 				state.Units.Add(UnitId, player);
 				if ( level.PlayerUnits.Count == 0 ) {
-					return WithSubCommand(new FinishLevelCommand(false));
+					buffer.AddCommand(new FinishLevelCommand(false));
 				}
 			}
 			TryKill(level.EnemyUnits, out _);
 			if ( level.EnemyUnits.Count == 0 ) {
-				return WithSubCommand(new FinishLevelCommand(true));
+				buffer.AddCommand(new FinishLevelCommand(true));
 			}
-			return NoSubCommands;
 		}
 		
 		UnitState FindUnit(List<UnitState> units) {

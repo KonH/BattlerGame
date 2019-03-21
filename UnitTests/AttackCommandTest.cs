@@ -10,7 +10,9 @@ namespace UnitTests {
 		ulong _enemyId;
 		
 		public AttackCommandTest() {
-			_config.AddUnit("player_unit", new UnitConfig(1));
+			_config
+				.AddUnit("player_unit", new UnitConfig(1))
+				.AddLevel("level_desc", new LevelConfig());
 			_playerId = NewId();
 			_enemyId = NewId();
 			_state.Level = new LevelState(

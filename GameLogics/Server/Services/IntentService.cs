@@ -1,12 +1,10 @@
 using GameLogics.Server.Repositories.Configs;
 using GameLogics.Server.Repositories.States;
 using GameLogics.Server.Repositories.Users;
-using GameLogics.Shared.Commands;
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Dao.Api;
 using GameLogics.Shared.Dao.Api.Errors;
 using GameLogics.Shared.Dao.Intent;
-using GameLogics.Shared.Models;
-using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Services {
@@ -42,11 +40,15 @@ namespace GameLogics.Server.Services {
 				return new ConflictError($"Current state version is '{state.Version}'").AsError<IntentResponse>();
 			}
 			var config = _config.Get();
-			var commands = req.Commands;
-			foreach ( var command in commands ) {
-				if ( !TryExecuteClientCommand(state, config, command) ) {
+			var command = req.Command;
+			if ( !IsValidAsFirstCommand(command) ) {
+				return new ClientError($"Trying to execute internal command: '{command}'").AsError<IntentResponse>();
+			}
+			foreach ( var cmd in command.AsEnumerable() ) {
+				if ( !cmd.IsCommandValid(state, config) ) {
 					return new ClientError($"Invalid command: '{command}'").AsError<IntentResponse>();
 				}
+				cmd.ExecuteCommand(state, config);
 			}
 			var oldVersion = state.Version;
 			state.UpdateVersion();
@@ -55,11 +57,8 @@ namespace GameLogics.Server.Services {
 			return new IntentResponse(state.Version).AsResult();
 		}
 
-		public static bool TryExecuteClientCommand(GameState state, Config config, ICommand command) {
-			if ( command is InternalCommand ) {
-				return false;
-			}
-			return command.TryExecute(state, config);
+		public static bool IsValidAsFirstCommand(ICommand command) {
+			return !(command is InternalCommand);
 		}
 	}
 }

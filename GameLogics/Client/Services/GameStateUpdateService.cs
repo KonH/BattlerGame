@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using GameLogics.Shared.Commands;
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Dao.Intent;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Services;
@@ -9,7 +8,7 @@ using GameLogics.Shared.Services;
 namespace GameLogics.Client.Services {
 	public class GameStateUpdateService {
 		public event Action<GameState> OnStateUpdated   = delegate {};
-		public event Action<ICommand>  OnCommandApplied = delegate(ICommand cmd) {};
+		public event Action<ICommand>  OnCommandApplied = delegate {};
 		
 		public GameState State => _state.State;
 
@@ -23,29 +22,32 @@ namespace GameLogics.Client.Services {
 			_state  = state;
 		}
 
-		public bool IsValid(ICommand command) {
-			return command.IsValid(_state.State, _state.Config);
+		public bool IsValid(ICompositeCommand command) {
+			return command.IsFirstCommandValid(_state.State, _state.Config);
 		}
 		
-		public async Task Update(params ICommand[] commands) {
-			var state = _state.State;
-			var response = await _api.Post(new IntentRequest(_state.User.Login, state.Version, commands));
+		public async Task Update(ICompositeCommand command) {
+			var state  = _state.State;
+			var config = _state.Config;
+			foreach ( var cmd in command.AsEnumerable() ) {
+				_logger.DebugFormat(this, "Start executing command: {0}", cmd);
+				if ( !cmd.IsCommandValid(state, config) ) {
+					_logger.ErrorFormat(this, "Command is invalid: {0}", cmd);
+					return;
+				}
+				cmd.ExecuteCommand(state, config);
+				_logger.DebugFormat(this, "End executing command: {0}", cmd);
+				OnCommandApplied(cmd);
+			}
+			OnStateUpdated(state);
+			var response = await _api.Post(new IntentRequest(_state.User.Login, state.Version, command));
 			if ( !response.Success ) {
+				_logger.Error(this, "State declined from server.");
 				return;
 			}
 			var result = response.Result;
-			CallCommandTree(commands);
 			state.Version = result.NewVersion;
-			OnStateUpdated(state);
-		}
-
-		void CallCommandTree(ICollection<ICommand> commands) {
-			foreach ( var cmd in commands ) {
-				var subCommands = cmd.Execute(_state.State, _state.Config);
-				_logger.DebugFormat(this, "OnCommandApplied: {0}", cmd);
-				OnCommandApplied(cmd);
-				CallCommandTree(subCommands);
-			}
+			_logger.Debug(this, "State approved from server.");
 		}
 	}
 }

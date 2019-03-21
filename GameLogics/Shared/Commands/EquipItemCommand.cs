@@ -1,3 +1,4 @@
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
@@ -12,7 +13,7 @@ namespace GameLogics.Shared.Commands {
 			UnitId = unitId;
 		}
 		
-		public override bool IsValid(GameState state, Config config) {
+		protected override bool IsValid(GameState state, Config config) {
 			var item = FindItem(state);
 			if ( item == null ) {
 				return false;
@@ -36,7 +37,7 @@ namespace GameLogics.Shared.Commands {
 			return (itemWithSameType == null);
 		}
 
-		protected override void ExecuteSingle(GameState state, Config config) {
+		protected override void Execute(GameState state, Config config, ICommandBuffer _) {
 			var item = FindItem(state);
 			var unit = FindUnit(state);
 			unit.Items.Add(item);

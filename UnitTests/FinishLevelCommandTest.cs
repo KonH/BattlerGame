@@ -10,6 +10,8 @@ namespace UnitTests {
 		
 		public FinishLevelCommandTest() {
 			_config
+				.AddItem("reward_item", new ItemConfig())
+				.AddUnit("reward_unit", new UnitConfig(1))
 				.AddUnit("unit_desc",  new UnitConfig(1))
 				.AddUnit("enemy_desc", new UnitConfig(1))
 				.AddLevel("level_desc", new LevelConfig {

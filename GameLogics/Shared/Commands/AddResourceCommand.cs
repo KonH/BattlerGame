@@ -1,3 +1,4 @@
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
@@ -12,9 +13,9 @@ namespace GameLogics.Shared.Commands {
 			Count = count;
 		}
 
-		public override bool IsValid(GameState state, Config config) => (Kind != Resource.Unknown) && (Count > 0);
+		protected override bool IsValid(GameState state, Config config) => (Kind != Resource.Unknown) && (Count > 0);
 
-		protected override void ExecuteSingle(GameState state, Config config) {
+		protected override void Execute(GameState state, Config config, ICommandBuffer _) {
 			var oldValue = state.Resources.GetOrDefault(Kind);
 			state.Resources[Kind] = oldValue + Count;
 		}

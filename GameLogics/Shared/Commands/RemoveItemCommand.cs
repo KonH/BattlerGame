@@ -1,3 +1,4 @@
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 
@@ -9,9 +10,9 @@ namespace GameLogics.Shared.Commands {
 			Id = id;
 		}
 
-		public override bool IsValid(GameState state, Config config) => state.Items.ContainsKey(Id);
+		protected override bool IsValid(GameState state, Config config) => state.Items.ContainsKey(Id);
 		
-		protected override void ExecuteSingle(GameState state, Config config) {
+		protected override void Execute(GameState state, Config config, ICommandBuffer _) {
 			state.Items.Remove(Id);
 		}
 		

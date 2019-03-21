@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
+using GameLogics.Shared.Commands.Base;
 using UnityClient.Managers;
 using UnityEngine;
 using Zenject;

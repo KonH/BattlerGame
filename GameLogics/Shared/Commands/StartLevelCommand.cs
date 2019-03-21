@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
@@ -13,7 +14,7 @@ namespace GameLogics.Shared.Commands {
 			PlayerUnits = playerUnits;
 		}
 		
-		public override bool IsValid(GameState state, Config config) {
+		protected override bool IsValid(GameState state, Config config) {
 			if ( string.IsNullOrEmpty(LevelDesc) ) {
 				return false;
 			}
@@ -35,7 +36,7 @@ namespace GameLogics.Shared.Commands {
 			return true;
 		}
 
-		protected override void ExecuteSingle(GameState state, Config config) {
+		protected override void Execute(GameState state, Config config, ICommandBuffer _) {
 			var playerUnits = FindPlayerUnits(state);
 			var enemyUnits = CreateEnemyUnits(state, config);
 			
@@ -64,8 +65,7 @@ namespace GameLogics.Shared.Commands {
 		List<UnitState> CreateEnemyUnits(GameState state, Config config) {
 			var levelConfig = FindLevelConfig(config);
 			var enemyUnits  = new List<UnitState>();
-			for ( var i = 0; i < levelConfig.EnemyDescriptors.Count; i++ ) {
-				var enemyDesc = levelConfig.EnemyDescriptors[i];
+			foreach ( var enemyDesc in levelConfig.EnemyDescriptors ) {
 				enemyUnits.Add(new UnitState(enemyDesc, 1).WithId(state.NewEntityId()));
 			}
 			return enemyUnits;
