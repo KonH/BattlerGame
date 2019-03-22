@@ -4,15 +4,15 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Shared.Commands {
-	public class EndPlayerTurnCommand : BaseCommand {
-		protected override bool IsValid(GameState state, Config config) {
+	public class EndPlayerTurnCommand : ICommand {
+		public bool IsValid(GameState state, Config config) {
 			if ( state.Level == null ) {
 				return false;
 			}
 			return state.Level.PlayerTurn;
 		}
 
-		protected override void Execute(GameState state, Config config, ICommandBuffer buffer) {
+		public void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			state.Level.PlayerTurn = false;
 			state.Level.MovedUnits.Clear();
 

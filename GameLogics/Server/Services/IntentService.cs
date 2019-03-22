@@ -44,11 +44,12 @@ namespace GameLogics.Server.Services {
 			if ( !IsValidAsFirstCommand(command) ) {
 				return new ClientError($"Trying to execute internal command: '{command}'").AsError<IntentResponse>();
 			}
-			foreach ( var cmd in command.AsEnumerable() ) {
-				if ( !cmd.IsCommandValid(state, config) ) {
-					return new ClientError($"Invalid command: '{command}'").AsError<IntentResponse>();
+			var runner = new CommandRunner(command, state, config);
+			foreach ( var item in runner ) {
+				if ( !item.IsValid() ) {
+					return new ClientError($"Invalid command: '{item.Command}'").AsError<IntentResponse>();
 				}
-				cmd.ExecuteCommand(state, config);
+				item.Execute();
 			}
 			var oldVersion = state.Version;
 			state.UpdateVersion();
@@ -58,7 +59,7 @@ namespace GameLogics.Server.Services {
 		}
 
 		public static bool IsValidAsFirstCommand(ICommand command) {
-			return !(command is InternalCommand);
+			return !(command is IInternalCommand);
 		}
 	}
 }

@@ -22,22 +22,23 @@ namespace GameLogics.Client.Services {
 			_state  = state;
 		}
 
-		public bool IsValid(ICompositeCommand command) {
-			return command.IsFirstCommandValid(_state.State, _state.Config);
+		public bool IsValid(ICommand command) {
+			return command.IsValid(_state.State, _state.Config);
 		}
 		
-		public async Task Update(ICompositeCommand command) {
+		public async Task Update(ICommand command) {
 			var state  = _state.State;
 			var config = _state.Config;
-			foreach ( var cmd in command.AsEnumerable() ) {
-				_logger.DebugFormat(this, "Start executing command: {0}", cmd);
-				if ( !cmd.IsCommandValid(state, config) ) {
-					_logger.ErrorFormat(this, "Command is invalid: {0}", cmd);
+			var runner = new CommandRunner(command, state, config);
+			foreach ( var item in runner ) {
+				_logger.DebugFormat(this, "Start executing command: {0}", item.Command);
+				if ( !item.IsValid() ) {
+					_logger.ErrorFormat(this, "Command is invalid: {0}", item.Command);
 					return;
 				}
-				cmd.ExecuteCommand(state, config);
-				_logger.DebugFormat(this, "End executing command: {0}", cmd);
-				OnCommandApplied(cmd);
+				item.Execute();
+				_logger.DebugFormat(this, "End executing command: {0}", item.Command);
+				OnCommandApplied(item.Command);
 			}
 			OnStateUpdated(state);
 			var response = await _api.Post(new IntentRequest(_state.User.Login, state.Version, command));

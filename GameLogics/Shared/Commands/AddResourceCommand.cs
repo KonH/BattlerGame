@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
-	public sealed class AddResourceCommand : InternalCommand {
+	public sealed class AddResourceCommand : IInternalCommand {
 		public readonly Resource Kind;
 		public readonly int      Count;
 
@@ -13,9 +13,9 @@ namespace GameLogics.Shared.Commands {
 			Count = count;
 		}
 
-		protected override bool IsValid(GameState state, Config config) => (Kind != Resource.Unknown) && (Count > 0);
+		public bool IsValid(GameState state, Config config) => (Kind != Resource.Unknown) && (Count > 0);
 
-		protected override void Execute(GameState state, Config config, ICommandBuffer _) {
+		public void Execute(GameState state, Config config, ICommandBuffer _) {
 			var oldValue = state.Resources.GetOrDefault(Kind);
 			state.Resources[Kind] = oldValue + Count;
 		}

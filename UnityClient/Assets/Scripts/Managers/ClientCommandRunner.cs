@@ -2,23 +2,23 @@
 using GameLogics.Shared.Commands.Base;
 
 namespace UnityClient.Managers {
-	public class CommandRunner {
+	public class ClientCommandRunner {
 		public GameStateUpdateService Updater { get; }
 		
 		readonly MainThreadRunner       _runner;
 
 		bool _hasRunningCommand = false;
 		
-		public CommandRunner(MainThreadRunner runner, GameStateUpdateService updateService) {
+		public ClientCommandRunner(MainThreadRunner runner, GameStateUpdateService updateService) {
 			_runner = runner;
 			Updater = updateService;
 		}
 
-		public bool IsValid(ICompositeCommand command) {
+		public bool IsValid(ICommand command) {
 			return Updater.IsValid(command);
 		}
 
-		public bool TryAddCommand(ICompositeCommand command) {
+		public bool TryAddCommand(ICommand command) {
 			if ( _hasRunningCommand ) {
 				return false;
 			}

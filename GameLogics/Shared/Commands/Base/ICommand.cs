@@ -1,6 +1,9 @@
+using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.Configs;
+
 namespace GameLogics.Shared.Commands.Base {
-	/// <summary>
-	/// Indicator interface for commands which can't be run (e.g. already applied)
-	/// </summary>
-	public interface ICommand {}
+	public interface ICommand {
+		bool IsValid(GameState state, Config config);
+		void Execute(GameState state, Config config, ICommandBuffer buffer);
+	}
 }

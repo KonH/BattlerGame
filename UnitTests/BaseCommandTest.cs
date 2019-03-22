@@ -7,7 +7,7 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
-	public class BaseCommandTest<TCommand> where TCommand : class, ICompositeCommand {
+	public class BaseCommandTest<TCommand> where TCommand : class, ICommand {
 		protected GameState _state  = new GameState();
 		protected Config    _config = new Config();
 
@@ -18,19 +18,20 @@ namespace UnitTests {
 		}
 		
 		protected void IsValid(TCommand cmd) {
-			Assert.True(cmd.IsFirstCommandValid(_state, _config));
+			Assert.True(cmd.IsValid(_state, _config));
 		}
 		
 		protected void IsInvalid(TCommand cmd) {
-			Assert.False(cmd.IsFirstCommandValid(_state, _config));
+			Assert.False(cmd.IsValid(_state, _config));
 		}
 
 		protected List<ICommand> Execute(TCommand cmd) {
 			var result = new List<ICommand>();
-			foreach ( var c in cmd.AsEnumerable() ) {
-				Assert.True(c.IsCommandValid(_state, _config), $"Command {c} is invalid!");
-				c.ExecuteCommand(_state, _config);
-				result.Add(c);
+			var runner = new CommandRunner(cmd, _state, _config);
+			foreach ( var item in runner ) {
+				Assert.True(item.IsValid(), $"Command {item.Command} is invalid!");
+				item.Execute();
+				result.Add(item.Command);
 			}
 			return result;
 		}

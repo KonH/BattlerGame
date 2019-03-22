@@ -9,11 +9,11 @@ namespace UnityClient.Controls {
 	public class StartLevelControl : MonoBehaviour {
 		public string LevelDesc;
 
-		CommandRunner    _runner;
-		GameSceneManager _scene;
+		ClientCommandRunner _runner;
+		GameSceneManager    _scene;
 		
 		[Inject]
-		public void Init(CommandRunner runner, GameSceneManager scene) {
+		public void Init(ClientCommandRunner runner, GameSceneManager scene) {
 			_runner = runner;
 			_scene  = scene;
 

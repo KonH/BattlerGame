@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
-	public class EquipItemCommand : BaseCommand {
+	public class EquipItemCommand : ICommand {
 		public readonly ulong ItemId;
 		public readonly ulong UnitId;
 
@@ -13,7 +13,7 @@ namespace GameLogics.Shared.Commands {
 			UnitId = unitId;
 		}
 		
-		protected override bool IsValid(GameState state, Config config) {
+		public bool IsValid(GameState state, Config config) {
 			var item = FindItem(state);
 			if ( item == null ) {
 				return false;
@@ -37,7 +37,7 @@ namespace GameLogics.Shared.Commands {
 			return (itemWithSameType == null);
 		}
 
-		protected override void Execute(GameState state, Config config, ICommandBuffer _) {
+		public void Execute(GameState state, Config config, ICommandBuffer _) {
 			var item = FindItem(state);
 			var unit = FindUnit(state);
 			unit.Items.Add(item);

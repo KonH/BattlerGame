@@ -5,7 +5,7 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
-	public class StartLevelCommand : BaseCommand {
+	public class StartLevelCommand : ICommand {
 		public readonly string      LevelDesc;
 		public readonly List<ulong> PlayerUnits;
 
@@ -14,7 +14,7 @@ namespace GameLogics.Shared.Commands {
 			PlayerUnits = playerUnits;
 		}
 		
-		protected override bool IsValid(GameState state, Config config) {
+		public bool IsValid(GameState state, Config config) {
 			if ( string.IsNullOrEmpty(LevelDesc) ) {
 				return false;
 			}
@@ -36,7 +36,7 @@ namespace GameLogics.Shared.Commands {
 			return true;
 		}
 
-		protected override void Execute(GameState state, Config config, ICommandBuffer _) {
+		public void Execute(GameState state, Config config, ICommandBuffer _) {
 			var playerUnits = FindPlayerUnits(state);
 			var enemyUnits = CreateEnemyUnits(state, config);
 			

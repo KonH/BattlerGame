@@ -3,7 +3,7 @@ using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
-	public class AddItemCommand : InternalCommand {
+	public class AddItemCommand : IInternalCommand {
 		public readonly ulong  Id;
 		public readonly string Descriptor;
 
@@ -12,7 +12,7 @@ namespace GameLogics.Shared.Commands {
 			Descriptor = descriptor;
 		}
 
-		protected override bool IsValid(GameState state, Config config) {
+		public bool IsValid(GameState state, Config config) {
 			if ( string.IsNullOrEmpty(Descriptor) ) {
 				return false;
 			}
@@ -22,7 +22,7 @@ namespace GameLogics.Shared.Commands {
 			return config.Items.ContainsKey(Descriptor);
 		}
 
-		protected override void Execute(GameState state, Config config, ICommandBuffer _) {
+		public void Execute(GameState state, Config config, ICommandBuffer _) {
 			state.AddItem(new ItemState(Descriptor).WithId(Id));
 		}
 

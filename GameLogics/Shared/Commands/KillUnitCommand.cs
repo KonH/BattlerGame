@@ -4,14 +4,14 @@ using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
-	public class KillUnitCommand : InternalCommand {
+	public class KillUnitCommand : IInternalCommand {
 		public readonly ulong UnitId;
 		
 		public KillUnitCommand(ulong unitId) {
 			UnitId = unitId;
 		}
 		
-		protected override bool IsValid(GameState state, Config config) {
+		public bool IsValid(GameState state, Config config) {
 			if ( state.Level == null ) {
 				return false;
 			}
@@ -22,17 +22,17 @@ namespace GameLogics.Shared.Commands {
 			return true;
 		}
 
-		protected override void Execute(GameState state, Config config, ICommandBuffer buffer) {
+		public void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			var level = state.Level;
 			if ( TryKill(level.PlayerUnits, out var player) ) {
 				state.Units.Add(UnitId, player);
 				if ( level.PlayerUnits.Count == 0 ) {
-					buffer.AddCommand(new FinishLevelCommand(false));
+					buffer.Add(new FinishLevelCommand(false));
 				}
 			}
 			TryKill(level.EnemyUnits, out _);
 			if ( level.EnemyUnits.Count == 0 ) {
-				buffer.AddCommand(new FinishLevelCommand(true));
+				buffer.Add(new FinishLevelCommand(true));
 			}
 		}
 		

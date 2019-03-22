@@ -4,7 +4,7 @@ using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
-	public class AttackCommand : BaseCommand {
+	public class AttackCommand : ICommand {
 		public readonly ulong DealerId;
 		public readonly ulong TargetId;
 
@@ -13,7 +13,7 @@ namespace GameLogics.Shared.Commands {
 			TargetId = targetId;
 		}
 		
-		protected override bool IsValid(GameState state, Config config) {
+		public bool IsValid(GameState state, Config config) {
 			if ( state.Level == null ) {
 				return false;
 			}
@@ -38,14 +38,14 @@ namespace GameLogics.Shared.Commands {
 			return true;
 		}
 
-		protected override void Execute(GameState state, Config config, ICommandBuffer buffer) {
+		public void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			state.Level.MovedUnits.Add(DealerId);
 			var dealer = state.Level.FindUnitById(DealerId);
 			var damage = GetDamage(state, config);
 			var target = state.Level.FindUnitById(TargetId);
 			target.Health -= damage;
 			if ( target.Health <= 0 ) {
-				buffer.AddCommand(new KillUnitCommand(target.Id));
+				buffer.Add(new KillUnitCommand(target.Id));
 			}
 		}
 

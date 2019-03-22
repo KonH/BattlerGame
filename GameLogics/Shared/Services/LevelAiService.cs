@@ -17,12 +17,12 @@ namespace GameLogics.Shared.Services {
 				}
 				var playerId = playerUnit.Id;
 				var attackCommand = new AttackCommand(enemyId, playerId);
-				buffer.AddCommand(attackCommand);
+				buffer.Add(attackCommand);
 				var damage = attackCommand.GetDamage(state, config);
 				damages[playerId] = damages.GetOrDefault(playerId) + damage;
 			}
 			if ( TrySelectPlayerToAttack(level.PlayerUnits, damages, out var _) ) { // Level not finished yet
-				buffer.AddCommand(new EndEnemyTurnCommand());
+				buffer.Add(new EndEnemyTurnCommand());
 			}
 		}
 

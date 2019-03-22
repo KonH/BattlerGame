@@ -8,14 +8,14 @@ using Zenject;
 namespace UnityClient.Controls {
 	[RequireComponent(typeof(Button))]
 	public class EndTurnControl : MonoBehaviour {
-		CommandRunner _runner;
+		ClientCommandRunner _runner;
 		
 		Button _button;
 		
 		EndPlayerTurnCommand _command = new EndPlayerTurnCommand();
 		
 		[Inject]
-		void Init(CommandRunner runner) {
+		void Init(ClientCommandRunner runner) {
 			_runner = runner;
 			_button = GetComponent<Button>();
 			_button.onClick.AddListener(Execute);

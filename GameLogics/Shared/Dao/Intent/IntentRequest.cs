@@ -2,11 +2,11 @@ using GameLogics.Shared.Commands.Base;
 
 namespace GameLogics.Shared.Dao.Intent {
 	public class IntentRequest {
-		public string            Login           { get; set; }
-		public string            ExpectedVersion { get; set; }
-		public ICompositeCommand Command         { get; set; }
+		public string   Login           { get; set; }
+		public string   ExpectedVersion { get; set; }
+		public ICommand Command         { get; set; }
 
-		public IntentRequest(string login, string expectedVersion, ICompositeCommand command) {
+		public IntentRequest(string login, string expectedVersion, ICommand command) {
 			Login           = login;
 			ExpectedVersion = expectedVersion;
 			Command         = command;
