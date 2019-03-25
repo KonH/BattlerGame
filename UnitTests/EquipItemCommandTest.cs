@@ -9,7 +9,7 @@ namespace UnitTests {
 		ulong _itemId;
 		
 		public EquipItemCommandTest() {
-			_config.AddUnit("unit_desc", new UnitConfig(1));
+			_config.AddUnit("unit_desc", new UnitConfig(1, 1));
 			_config.AddItem("item_desc", new ItemConfig { Type = ItemType.Weapon });
 			_unitId = NewId();
 			_itemId = NewId();

@@ -57,10 +57,11 @@ namespace GameLogics.Client.Services {
 				if ( handlers != null ) {
 					foreach ( var handler in handlers ) {
 						await handler.Invoke(item.Command);
+						OnStateUpdated(state);
 					}
 				}
+				OnStateUpdated(state);
 			}
-			OnStateUpdated(state);
 			var response = await _api.Post(new IntentRequest(_state.User.Login, state.Version, command));
 			if ( !response.Success ) {
 				_logger.Error(this, "State declined from server.");

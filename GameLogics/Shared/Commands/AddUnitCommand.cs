@@ -6,19 +6,14 @@ namespace GameLogics.Shared.Commands {
 	public class AddUnitCommand : IInternalCommand {
 		public readonly ulong  Id;
 		public readonly string Descriptor;
-		public readonly int    Health;
 
-		public AddUnitCommand(ulong id, string descriptor, int health) {
+		public AddUnitCommand(ulong id, string descriptor) {
 			Id         = id;
 			Descriptor = descriptor;
-			Health     = health;
 		}
 
 		public bool IsValid(GameState state, Config config) {
 			if ( string.IsNullOrEmpty(Descriptor) ) {
-				return false;
-			}
-			if ( Health < 0 ) {
 				return false;
 			}
 			if ( state.Units.ContainsKey(Id) ) {
@@ -28,11 +23,12 @@ namespace GameLogics.Shared.Commands {
 		}
 
 		public void Execute(GameState state, Config config, ICommandBuffer buffer) {
-			state.AddUnit(new UnitState(Descriptor, Health).WithId(Id));
+			var health = config.Units[Descriptor].MaxHealth;
+			state.AddUnit(new UnitState(Descriptor, health).WithId(Id));
 		}
 		
 		public override string ToString() {
-			return $"{nameof(AddUnitCommand)} ({Id}, '{Descriptor}', {Health})";
+			return $"{nameof(AddUnitCommand)} ({Id}, '{Descriptor}'s)";
 		}
 	}
 }

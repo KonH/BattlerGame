@@ -66,7 +66,8 @@ namespace GameLogics.Shared.Commands {
 			var levelConfig = FindLevelConfig(config);
 			var enemyUnits  = new List<UnitState>();
 			foreach ( var enemyDesc in levelConfig.EnemyDescriptors ) {
-				enemyUnits.Add(new UnitState(enemyDesc, 1).WithId(state.NewEntityId()));
+				var enemyConfig = config.Units[enemyDesc];
+				enemyUnits.Add(new UnitState(enemyDesc, enemyConfig.MaxHealth).WithId(state.NewEntityId()));
 			}
 			return enemyUnits;
 		}

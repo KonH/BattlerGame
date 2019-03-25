@@ -11,7 +11,7 @@ namespace GameLogics.Server.Services {
 
 			public void Execute(GameState state, Config config, ICommandBuffer buffer) {
 				buffer.Add(new AddResourceCommand(Resource.Coins, 50));
-				buffer.Add(new AddUnitCommand(state.NewEntityId(), "player_unit", 5));
+				buffer.Add(new AddUnitCommand(state.NewEntityId(), "player_unit"));
 			}
 		}
 		

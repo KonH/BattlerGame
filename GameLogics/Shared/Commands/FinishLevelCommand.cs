@@ -35,7 +35,7 @@ namespace GameLogics.Shared.Commands {
 				buffer.Add(new AddItemCommand(state.NewEntityId(), itemDesc));
 			}
 			foreach ( var unitDesc in reward.Units ) {
-				buffer.Add(new AddUnitCommand(state.NewEntityId(), unitDesc, 1));
+				buffer.Add(new AddUnitCommand(state.NewEntityId(), unitDesc));
 			}
 		}
 

@@ -11,7 +11,7 @@ namespace UnitTests {
 		
 		public AttackCommandTest() {
 			_config
-				.AddUnit("player_unit", new UnitConfig(1))
+				.AddUnit("player_unit", new UnitConfig(1, 1))
 				.AddLevel("level_desc", new LevelConfig());
 			_playerId = NewId();
 			_enemyId = NewId();
