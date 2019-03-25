@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Commands.Base;
@@ -32,7 +33,7 @@ namespace UnityClient.Controls {
 		}
 
 		public void Execute() {
-			var playerUnits = new List<ulong>(_runner.Updater.State.Units.Keys);
+			var playerUnits = _runner.Updater.State.Units.Where(u => u.Value.Health > 0).Select(u => u.Key).ToList();
 			_runner.TryAddCommand(new StartLevelCommand(LevelDesc, playerUnits));
 		}
 	}
