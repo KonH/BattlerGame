@@ -22,6 +22,8 @@ namespace UnityClient.Installers {
 			Container.Bind<INetworkService>().To<WebRequestNetworkService>().AsSingle();
 			Container.Bind<ClientStateService>().AsSingle();
 			Container.Bind<GameStateUpdateService>().AsSingle();
+			Container.Bind<MainThreadRunner>().FromNewComponentOnRoot().AsSingle();
+			Container.Bind<ClientCommandRunner>().ToSelf().AsSingle();
 			Container.Bind<AuthService>().AsSingle();
 			Container.Bind<RegisterService>().AsSingle();
 			Container.Bind<NoticeService>().AsSingle();
@@ -30,11 +32,9 @@ namespace UnityClient.Installers {
 
 		void BindManagers() {
 			Container.Bind<ICustomLogger>().To<UnityLogger>().AsSingle();
-			Container.Bind<MainThreadRunner>().FromNewComponentOnRoot().AsSingle();
 			Container.Bind<GameSceneManager>().AsSingle();
 			Container.Bind<IErrorHandleStrategy>().To<ReloadErrorHandleStrategy>().AsSingle();
 			Container.Bind(typeof(StartupManager), typeof(ITickable)).To<StartupManager>().AsSingle().NonLazy();
-			Container.Bind<ClientCommandRunner>().ToSelf().AsSingle();
 		}
 
 		void BindApiService() {

@@ -12,6 +12,8 @@ namespace UnityClient.ViewModels {
 	public class UnitViewModel : MonoBehaviour, IPointerClickHandler {
 		public class Factory : PlaceholderFactory<UnitLevelModel, UnitViewModel> {}
 
+		public GameObject Selection = null;
+		
 		GameStateUpdateService _updateService;
 		LevelService           _levelService;
 		UnitLevelModel         _model;
@@ -22,13 +24,25 @@ namespace UnityClient.ViewModels {
 			_levelService  = levelService;
 			_model         = model;
 
+			_levelService.OnUnitSelected += OnUnitSelected;
 			_updateService.AddHandler<KillUnitCommand>(OnKillUnit);
+
+			UpdateSelection(false);
 		}
 
 		void OnDestroy() {
+			_levelService.OnUnitSelected -= OnUnitSelected;
 			_updateService?.RemoveHandler<KillUnitCommand>(OnKillUnit);
 		}
 
+		void OnUnitSelected(ulong id) {
+			UpdateSelection(id == _model.State.Id);
+		}
+
+		void UpdateSelection(bool active) {
+			Selection.SetActive(active);
+		}
+		
 		Task OnKillUnit(ICommand c) {
 			var cmd = c as KillUnitCommand;
 			if ( cmd?.UnitId == _model.State.Id ) {
@@ -41,7 +55,6 @@ namespace UnityClient.ViewModels {
 			if ( _model.IsPlayerUnit ) {
 				_levelService.SelectUnit(_model.State.Id);
 			} else {
-				// TODO: Handle async
 				_levelService.AttackUnit(_model.State.Id);
 			}
 		}

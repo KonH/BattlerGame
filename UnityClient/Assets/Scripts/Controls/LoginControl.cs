@@ -2,6 +2,7 @@
 using GameLogics.Client.Services;
 using TMPro;
 using UnityClient.Managers;
+using UnityClient.Services;
 using UnityEngine;
 using Zenject;
 

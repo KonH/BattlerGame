@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
-namespace UnityClient.Managers {
+namespace UnityClient.Services {
 	public class MainThreadRunner : MonoBehaviour {
 		TaskScheduler _scheduler;
 		

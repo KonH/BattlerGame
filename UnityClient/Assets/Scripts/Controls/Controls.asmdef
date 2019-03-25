@@ -3,7 +3,8 @@
     "references": [
         "Unity.TextMeshPro",
         "Utils",
-        "Managers"
+        "Managers",
+        "Services"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

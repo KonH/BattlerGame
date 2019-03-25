@@ -1,11 +1,11 @@
 ﻿using GameLogics.Client.Services;
 using GameLogics.Shared.Commands.Base;
 
-namespace UnityClient.Managers {
+namespace UnityClient.Services {
 	public class ClientCommandRunner {
 		public GameStateUpdateService Updater { get; }
 		
-		readonly MainThreadRunner       _runner;
+		readonly MainThreadRunner _runner;
 
 		bool _hasRunningCommand = false;
 		
