@@ -1,4 +1,5 @@
-﻿using GameLogics.Client.Services;
+﻿using System.Threading.Tasks;
+using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Commands.Base;
 using UnityClient.Models;
@@ -21,19 +22,19 @@ namespace UnityClient.ViewModels {
 			_levelService  = levelService;
 			_model         = model;
 
-			_updateService.OnCommandApplied += OnCommandApplied;
+			_updateService.AddHandler<KillUnitCommand>(OnKillUnit);
 		}
 
 		void OnDestroy() {
-			_updateService.OnCommandApplied -= OnCommandApplied;
+			_updateService?.RemoveHandler<KillUnitCommand>(OnKillUnit);
 		}
 
-		void OnCommandApplied(ICommand obj) {
-			if ( obj is KillUnitCommand cmd ) {
-				if ( cmd.UnitId == _model.State.Id ) {
-					gameObject.SetActive(false);
-				}
+		Task OnKillUnit(ICommand c) {
+			var cmd = c as KillUnitCommand;
+			if ( cmd?.UnitId == _model.State.Id ) {
+				gameObject.SetActive(false);
 			}
+			return Task.CompletedTask;
 		}
 
 		public void OnPointerClick(PointerEventData eventData) {

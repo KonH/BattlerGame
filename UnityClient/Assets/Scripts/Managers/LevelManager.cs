@@ -1,4 +1,5 @@
-﻿using GameLogics.Client.Services;
+﻿using System.Threading.Tasks;
+using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
@@ -25,17 +26,16 @@ namespace UnityClient.Managers {
 			_stateService  = stateService;
 			_unitFactory   = unitFactory;
 			
-			_updateService.OnCommandApplied += OnCommandApplied;
+			_updateService.AddHandler<FinishLevelCommand>(OnFinishLevel);
 		}
 
 		void OnDestroy() {
-			_updateService.OnCommandApplied -= OnCommandApplied;
+			_updateService.RemoveHandler<FinishLevelCommand>(OnFinishLevel);
 		}
 
-		void OnCommandApplied(ICommand obj) {
-			if ( obj is FinishLevelCommand _ ) {
-				_sceneManager.GoToWorld();
-			}
+		Task OnFinishLevel(ICommand _) {
+			_sceneManager.GoToWorld();
+			return Task.CompletedTask;
 		}
 
 		public void Initialize() {

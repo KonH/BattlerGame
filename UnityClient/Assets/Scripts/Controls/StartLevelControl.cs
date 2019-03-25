@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Commands.Base;
 using UnityClient.Managers;
@@ -17,19 +18,16 @@ namespace UnityClient.Controls {
 			_runner = runner;
 			_scene  = scene;
 
-			_runner.Updater.OnCommandApplied += OnCommand;
+			_runner.Updater.AddHandler<StartLevelCommand>(OnStartLevel);
 		}
 
 		void OnDestroy() {
-			if ( _runner != null ) {
-				_runner.Updater.OnCommandApplied -= OnCommand;
-			}
+			_runner?.Updater.RemoveHandler<StartLevelCommand>(OnStartLevel);
 		}
 
-		void OnCommand(ICommand command) {
-			if ( command is StartLevelCommand ) {
-				_scene.GoToLevel();
-			}
+		Task OnStartLevel(ICommand _) {
+			_scene.GoToLevel();
+			return Task.CompletedTask;
 		}
 
 		public void Execute() {
