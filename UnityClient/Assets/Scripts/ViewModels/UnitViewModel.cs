@@ -5,6 +5,7 @@ using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using UnityClient.Models;
 using UnityClient.Services;
+using UnityClient.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -32,6 +33,7 @@ namespace UnityClient.ViewModels {
 			_model         = model;
 
 			_levelService.OnUnitSelected += OnUnitSelected;
+			_updateService.AddHandler<AttackCommand>(OnAttackUnit);
 			_updateService.AddHandler<KillUnitCommand>(OnKillUnit);
 			_updateService.OnStateUpdated += OnStateUpdated;
 
@@ -42,6 +44,7 @@ namespace UnityClient.ViewModels {
 
 		void OnDestroy() {
 			_levelService.OnUnitSelected -= OnUnitSelected;
+			_updateService.RemoveHandler<AttackCommand>(OnAttackUnit);
 			_updateService.RemoveHandler<KillUnitCommand>(OnKillUnit);
 			_updateService.OnStateUpdated -= OnStateUpdated;
 		}
@@ -57,13 +60,21 @@ namespace UnityClient.ViewModels {
 		void UpdateSelection(bool active) {
 			Selection.SetActive(active);
 		}
+
+		async Task OnAttackUnit(ICommand c) {
+			var cmd = (AttackCommand)c;
+			if ( cmd.TargetId == _model.State.Id ) {
+				await transform.DoScale(0.25f, 0.75f);
+				await transform.DoScale(0.25f, 1.0f);
+			}
+		}
 		
-		Task OnKillUnit(ICommand c) {
-			var cmd = c as KillUnitCommand;
-			if ( cmd?.UnitId == _model.State.Id ) {
+		async Task OnKillUnit(ICommand c) {
+			var cmd = (KillUnitCommand)c;
+			if ( cmd.UnitId == _model.State.Id ) {
+				await transform.DoScale(0.5f, 0.0f);
 				gameObject.SetActive(false);
 			}
-			return Task.CompletedTask;
 		}
 
 		void OnStateUpdated(GameState state) {
