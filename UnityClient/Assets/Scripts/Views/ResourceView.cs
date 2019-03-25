@@ -19,7 +19,9 @@ namespace UnityClient.Views {
 			_text = GetComponent<TMP_Text>();
 			_service = service;
 			_service.OnStateUpdated += UpdateState;
-			UpdateState(service.State);
+			if ( _service.State != null ) {
+				UpdateState(service.State);
+			}
 		}
 
 		void OnEnable() {

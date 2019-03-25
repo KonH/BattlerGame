@@ -4,6 +4,7 @@ using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 using UnityClient.Models;
+using UnityClient.ViewModels;
 using UnityEngine;
 using Zenject;
 
@@ -38,7 +39,10 @@ namespace UnityClient.Managers {
 		}
 
 		public void Initialize() {
-			var state = _stateService.State.Level;
+			var state = _stateService.State?.Level;
+			if ( state == null ) {
+				return;
+			}
 			var playerUnits = state.PlayerUnits;
 			for ( var i = 0; i < playerUnits.Count; i++ ) {
 				var unit = playerUnits[i];

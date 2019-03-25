@@ -3,7 +3,8 @@
     "references": [
         "Zenject",
         "Models",
-        "Services"
+        "Services",
+        "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

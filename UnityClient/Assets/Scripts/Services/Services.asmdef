@@ -1,7 +1,8 @@
 {
     "name": "Services",
     "references": [
-        "Utils"
+        "Utils",
+        "Models"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

@@ -24,6 +24,8 @@ namespace UnityClient.Installers {
 			Container.Bind<GameStateUpdateService>().AsSingle();
 			Container.Bind<AuthService>().AsSingle();
 			Container.Bind<RegisterService>().AsSingle();
+			Container.Bind<NoticeService>().AsSingle();
+			Container.Bind<ApiErrorManager>().AsSingle().NonLazy();
 		}
 
 		void BindManagers() {

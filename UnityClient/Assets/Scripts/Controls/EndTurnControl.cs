@@ -20,7 +20,10 @@ namespace UnityClient.Controls {
 			_button = GetComponent<Button>();
 			_button.onClick.AddListener(Execute);
 			_runner.Updater.OnStateUpdated += UpdateValidation;
-			UpdateValidation(_runner.Updater.State);
+			var state = _runner.Updater.State;
+			if ( state != null ) {
+				UpdateValidation(state);
+			}
 		}
 
 		void OnDestroy() {

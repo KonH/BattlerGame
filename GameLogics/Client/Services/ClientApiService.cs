@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using GameLogics.Client.Services.ErrorHandle;
 using GameLogics.Client.Utils;
@@ -15,6 +16,8 @@ namespace GameLogics.Client.Services {
 		readonly ConvertService       _converter;
 		readonly INetworkService      _network;
 		readonly IErrorHandleStrategy _errorHandle;
+		
+		public event Action<IApiError> OnError = delegate {};
 
 		public ClientApiService(ICustomLogger logger, ConvertService converter, INetworkService network, IErrorHandleStrategy errorHandle) {
 			_logger      = logger;
@@ -41,6 +44,9 @@ namespace GameLogics.Client.Services {
 				result = error.AsError<TResponse>();
 			}
 			_logger.Debug(this, $"Response ({typeof(TResponse).Name}) from '{relativeUrl}': {result.Success}, '{result.Result}', {result.Error}");
+			if ( !result.Success ) {
+				OnError(result.Error);
+			}
 			return result;
 		}
 

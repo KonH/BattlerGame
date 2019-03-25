@@ -53,8 +53,6 @@ namespace UnityClient.Managers {
 							_scene.GoToWorld();
 							break;
 					}
-				} else {
-					_scene.GoToLogin();
 				}
 			});
 		}

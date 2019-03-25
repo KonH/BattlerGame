@@ -14,6 +14,8 @@ namespace GameLogics.Server.Services {
 		readonly RegisterService _register;
 		readonly AuthService     _auth;
 		readonly IntentService   _intent;
+		
+		public event Action<IApiError> OnError = delegate {};
 
 		public ServerApiService(ICustomLogger logger, RegisterService register, AuthService auth, IntentService intent) {
 			_logger   = logger;
@@ -36,6 +38,9 @@ namespace GameLogics.Server.Services {
 				resp = new ServerError(e.ToString()).AsError<TResponse>();
 			}
 			_logger.Debug(this, $"Response ({typeof(TResponse).Name}): '{resp.Success}, '{resp.Result}', {resp.Error?.Message}");
+			if ( !resp.Success ) {
+				OnError(resp.Error);
+			}
 			return Task.FromResult(resp);
 		}
 	}
