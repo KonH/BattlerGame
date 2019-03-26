@@ -19,6 +19,7 @@ namespace UnityClient.ViewModels {
 		public Color EnemyHealthColor  = Color.red;
 		
 		public GameObject Selection    = null;
+		public GameObject Interactable = null;
 		public Slider     HealthSlider = null;
 		public Image      HealthImage  = null;
 		
@@ -33,24 +34,37 @@ namespace UnityClient.ViewModels {
 			_model         = model;
 
 			_levelService.OnUnitSelected += OnUnitSelected;
+			_levelService.OnUnitCanTurn  += OnUnitCanTurn;
+			_updateService.OnStateUpdated += OnStateUpdated;
 			_updateService.AddHandler<AttackCommand>(OnAttackUnit);
 			_updateService.AddHandler<KillUnitCommand>(OnKillUnit);
-			_updateService.OnStateUpdated += OnStateUpdated;
 
 			HealthImage.color = model.IsPlayerUnit ? PlayerHealthColor : EnemyHealthColor;
 			UpdateSelection(false);
+			UpdateInteractable(true);
 			UpdateHealth();
 		}
 
 		void OnDestroy() {
 			_levelService.OnUnitSelected -= OnUnitSelected;
+			_levelService.OnUnitCanTurn  -= OnUnitCanTurn;
+			_updateService.OnStateUpdated -= OnStateUpdated;
 			_updateService.RemoveHandler<AttackCommand>(OnAttackUnit);
 			_updateService.RemoveHandler<KillUnitCommand>(OnKillUnit);
-			_updateService.OnStateUpdated -= OnStateUpdated;
 		}
 
 		void OnUnitSelected(ulong id) {
 			UpdateSelection(id == _model.State.Id);
+		}
+
+		void OnUnitCanTurn(ulong? id, bool canTurn) {
+			if ( !_model.IsPlayerUnit ) {
+				return;
+			}
+			if ( id.HasValue && (id != _model.State.Id) ) {
+				return;
+			}
+			UpdateInteractable(canTurn);
 		}
 
 		void UpdateHealth() {
@@ -59,6 +73,10 @@ namespace UnityClient.ViewModels {
 
 		void UpdateSelection(bool active) {
 			Selection.SetActive(active);
+		}
+
+		void UpdateInteractable(bool interactable) {
+			Interactable.SetActive(interactable);
 		}
 
 		async Task OnAttackUnit(ICommand c) {

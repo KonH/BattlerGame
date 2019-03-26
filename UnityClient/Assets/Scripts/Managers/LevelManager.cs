@@ -19,21 +19,40 @@ namespace UnityClient.Managers {
 		GameStateUpdateService _update;
 		ClientStateService     _state;
 		NoticeService          _notice;
+		LevelService           _service;
 		UnitViewModel.Factory  _units;
 		
 		[Inject]
-		public void Init(GameSceneManager scene, GameStateUpdateService update, ClientStateService state, NoticeService notice, UnitViewModel.Factory units) {
-			_scene  = scene;
-			_update = update;
-			_state  = state;
-			_notice = notice;
-			_units  = units;
+		public void Init(
+			GameSceneManager scene, GameStateUpdateService update, ClientStateService state, NoticeService notice,
+			LevelService service, UnitViewModel.Factory units
+		) {
+			_scene   = scene;
+			_update  = update;
+			_state   = state;
+			_notice  = notice;
+			_service = service;
+			_units   = units;
 			
-			_update.AddHandler<FinishLevelCommand>(OnFinishLevel);
+			_update.AddHandler<EndPlayerTurnCommand>(OnEndPlayerTurn);
+			_update.AddHandler<EndEnemyTurnCommand> (OnEndEnemyTurn);
+			_update.AddHandler<FinishLevelCommand>  (OnFinishLevel);
 		}
 
 		void OnDestroy() {
-			_update.RemoveHandler<FinishLevelCommand>(OnFinishLevel);
+			_update.RemoveHandler<EndPlayerTurnCommand>(OnEndPlayerTurn);
+			_update.RemoveHandler<EndEnemyTurnCommand> (OnEndEnemyTurn);
+			_update.RemoveHandler<FinishLevelCommand>  (OnFinishLevel);
+		}
+
+		Task OnEndPlayerTurn(ICommand _) {
+			_service.OnFinishPlayerTurn();
+			return Task.CompletedTask;
+		}
+
+		Task OnEndEnemyTurn(ICommand _) {
+			_service.OnFinishEnemyTurn();
+			return Task.CompletedTask;
 		}
 
 		Task OnFinishLevel(ICommand c) {
