@@ -1,6 +1,9 @@
 {
     "name": "Editor",
-    "references": [],
+    "references": [
+        "Installers",
+        "Zenject"
+    ],
     "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
