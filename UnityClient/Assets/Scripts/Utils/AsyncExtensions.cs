@@ -56,7 +56,7 @@ namespace UnityClient.Utils {
 			public void Finish() {
 				_onFinish?.Invoke();
 				IsCompleted = true;
-				_continuation();
+				_continuation?.Invoke();
 			}
 		
 			public void GetResult() {}
@@ -77,6 +77,10 @@ namespace UnityClient.Utils {
 				var awaiter = new UpdateAwaiter(_speed, _onProgress, _onFinish);
 				_awaiters.Add(awaiter);
 				return awaiter;
+			}
+
+			public void Detach() {
+				GetAwaiter();
 			}
 		}
 		

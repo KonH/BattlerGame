@@ -207,6 +207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ffaae8ab52204f0c813054574bf1ad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowDuration: 0.22
+  HideDuration: 0.22
+  MessageRoot: {fileID: 2342212624535361327}
   MessageText: {fileID: 2181783442696852793}
   OkButton: {fileID: 5937463571415595016}
   CloseButton: {fileID: 7508365213790635654}
