@@ -102,5 +102,26 @@ namespace UnitTests {
 			
 			Assert.True(_state.Level.PlayerTurn);
 		}
+
+		[Fact]
+		void CantStartLevelWithDuplicatedUnits() {
+			var units = PlayersUnits;
+			units.Add(PlayersUnits[0]);
+			
+			IsInvalid(new StartLevelCommand(LevelDesc, units));
+		}
+		
+		[Fact]
+		void CantStartLevelWithMoreThanHardLimitPlayerUnits() {
+			var units = PlayersUnits;
+			var hardLimit = 4;
+			for ( var i = 0; i < hardLimit; i++ ) {
+				var id = _state.NewEntityId();
+				_state.AddUnit(new UnitState("unit_desc", 1).WithId(id));
+				units.Add(id);
+			}
+			
+			IsInvalid(new StartLevelCommand(LevelDesc, units));
+		}
 	}
 }

@@ -21,7 +21,7 @@ namespace GameLogics.Shared.Commands {
 			if ( !config.Levels.ContainsKey(LevelDesc) ) {
 				return false;
 			}
-			if ( (PlayerUnits == null) || (PlayerUnits.Count == 0) ) {
+			if ( (PlayerUnits == null) || (PlayerUnits.Count == 0) || (PlayerUnits.Count > 4) ) {
 				return false;
 			}
 			var playerUnits = FindPlayerUnits(state);
@@ -55,6 +55,9 @@ namespace GameLogics.Shared.Commands {
 			foreach ( var unitId in PlayerUnits ) {
 				var unit = state.Units.GetOrDefault(unitId);
 				if ( unit == null ) {
+					return null;
+				}
+				if ( playerUnits.Contains(unit) ) {
 					return null;
 				}
 				playerUnits.Add(unit);

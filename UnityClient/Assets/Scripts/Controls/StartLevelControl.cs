@@ -33,7 +33,7 @@ namespace UnityClient.Controls {
 		}
 
 		public void Execute() {
-			var playerUnits = _runner.Updater.State.Units.Where(u => u.Value.Health > 0).Select(u => u.Key).ToList();
+			var playerUnits = _runner.Updater.State.Units.Where(u => u.Value.Health > 0).Select(u => u.Key).Take(4).ToList();
 			_runner.TryAddCommand(new StartLevelCommand(LevelDesc, playerUnits));
 		}
 	}
