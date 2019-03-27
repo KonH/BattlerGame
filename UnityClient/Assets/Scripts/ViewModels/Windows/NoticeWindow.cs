@@ -5,8 +5,8 @@ using UnityClient.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UnityClient.ViewModels {
-	public class NoticeViewModel : BaseWindowViewModel {
+namespace UnityClient.ViewModels.Windows {
+	public class NoticeWindow : BaseWindow {
 		public float     ShowDuration;
 		public float     HideDuration;
 		public Transform MessageRoot;

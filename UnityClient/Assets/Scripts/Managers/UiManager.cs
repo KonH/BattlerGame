@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityClient.Services;
-using UnityClient.ViewModels;
+using UnityClient.ViewModels.Windows;
 using UnityEngine;
 using Zenject;
 
@@ -11,11 +11,11 @@ namespace UnityClient.Managers {
 			public Canvas Canvas = null;
 		}
 		
-		readonly NoticeService              _service;
-		readonly Settings                   _settings;
-		readonly BaseWindowViewModelFactory _factory;
+		readonly NoticeService     _service;
+		readonly Settings          _settings;
+		readonly BaseWindowFactory _factory;
 
-		public UiManager(NoticeService service, Settings settings, BaseWindowViewModelFactory factory) {
+		public UiManager(NoticeService service, Settings settings, BaseWindowFactory factory) {
 			_service  = service;
 			_settings = settings;
 			_factory  = factory;
@@ -24,11 +24,11 @@ namespace UnityClient.Managers {
 		public void Tick() {
 			var notice = _service.RequestNotice();
 			if ( notice != null ) {
-				ShowWindow<NoticeViewModel>(w => w.Show(notice));
+				ShowWindow<NoticeWindow>(w => w.Show(notice));
 			}
 		}
 		
-		public void ShowWindow<T>(Action<T> init) where T : BaseWindowViewModel {
+		public void ShowWindow<T>(Action<T> init) where T : BaseWindow {
 			var instance = _factory.Create(typeof(T)) as T;
 			Debug.Assert(instance != null);
 			init(instance);
