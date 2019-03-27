@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cde190dbad054986ab62087d127d12a, type: 3}
   m_Name: UiSetupInstaller
   m_EditorClassIdentifier: 
-  NoticePrefab: {fileID: 892236615659287653, guid: 68033808caaf241fe8e5e588064fcff0,
-    type: 3}
+  Windows:
+  - {fileID: 0}

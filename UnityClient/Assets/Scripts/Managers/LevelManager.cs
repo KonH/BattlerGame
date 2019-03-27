@@ -7,6 +7,7 @@ using GameLogics.Shared.Models.Configs;
 using UnityClient.Models;
 using UnityClient.Services;
 using UnityClient.ViewModels;
+using UnityClient.ViewModels.Windows;
 using UnityEngine;
 using Zenject;
 
@@ -21,11 +22,12 @@ namespace UnityClient.Managers {
 		NoticeService          _notice;
 		LevelService           _service;
 		UnitViewModel.Factory  _units;
+		UiManager              _ui;
 		
 		[Inject]
 		public void Init(
 			GameSceneManager scene, GameStateUpdateService update, ClientStateService state, NoticeService notice,
-			LevelService service, UnitViewModel.Factory units
+			LevelService service, UnitViewModel.Factory units, UiManager ui
 		) {
 			_scene   = scene;
 			_update  = update;
@@ -33,6 +35,7 @@ namespace UnityClient.Managers {
 			_notice  = notice;
 			_service = service;
 			_units   = units;
+			_ui      = ui;
 			
 			_update.AddHandler<EndPlayerTurnCommand>(OnEndPlayerTurn);
 			_update.AddHandler<EndEnemyTurnCommand> (OnEndEnemyTurn);
@@ -56,7 +59,12 @@ namespace UnityClient.Managers {
 		}
 
 		Task OnFinishLevel(ICommand c) {
-			_notice.ScheduleNotice(new NoticeModel("You won!", _ => _scene.GoToWorld()));
+			var cmd = (FinishLevelCommand)c;
+			if ( cmd.Win ) {
+				_notice.ScheduleNotice(new NoticeModel("You won!", _ => _scene.GoToWorld()));
+			} else {
+				_ui.ShowWindow<LoseWindow>(w => w.Show(_scene.GoToWorld));
+			}
 			return Task.CompletedTask;
 		}
 
