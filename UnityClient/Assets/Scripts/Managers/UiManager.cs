@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityClient.Models;
 using UnityClient.Services;
 using UnityClient.ViewModels;
 using UnityEngine;
@@ -12,25 +11,27 @@ namespace UnityClient.Managers {
 			public Canvas Canvas = null;
 		}
 		
-		readonly NoticeService           _service;
-		readonly Settings                _settings;
-		readonly NoticeViewModel.Factory _noticeFactory;
+		readonly NoticeService              _service;
+		readonly Settings                   _settings;
+		readonly BaseWindowViewModelFactory _factory;
 
-		public UiManager(NoticeService service, Settings settings, NoticeViewModel.Factory noticeFactory) {
-			_service       = service;
-			_settings      = settings;
-			_noticeFactory = noticeFactory;
+		public UiManager(NoticeService service, Settings settings, BaseWindowViewModelFactory factory) {
+			_service  = service;
+			_settings = settings;
+			_factory  = factory;
 		}
 		
 		public void Tick() {
 			var notice = _service.RequestNotice();
 			if ( notice != null ) {
-				ShowNotice(notice);
+				ShowWindow<NoticeViewModel>(w => w.Show(notice));
 			}
 		}
-
-		void ShowNotice(NoticeModel notice) {
-			var instance = _noticeFactory.Create(notice);
+		
+		public void ShowWindow<T>(Action<T> init) where T : BaseWindowViewModel {
+			var instance = _factory.Create(typeof(T)) as T;
+			Debug.Assert(instance != null);
+			init(instance);
 			instance.transform.SetParent(_settings.Canvas.transform, false);
 		}
 	}

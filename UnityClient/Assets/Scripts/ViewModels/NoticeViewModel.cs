@@ -4,12 +4,9 @@ using UnityClient.Models;
 using UnityClient.Utils;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace UnityClient.ViewModels {
-	public class NoticeViewModel : MonoBehaviour {
-		public class Factory : PlaceholderFactory<NoticeModel, NoticeViewModel> {}
-
+	public class NoticeViewModel : BaseWindowViewModel {
 		public float     ShowDuration;
 		public float     HideDuration;
 		public Transform MessageRoot;
@@ -22,8 +19,7 @@ namespace UnityClient.ViewModels {
 			MessageRoot.DoScale(ShowDuration, 1.0f).Detach();
 		}
 
-		[Inject]
-		public void Init(NoticeModel model) {
+		public void Show(NoticeModel model) {
 			MessageText.text = model.Message;
 			OkButton.onClick.AddListener(() => HideThenCallback(model.Callback, true));
 			CloseButton.onClick.AddListener(() => HideThenCallback(model.Callback, false));
