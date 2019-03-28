@@ -130,8 +130,10 @@ GameObject:
   - component: {fileID: 469535601684890108}
   - component: {fileID: 106809545831027035}
   - component: {fileID: 892236615659287653}
+  - component: {fileID: 4376003547059097233}
+  - component: {fileID: 5884429567561429319}
   m_Layer: 5
-  m_Name: NoticeViewModel
+  m_Name: NoticeWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -213,6 +215,34 @@ MonoBehaviour:
   MessageText: {fileID: 2181783442696852793}
   OkButton: {fileID: 5937463571415595016}
   CloseButton: {fileID: 7508365213790635654}
+  Animation: {fileID: 4376003547059097233}
+--- !u!114 &4376003547059097233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2502400253837836991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5539d787f8548cf919c73e6037fcdef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowDuration: 0.22
+  HideDuration: 0.22
+  Root: {fileID: 2342212624535361327}
+--- !u!225 &5884429567561429319
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2502400253837836991}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2704986669485657676
 GameObject:
   m_ObjectHideFlags: 0
