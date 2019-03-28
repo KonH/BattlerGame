@@ -63,24 +63,15 @@ namespace UnityClient.Utils {
 		}
 		
 		public struct UpdateHelper {
-			float         _speed;
-			Action<float> _onProgress;
-			Action        _onFinish;
+			UpdateAwaiter _awaiter;
 
-			public UpdateHelper(float speed, Action<float> onProgress, Action onFinish) {
-				_speed      = speed;
-				_onProgress = onProgress;
-				_onFinish   = onFinish;
+			public UpdateHelper(float speed, Action<float> onProgress, Action onFinish) {				
+				_awaiter = new UpdateAwaiter(speed, onProgress, onFinish);
+				_awaiters.Add(_awaiter);
 			}
 			
 			public UpdateAwaiter GetAwaiter() {
-				var awaiter = new UpdateAwaiter(_speed, _onProgress, _onFinish);
-				_awaiters.Add(awaiter);
-				return awaiter;
-			}
-
-			public void Detach() {
-				GetAwaiter();
+				return _awaiter;
 			}
 		}
 		
