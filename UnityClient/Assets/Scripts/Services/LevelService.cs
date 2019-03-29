@@ -25,6 +25,7 @@ namespace UnityClient.Services {
 			}
 			if ( _runner.TryAddCommand(new AttackCommand(_selectedUnitId, unitId)) ) {
 				OnUnitCanTurn(_selectedUnitId, false);
+				OnUnitSelected(0);
 				_selectedUnitId = 0;
 			}
 		}
