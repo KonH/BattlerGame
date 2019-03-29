@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GameLogics.Client.Services.Events;
 using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Dao.Intent;
 using GameLogics.Shared.Models;
@@ -17,7 +18,7 @@ namespace GameLogics.Client.Services {
 		readonly IApiService        _api;
 		readonly ClientStateService _state;
 		
-		Dictionary<Type, List<Func<ICommand, Task>>> _handlers = new Dictionary<Type, List<Func<ICommand, Task>>>();
+		Dictionary<Type, EventTaskBaseHandler> _handlers = new Dictionary<Type, EventTaskBaseHandler>();
 
 		public GameStateUpdateService(ICustomLogger logger, IApiService api, ClientStateService state) {
 			_logger = logger;
@@ -25,14 +26,17 @@ namespace GameLogics.Client.Services {
 			_state  = state;
 		}
 
-		public void AddHandler<T>(Func<ICommand, Task> handler) where T : ICommand {
+		public void AddHandler<T>(Func<T, Task> handler) where T : ICommand {			
 			var type = typeof(T);
-			var container = _handlers.GetOrCreate(type);
+			if ( !_handlers.TryGetValue(type, out var container) ) {
+				container = new EventTaskHandler<T>();
+				_handlers.Add(type, container);
+			}
 			container.Add(handler);
 		}
 
-		public void RemoveHandler<T>(Func<ICommand, Task> handler) where T : ICommand {
-			var type = typeof(T);
+		public void RemoveHandler<T>(Func<T, Task> handler) where T : ICommand {
+			var type      = typeof(T);
 			var container = _handlers.GetOrDefault(type);
 			container?.Remove(handler);
 		}
@@ -53,10 +57,11 @@ namespace GameLogics.Client.Services {
 				}
 				item.Execute();
 				_logger.DebugFormat(this, "End executing command: {0}", item.Command);
-				var handlers = _handlers.GetOrDefault(item.Command.GetType());
-				if ( handlers != null ) {
+				var container = _handlers.GetOrDefault(item.Command.GetType());
+				if ( container != null ) {
+					var handlers = container.GetHandlers();
 					foreach ( var handler in handlers ) {
-						await handler.Invoke(item.Command);
+						await container.Invoke(handler, item.Command);
 						OnStateUpdated(state);
 					}
 				}

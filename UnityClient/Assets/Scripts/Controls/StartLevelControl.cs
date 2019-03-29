@@ -27,7 +27,7 @@ namespace UnityClient.Controls {
 			_runner?.Updater.RemoveHandler<StartLevelCommand>(OnStartLevel);
 		}
 
-		Task OnStartLevel(ICommand _) {
+		Task OnStartLevel(StartLevelCommand _) {
 			_scene.GoToLevel();
 			return Task.CompletedTask;
 		}

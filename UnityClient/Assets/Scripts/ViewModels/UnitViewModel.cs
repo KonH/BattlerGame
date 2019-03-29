@@ -79,16 +79,14 @@ namespace UnityClient.ViewModels {
 			Interactable.SetActive(interactable);
 		}
 
-		async Task OnAttackUnit(ICommand c) {
-			var cmd = (AttackCommand)c;
+		async Task OnAttackUnit(AttackCommand cmd) {
 			if ( cmd.TargetId == _model.State.Id ) {
 				await transform.DoScale(0.25f, 0.75f);
 				await transform.DoScale(0.25f, 1.0f);
 			}
 		}
 		
-		async Task OnKillUnit(ICommand c) {
-			var cmd = (KillUnitCommand)c;
+		async Task OnKillUnit(KillUnitCommand cmd) {
 			if ( cmd.UnitId == _model.State.Id ) {
 				await transform.DoScale(0.5f, 0.0f);
 				gameObject.SetActive(false);

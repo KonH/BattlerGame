@@ -48,18 +48,17 @@ namespace UnityClient.Managers {
 			_update.RemoveHandler<FinishLevelCommand>  (OnFinishLevel);
 		}
 
-		Task OnEndPlayerTurn(ICommand _) {
+		Task OnEndPlayerTurn(EndPlayerTurnCommand _) {
 			_service.OnFinishPlayerTurn();
 			return Task.CompletedTask;
 		}
 
-		Task OnEndEnemyTurn(ICommand _) {
+		Task OnEndEnemyTurn(EndEnemyTurnCommand _) {
 			_service.OnFinishEnemyTurn();
 			return Task.CompletedTask;
 		}
 
-		Task OnFinishLevel(ICommand c) {
-			var cmd = (FinishLevelCommand)c;
+		Task OnFinishLevel(FinishLevelCommand cmd) {
 			if ( cmd.Win ) {
 				_notice.ScheduleNotice(new NoticeModel("You won!", _ => _scene.GoToWorld()));
 			} else {
