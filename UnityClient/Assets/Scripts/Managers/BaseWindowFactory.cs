@@ -1,5 +1,4 @@
 using System;
-using UnityClient.ViewModels;
 using UnityClient.ViewModels.Windows;
 using Zenject;
 
