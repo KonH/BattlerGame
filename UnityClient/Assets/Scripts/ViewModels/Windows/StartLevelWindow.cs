@@ -53,8 +53,15 @@ namespace UnityClient.ViewModels.Windows {
 			_unitTemplate.transform.SetParent(ItemsRoot, false);
 			_unitTemplate.gameObject.SetActive(false);
 
+			var allUnits = _service.State.Units.Values.OrderBy(u => u.Id).ToList();
 			for ( var i = 0; i < 4; i++ ) {
-				AddUnit(new UnitModel(i));
+				if ( allUnits.Count <= i ) {
+					AddUnit(new UnitModel(i));
+				} else {
+					var state = allUnits[i];
+					var config = _service.Config.Units[state.Descriptor];
+					AddUnit(new UnitModel(true, state, config, i));
+				}
 			}
 			
 			UpdateInteractable();
