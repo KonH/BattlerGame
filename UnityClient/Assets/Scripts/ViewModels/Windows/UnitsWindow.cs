@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityClient.Models;
 using UnityClient.ViewModels.Fragments;
 using UnityEngine.UI;
@@ -16,12 +17,12 @@ namespace UnityClient.ViewModels.Windows {
 			Animation.Show();
 		}
 
-		public void Show(List<UnitModel> units, UnitFragment unitTemplate) {
+		public void Show(List<UnitModel> units, UnitFragment unitTemplate, string actName, Action<UnitModel> act) {
 			CloseButton.onClick.AddListener(() => Animation.Hide(() => Destroy(gameObject)));
 			unitTemplate.transform.SetParent(ItemsRoot, false);
 			foreach ( var unit in units ) {
 				var instance = Instantiate(unitTemplate, ItemsRoot, false);
-				instance.Init(unit);
+				instance.Init(unit, actName, act);
 			}
 			unitTemplate.gameObject.SetActive(false);
 		}
