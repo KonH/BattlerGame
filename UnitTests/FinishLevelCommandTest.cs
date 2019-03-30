@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GameLogics.Shared;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
@@ -12,7 +13,7 @@ namespace UnitTests {
 			_config
 				.AddItem("reward_item", new ItemConfig())
 				.AddUnit("reward_unit", new UnitConfig(1, 1))
-				.AddUnit("unit_desc",  new UnitConfig(1, 1))
+				.AddUnit("unit_desc",  new UnitConfig(1, 2))
 				.AddUnit("enemy_desc", new UnitConfig(1, 1))
 				.AddLevel("level_desc", new LevelConfig {
 					EnemyDescriptors = {
@@ -26,7 +27,7 @@ namespace UnitTests {
 				});
 			_unitId = NewId();
 			_state.Level = new LevelState(
-				"level_desc", new List<UnitState> { new UnitState("unit_desc", 1).WithId(_unitId) }, new List<UnitState>()
+				"level_desc", new List<UnitState> { new UnitState("unit_desc", 2).WithId(_unitId) }, new List<UnitState>()
 			);
 		}
 
@@ -73,6 +74,25 @@ namespace UnitTests {
 		[Fact]
 		void IsRewardsNotGainedIfLevelFailed() {
 			ProducesNone(new FinishLevelCommand(false));
+		}
+
+		[Fact]
+		void IsHealthIsntRestoredByDefault() {
+			_state.Level.PlayerUnits[0].Health = 1;
+			
+			Execute(new FinishLevelCommand(false));
+			
+			Assert.Equal(1, _state.Units[_unitId].Health);
+		}
+		
+		[Fact]
+		void IsHealthRestoredIfFeatureSet() {
+			_config.Features[Features.AutoHeal] = true;
+			_state.Level.PlayerUnits[0].Health = 1;
+			
+			Execute(new FinishLevelCommand(false));
+			
+			Assert.Equal(2, _state.Units[_unitId].Health);
 		}
 	}
 }

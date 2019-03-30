@@ -20,6 +20,13 @@ namespace GameLogics.Shared.Commands {
 		public void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			foreach ( var unit in state.Level.PlayerUnits ) {
 				state.AddUnit(unit);
+				if ( !config.IsFeatureEnabled(Features.AutoHeal) ) {
+					continue;
+				}
+				var unitConfig = config.Units[unit.Descriptor];
+				if ( unit.Health < unitConfig.MaxHealth ) {
+					buffer.Add(new HealUnitCommand(unit.Id));
+				}
 			}
 			var reward = config.Levels[state.Level.Descriptor].Reward;
 			state.Level = null;
