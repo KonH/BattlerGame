@@ -13,7 +13,7 @@ namespace UnityClient.ViewModels.Fragments {
 		
 		public void Init(UnitModel model, string actName, Action<UnitModel> act) {
 			_model = model;
-			NameText.text = $"{_model.State.Id} ({_model.State.Descriptor})";
+			NameText.text = !_model.IsFake ? $"{_model.State.Id} ({_model.State.Descriptor})" : $"Unit {model.Index + 1}";
 			ActionText.text = actName;
 			ActionButton.onClick.RemoveAllListeners();
 			ActionButton.onClick.AddListener(() => act(_model));

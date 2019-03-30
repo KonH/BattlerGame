@@ -1,40 +1,49 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GameLogics.Shared.Commands;
-using GameLogics.Shared.Commands.Base;
+﻿using System;
+using System.Collections.Generic;
+using GameLogics.Client.Services;
 using UnityClient.Managers;
+using UnityClient.Models;
 using UnityClient.Services;
+using UnityClient.ViewModels.Fragments;
+using UnityClient.ViewModels.Windows;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace UnityClient.Controls {
 	public class StartLevelControl : MonoBehaviour {
 		public string LevelDesc;
 
+		public Button Button;
+
+		UiManager           _ui;
+		ClientStateService  _service;
 		ClientCommandRunner _runner;
 		GameSceneManager    _scene;
 		
 		[Inject]
-		public void Init(ClientCommandRunner runner, GameSceneManager scene) {
-			_runner = runner;
-			_scene  = scene;
-
-			_runner.Updater.AddHandler<StartLevelCommand>(OnStartLevel);
-		}
-
-		void OnDestroy() {
-			_runner?.Updater.RemoveHandler<StartLevelCommand>(OnStartLevel);
-		}
-
-		Task OnStartLevel(StartLevelCommand _) {
-			_scene.GoToLevel();
-			return Task.CompletedTask;
+		public void Init(UiManager ui, ClientStateService service, ClientCommandRunner runner, GameSceneManager scene) {
+			_ui      = ui;
+			_service = service;
+			_runner  = runner;
+			_scene   = scene;
+			
+			Button.onClick.AddListener(Execute);
 		}
 
 		public void Execute() {
-			var playerUnits = _runner.Updater.State.Units.Where(u => u.Value.Health > 0).Select(u => u.Key).Take(4).ToList();
-			_runner.TryAddCommand(new StartLevelCommand(LevelDesc, playerUnits));
+			_ui.ShowWindow<StartLevelWindow>(w => {
+				Action<List<UnitModel>, string, Action<UnitModel>> act = (units, unitActName, unitAct) => {
+					_ui.ShowWindow<UnitsWindow>(w2 => {
+						Action<UnitModel> act2 = u => {
+							w2.Animation.Hide(() => Destroy(w2.gameObject));
+							unitAct(u);
+						};
+						w2.Show(units, _ui.GetFragmentTemplate<UnitFragment>(), unitActName, act2);
+					});
+				};
+				w.Show(LevelDesc, _service, _runner, _ui.GetFragmentTemplate<UnitFragment>(), () => _scene.GoToLevel(), act);
+			});
 		}
 	}
 }

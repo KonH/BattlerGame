@@ -18,6 +18,7 @@ MonoBehaviour:
   - {fileID: 7726954082602611735, guid: 97e7f68054a4c4ec2a4fab45cf7a7f30, type: 3}
   - {fileID: 7965953987475944308, guid: 20377da35d9f84ba1817e043834741dd, type: 3}
   - {fileID: 3847840194190305252, guid: 69b37e490c02d47beba064bfd855fd2e, type: 3}
+  - {fileID: 2348057583927274789, guid: 9c5ebf9fa740c4c3cb74a3061d972875, type: 3}
   Fragments:
   - {fileID: 375806025042388333, guid: e16033166688c4f8bb443f47e1bd6392, type: 3}
   - {fileID: 8725837746771821111, guid: fe92fa328ecbf46f3aaef7bdc7d3e219, type: 3}
