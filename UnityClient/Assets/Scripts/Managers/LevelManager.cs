@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
-using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 using UnityClient.Models;
@@ -89,7 +88,7 @@ namespace UnityClient.Managers {
 		}
 
 		void AddUnit(bool isPlayerUnit, UnitState state, UnitConfig config, Transform[] points, int position) {
-			var model = new UnitLevelModel(isPlayerUnit, state, config);
+			var model = new UnitModel(isPlayerUnit, state, config);
 			var instance = _units.Create(model);
 			instance.transform.SetParent(points[position], false);
 		}

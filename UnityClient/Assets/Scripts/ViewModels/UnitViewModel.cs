@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
-using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
 using UnityClient.Models;
 using UnityClient.Services;
@@ -13,7 +12,7 @@ using Zenject;
 
 namespace UnityClient.ViewModels {
 	public class UnitViewModel : MonoBehaviour, IPointerClickHandler {
-		public class Factory : PlaceholderFactory<UnitLevelModel, UnitViewModel> {}
+		public class Factory : PlaceholderFactory<UnitModel, UnitViewModel> {}
 
 		public Color PlayerHealthColor = Color.green;
 		public Color EnemyHealthColor  = Color.red;
@@ -25,10 +24,10 @@ namespace UnityClient.ViewModels {
 		
 		GameStateUpdateService _updateService;
 		LevelService           _levelService;
-		UnitLevelModel         _model;
+		UnitModel              _model;
 
 		[Inject]
-		public void Init(GameStateUpdateService updateService, LevelService levelService, UnitLevelModel model) {
+		public void Init(GameStateUpdateService updateService, LevelService levelService, UnitModel model) {
 			_updateService = updateService;
 			_levelService  = levelService;
 			_model         = model;
