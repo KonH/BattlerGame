@@ -2,7 +2,8 @@
     "name": "Editor",
     "references": [
         "Installers",
-        "Zenject"
+        "Zenject",
+        "Utils"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

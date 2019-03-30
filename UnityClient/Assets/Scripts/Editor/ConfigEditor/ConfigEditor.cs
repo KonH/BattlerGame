@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
+using UnityClient.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,11 +17,12 @@ namespace UnityClient.Editor.ConfigEditor {
 		Config _config = new Config();
 		
 		List<string> _pathes = new List<string>(_defaultPathes);
-		
-		PathEditor  _pathEditor  = new PathEditor();
-		ItemEditor  _itemEditor  = new ItemEditor();
-		UnitEditor  _unitEditor  = new UnitEditor();
-		LevelEditor _levelEditor = new LevelEditor() { UseVerticalLayout = true };
+
+		PathEditor    _pathEditor    = new PathEditor();
+		ItemEditor    _itemEditor    = new ItemEditor();
+		UnitEditor    _unitEditor    = new UnitEditor();
+		LevelEditor   _levelEditor   = new LevelEditor() { UseVerticalLayout = true };
+		FeatureEditor _featureEditor = new FeatureEditor();
 		
 		[MenuItem("Utils/Config/Open Editor")]
 		public static void Open() {
@@ -55,6 +58,14 @@ namespace UnityClient.Editor.ConfigEditor {
 
 			_levelEditor.Context = _config;
 			_levelEditor.Update("Levels", _config.Levels);
+			EditorGUILayout.Separator();
+			
+			var tmpFeatures = _config.Features.ToDictionary(p => p.Key, p => new Boxed<bool>(p.Value));
+			_featureEditor.Update("Features", tmpFeatures);
+			_config.Features.Clear();
+			foreach ( var f in tmpFeatures ) {
+				_config.Features.Add(f.Key, f.Value.Value);
+			}
 			EditorGUILayout.Separator();
 		}
 
