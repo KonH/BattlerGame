@@ -6,6 +6,7 @@ using GameLogics.Shared.Models.Configs;
 using UnityClient.Models;
 using UnityClient.Services;
 using UnityClient.ViewModels;
+using UnityClient.ViewModels.Fragments;
 using UnityClient.ViewModels.Windows;
 using UnityEngine;
 using Zenject;
@@ -16,22 +17,22 @@ namespace UnityClient.Managers {
 		public Transform[] EnemyPoints  = null;
 
 		GameSceneManager       _scene;
+		ClientCommandRunner    _runner;
 		GameStateUpdateService _update;
 		ClientStateService     _state;
-		NoticeService          _notice;
 		LevelService           _service;
 		UnitViewModel.Factory  _units;
 		UiManager              _ui;
 		
 		[Inject]
 		public void Init(
-			GameSceneManager scene, GameStateUpdateService update, ClientStateService state, NoticeService notice,
+			GameSceneManager scene, ClientCommandRunner runner, ClientStateService state,
 			LevelService service, UnitViewModel.Factory units, UiManager ui
 		) {
 			_scene   = scene;
-			_update  = update;
+			_runner  = runner;
+			_update  = runner.Updater;
 			_state   = state;
-			_notice  = notice;
 			_service = service;
 			_units   = units;
 			_ui      = ui;
@@ -59,7 +60,7 @@ namespace UnityClient.Managers {
 
 		Task OnFinishLevel(FinishLevelCommand cmd) {
 			if ( cmd.Win ) {
-				_notice.ScheduleNotice(new NoticeModel("You won!", _ => _scene.GoToWorld()));
+				_ui.ShowWindow<WinWindow>(w => w.Show(_runner, _ui.GetFragmentTemplate<RewardFragment>(), _scene.GoToWorld));
 			} else {
 				_ui.ShowWindow<LoseWindow>(w => w.Show(_scene.GoToWorld));
 			}

@@ -18,7 +18,7 @@ namespace UnityClient.ViewModels.Windows.Animations {
 			PerformHide().GetAwaiter().OnCompleted(callback);
 		}
 
-		protected abstract AsyncExtensions.UpdateHelper PerformShow();
-		protected abstract AsyncExtensions.UpdateHelper PerformHide();
+		public abstract AsyncExtensions.UpdateHelper PerformShow();
+		public abstract AsyncExtensions.UpdateHelper PerformHide();
 	}
 }
