@@ -14,7 +14,7 @@ namespace UnityClient.ViewModels.Windows {
 
 		[Inject]
 		public void Init(Canvas parent, ItemFragment.Factory itemFragment, List<ItemModel> items) {
-			CloseButton.onClick.AddListener(() => Hide());
+			CloseButton.onClick.AddListener(Hide);
 			foreach ( var item in items ) {
 				itemFragment.Create(ItemsRoot, item);
 			}

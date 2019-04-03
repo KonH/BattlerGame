@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Models;
-using GameLogics.Shared.Models.Configs;
 using TMPro;
 using UnityClient.Models;
 using UnityClient.Services;
@@ -20,39 +17,32 @@ namespace UnityClient.ViewModels.Windows {
 		
 		public Button    CloseButton;
 		public Transform ItemsRoot;
+		public TMP_Text  NameText;
 
-		public TMP_Text NameText;
+		GameStateUpdateService _update;
+		ItemService            _items;
+		ItemFragment.Factory   _itemFragment;
+		ItemsWindow.Factory    _itemsWindow;
+		StateUnitModel         _unit;
 
-		ClientCommandRunner          _runner;
-		GameState                    _state;
-		Config                       _config;
-
-		ItemFragment.Factory _itemFragment;
-
-		ItemsWindow.Factory _itemsWindow;
-		
-		StateUnitModel _unit;
-		
-		Dictionary<ItemType, ItemFragment> _fragments = new Dictionary<ItemType, ItemFragment>();
-
-		ItemsWindow _equipWindow;
+		Dictionary<ItemType, ItemFragment> _fragments   = new Dictionary<ItemType, ItemFragment>();
+		ItemsWindow                        _equipWindow = null;
 
 		[Inject]
 		public void Init(
-			ClientCommandRunner runner, ClientStateService service, ItemFragment.Factory itemFragment, ItemsWindow.Factory itemsWindow,
+			GameStateUpdateService update, ItemService items, ItemFragment.Factory itemFragment, ItemsWindow.Factory itemsWindow,
 			Canvas parent, StateUnitModel unit
-		) {			
-			_runner       = runner;
-			_state        = service.State;
-			_config       = service.Config;
+		) {
+			_update       = update;
+			_items        = items;
 			_itemFragment = itemFragment;
-			_itemsWindow = itemsWindow;
+			_itemsWindow  = itemsWindow;
 			_unit         = unit;
 
-			_runner.Updater.AddHandler<EquipItemCommand>  (OnEquipItem);
-			_runner.Updater.AddHandler<TakeOffItemCommand>(OnTakeOffItem);
+			update.AddHandler<EquipItemCommand>  (OnEquipItem);
+			update.AddHandler<TakeOffItemCommand>(OnTakeOffItem);
 			
-			CloseButton.onClick.AddListener(() => Hide());
+			CloseButton.onClick.AddListener(Hide);
 			
 			NameText.text = unit.Name;
 			CreateFragments();
@@ -61,70 +51,45 @@ namespace UnityClient.ViewModels.Windows {
 		}
 
 		void OnDestroy() {
-			_runner.Updater.RemoveHandler<EquipItemCommand>  (OnEquipItem);
-			_runner.Updater.RemoveHandler<TakeOffItemCommand>(OnTakeOffItem);
+			_update.RemoveHandler<EquipItemCommand>  (OnEquipItem);
+			_update.RemoveHandler<TakeOffItemCommand>(OnTakeOffItem);
 		}
 
 		Task OnEquipItem(EquipItemCommand cmd) {
-			var state = _unit.State.Items.Find(it => it.Id == cmd.ItemId);
-			var config = _config.Items[state.Descriptor];
-			ReplaceFragment(config.Type, CreateItemViewModel(state, config));
-
-			if ( _equipWindow ) {
-				_equipWindow.Hide();
-				_equipWindow = null;
-			}
-			
+			var model = _items.CreateModel(_unit, cmd.ItemId, TakeOffItem);
+			ReplaceFragment(model);
+			TryHideEquipWindow();
 			return Task.CompletedTask;
 		}
 
 		Task OnTakeOffItem(TakeOffItemCommand cmd) {
-			var state  = _state.Items[cmd.ItemId];
-			var config = _config.Items[state.Descriptor];
-			ReplaceFragment(config.Type, CreateItemPlaceholder(config.Type));
+			var model = _items.CreatePlaceholder(cmd.ItemId, OpenEquipWindow);
+			ReplaceFragment(model);
 			return Task.CompletedTask;
 		}
 		
+		ClickAction<ItemModel> TakeOffItem => new ClickAction<ItemModel>(
+			"Take Off",
+			it => _items.TakeOff(_unit, it)
+		);
+		
+		ClickAction<ItemModel> OpenEquipWindow => new ClickAction<ItemModel>(
+			"Equip",
+			it => {
+				var items = _items.GetItemsForEquip(it.Type, EquipItem);
+				_equipWindow = _itemsWindow.Create(items);
+			});
+		
+		ClickAction<ItemModel> EquipItem => new ClickAction<ItemModel>(
+			"Equip",
+			it => _items.Equip(_unit, it)
+		);
+		
 		void CreateFragments() {
-			foreach ( var state in _unit.State.Items ) {
-				var itemConfig = _config.Items[state.Descriptor];
-				AddFragment(CreateItemViewModel(state, itemConfig));
+			var unitItems = _items.GetAllUnitItems(_unit, onItem: TakeOffItem, onPlaceholder: OpenEquipWindow);
+			foreach ( var item in unitItems ) {
+				AddFragment(item);
 			}
-			foreach ( ItemType type in Enum.GetValues(typeof(ItemType)) ) {
-				if ( type == ItemType.Unknown ) {
-					continue;
-				}
-				if ( _fragments.ContainsKey(type) ) {
-					continue;
-				}
-				AddFragment(CreateItemPlaceholder(type));
-			}
-		}
-
-		ItemModel CreateItemViewModel(ItemState state, ItemConfig config) {
-			return new StateItemModel(
-				state, config,
-				new ClickAction<ItemModel>("Take Off", it => {
-					var item = (StateItemModel)it;
-					_runner.TryAddCommand(new TakeOffItemCommand(item.State.Id, _unit.State.Id));
-				})
-			);
-		}
-
-		ItemModel CreateItemPlaceholder(ItemType type) {
-			return new PlaceholderItemModel(
-				type,
-				new ClickAction<ItemModel>("Equip", it => {
-					var items = new List<ItemModel>();
-					var wantedItems = _state.Items.Values.Where(i => _config.Items[i.Descriptor].Type == type).ToList();
-					foreach ( var state in wantedItems ) {
-						items.Add(new StateItemModel(state, _config.Items[state.Descriptor], new ClickAction<ItemModel>("Equip", item => {
-							_runner.TryAddCommand(new EquipItemCommand(state.Id, _unit.State.Id));
-						})));
-					}
-					_equipWindow = _itemsWindow.Create(items);
-				})
-			);
 		}
 
 		void RemoveFragment(ItemType type) {
@@ -137,9 +102,16 @@ namespace UnityClient.ViewModels.Windows {
 			_fragments.Add(model.Type, fragment);
 		}
 		
-		void ReplaceFragment(ItemType type, ItemModel model) {
-			RemoveFragment(type);
+		void ReplaceFragment(ItemModel model) {
+			RemoveFragment(model.Type);
 			AddFragment(model);
+		}
+
+		void TryHideEquipWindow() {
+			if ( _equipWindow ) {
+				_equipWindow.Hide();
+				_equipWindow = null;
+			}
 		}
 	}
 }

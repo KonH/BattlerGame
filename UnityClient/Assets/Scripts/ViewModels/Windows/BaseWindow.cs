@@ -16,8 +16,10 @@ namespace UnityClient.ViewModels.Windows {
 				Animation.Show(callback);
 			}
 		}
+
+		public void Hide() => Hide(null);
 		
-		public void Hide(Action callback = null) {
+		public void Hide(Action callback) {
 			if ( Animation ) {
 				Animation.Hide(() => {
 					OnHide(callback);

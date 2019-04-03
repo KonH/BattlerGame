@@ -28,6 +28,8 @@ namespace UnityClient.Installers {
 			Container.Bind<RegisterService>().AsSingle();
 			Container.Bind<NoticeService>().AsSingle();
 			Container.Bind<ApiErrorManager>().AsSingle().NonLazy();
+			Container.Bind<ItemService>().AsSingle();
+			Container.Bind<UnitService>().AsSingle();
 		}
 
 		void BindManagers() {
