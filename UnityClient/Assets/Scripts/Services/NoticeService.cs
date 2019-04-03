@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using GameLogics.Shared.Services;
-using JetBrains.Annotations;
 using UnityClient.Models;
+using JetBrains.Annotations;
 
 namespace UnityClient.Services {
 	public class NoticeService {

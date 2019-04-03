@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using UnityClient.Installers;
 using UnityEditor;
 using UnityEngine;
@@ -17,11 +15,15 @@ namespace UnityClient.Editor {
 				}
 			}
 		}
+		
+		[MenuItem("Utils/Create/Fragment Installer")]
+		public static void CreateFragmentInstaller() {
+			CreateInstaller<FragmentInstaller>();
+		}
 
-		[MenuItem("Utils/Create/UI Setup Installer")]
-		public static void CreateUiSetupInstaller() {
-			var instance = ScriptableObject.CreateInstance<UiSetupInstaller>();
-			var assetPathAndName = AssetDatabase.GenerateUniqueAssetPath($"Assets/Installers/{typeof(UiSetupInstaller).Name}.asset");
+		static void CreateInstaller<T>() where T : ScriptableObject {
+			var instance         = ScriptableObject.CreateInstance<T>();
+			var assetPathAndName = AssetDatabase.GenerateUniqueAssetPath($"Assets/Installers/{typeof(T).Name}.asset");
 			AssetDatabase.CreateAsset(instance, assetPathAndName);
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();

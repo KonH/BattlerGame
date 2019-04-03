@@ -12,7 +12,7 @@ using Zenject;
 
 namespace UnityClient.ViewModels {
 	public class UnitViewModel : MonoBehaviour, IPointerClickHandler {
-		public class Factory : PlaceholderFactory<UnitModel, UnitViewModel> {}
+		public class Factory : PlaceholderFactory<UnitLevelModel, UnitViewModel> {}
 
 		public Color PlayerHealthColor = Color.green;
 		public Color EnemyHealthColor  = Color.red;
@@ -24,10 +24,10 @@ namespace UnityClient.ViewModels {
 		
 		GameStateUpdateService _updateService;
 		LevelService           _levelService;
-		UnitModel              _model;
+		UnitLevelModel         _model;
 
 		[Inject]
-		public void Init(GameStateUpdateService updateService, LevelService levelService, UnitModel model) {
+		public void Init(GameStateUpdateService updateService, LevelService levelService, UnitLevelModel model) {
 			_updateService = updateService;
 			_levelService  = levelService;
 			_model         = model;

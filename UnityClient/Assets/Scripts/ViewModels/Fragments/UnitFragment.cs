@@ -1,22 +1,28 @@
-using System;
 using TMPro;
 using UnityClient.Models;
+using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UnityClient.ViewModels.Fragments {
-	public class UnitFragment : BaseFragment {
+	public class UnitFragment : BaseFragment {		
+		public class Factory : PlaceholderFactory<Transform, UnitModel, UnitFragment> {}
+		
 		public TMP_Text NameText;
 		public Button   ActionButton;
 		public TMP_Text ActionText;
-
-		UnitModel _model;
 		
-		public void Init(UnitModel model, string actName, Action<UnitModel> act) {
-			_model = model;
-			NameText.text = !_model.IsFake ? $"{_model.State.Id} ({_model.State.Descriptor})" : $"Unit {model.Index + 1}";
-			ActionText.text = actName;
-			ActionButton.onClick.RemoveAllListeners();
-			ActionButton.onClick.AddListener(() => act(_model));
+		[Inject]
+		public void Init(Transform parent, UnitModel model) {
+			NameText.text = model.Name;
+			ActionButton.gameObject.SetActive(model.HasAction);
+			if ( model.HasAction ) {
+				ActionText.text = model.ActionName;
+				ActionButton.onClick.RemoveAllListeners();
+				ActionButton.onClick.AddListener(model.Click);
+			}
+			
+			Attach(parent);
 		}
 	}
 }

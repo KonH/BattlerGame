@@ -6,7 +6,8 @@
         "Managers",
         "Services",
         "Models",
-        "ViewModels"
+        "ViewModels",
+        "Zenject"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

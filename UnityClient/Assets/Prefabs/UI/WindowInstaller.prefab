@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6697195799678933460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6697195799678933461}
+  - component: {fileID: 6697195799678933462}
+  m_Layer: 0
+  m_Name: WindowInstaller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6697195799678933461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6697195799678933460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6697195799678933462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6697195799678933460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 177972e875e147eeaf1c4bc3aa37bd61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NoticeWindowPrefab: {fileID: 892236615659287653, guid: 68033808caaf241fe8e5e588064fcff0,
+    type: 3}
+  WinWindowPrefab: {fileID: 7628743289086152013, guid: 64ac904ed568b49d0a4cb49535726b9b,
+    type: 3}
+  LoseWindowPrefab: {fileID: 1420328961878203087, guid: b83b4de27385248acac4d4c79cb750d9,
+    type: 3}
+  UnitWindowPrefab: {fileID: 3847840194190305252, guid: 69b37e490c02d47beba064bfd855fd2e,
+    type: 3}
+  UnitsWindowPrefab: {fileID: 7965953987475944308, guid: 20377da35d9f84ba1817e043834741dd,
+    type: 3}
+  ItemsWindowPrefab: {fileID: 7726954082602611735, guid: 97e7f68054a4c4ec2a4fab45cf7a7f30,
+    type: 3}
+  StartLevelWindowPrefab: {fileID: 2348057583927274789, guid: 9c5ebf9fa740c4c3cb74a3061d972875,
+    type: 3}
+  UICanvas: {fileID: 0}

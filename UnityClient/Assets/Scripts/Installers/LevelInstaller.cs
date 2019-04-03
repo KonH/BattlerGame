@@ -1,4 +1,5 @@
-﻿using UnityClient.Managers;
+﻿using System;
+using UnityClient.Managers;
 using UnityClient.Models;
 using UnityClient.Services;
 using UnityClient.ViewModels;
@@ -11,8 +12,8 @@ namespace UnityClient.Installers {
 		
 		public override void InstallBindings() {
 			Container.Bind<LevelService>().AsSingle();
-			Container.Bind(typeof(LevelManager), typeof(IInitializable)).To<LevelManager>().FromInstance(Manager);
-			Container.BindFactory<UnitModel, UnitViewModel, UnitViewModel.Factory>().FromComponentInNewPrefab(UnitPrefab);
+			Container.Bind(typeof(LevelManager), typeof(IInitializable), typeof(IDisposable)).To<LevelManager>().FromInstance(Manager);
+			Container.BindFactory<UnitLevelModel, UnitViewModel, UnitViewModel.Factory>().FromComponentInNewPrefab(UnitPrefab);
 		}
 	}
 }

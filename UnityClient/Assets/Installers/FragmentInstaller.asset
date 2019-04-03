@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3478689c64b0e4f8781401fbaddfc4ba, type: 3}
+  m_Name: FragmentInstaller
+  m_EditorClassIdentifier: 
+  ItemFragmentPrefab: {fileID: 375806025042388333, guid: e16033166688c4f8bb443f47e1bd6392,
+    type: 3}
+  UnitFragmentPrefab: {fileID: 8725837746771821111, guid: fe92fa328ecbf46f3aaef7bdc7d3e219,
+    type: 3}
+  RewardFragmentPrefab: {fileID: 7249296631149003783, guid: 6c7666b4eb72d47a0839ce5577ebf89f,
+    type: 3}

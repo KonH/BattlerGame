@@ -3,36 +3,32 @@ using System.Threading.Tasks;
 using GameLogics.Shared.Commands;
 using UnityClient.Services;
 using UnityClient.ViewModels.Fragments;
-using UnityClient.ViewModels.Windows.Animations;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UnityClient.ViewModels.Windows {
 	public class WinWindow : BaseWindow {
+		public class Factory : PlaceholderFactory<Action, WinWindow> {}
+		
 		public Button    OkButton;
 		public Transform ItemsRoot;
 
-		public BaseAnimation Animation;
+		ClientCommandRunner    _runner;
+		RewardFragment.Factory _rewardFragment;
 
-		ClientCommandRunner _runner;
-		RewardFragment      _rewardTemplate;
-		
-		void Awake() {
-			Animation.Show();
-		}
-
-		public void Show(ClientCommandRunner runner, RewardFragment rewardTemplate, Action callback) {			
+		[Inject]
+		public void Init(ClientCommandRunner runner, RewardFragment.Factory rewardFragment, Canvas parent, Action callback) {			
 			_runner         = runner;
-			_rewardTemplate = rewardTemplate;
-			
-			OkButton.onClick.AddListener(() => Animation.Hide(callback));
-			
-			_rewardTemplate.transform.SetParent(ItemsRoot);
-			_rewardTemplate.gameObject.SetActive(false);
+			_rewardFragment = rewardFragment;
 			
 			_runner.Updater.AddHandler<AddResourceCommand>(OnAddResource);
 			_runner.Updater.AddHandler<AddItemCommand>    (OnAddItem);
 			_runner.Updater.AddHandler<AddUnitCommand>    (OnAddUnit);
+			
+			OkButton.onClick.AddListener(() => Hide(callback));
+			
+			ShowAt(parent);
 		}
 
 		void OnDestroy() {
@@ -42,9 +38,7 @@ namespace UnityClient.ViewModels.Windows {
 		}
 
 		async Task AddFragment(string text) {
-			var instance = Instantiate(_rewardTemplate, ItemsRoot, false);
-			instance.gameObject.SetActive(true);
-			instance.Init(text);
+			var instance = _rewardFragment.Create(ItemsRoot, text);
 			await instance.Animation.PerformShow();
 		}
 		

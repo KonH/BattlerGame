@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using GameLogics.Client.Services;
-using UnityClient.Managers;
 using UnityClient.Models;
-using UnityClient.ViewModels.Fragments;
 using UnityClient.ViewModels.Windows;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,26 +10,26 @@ namespace UnityClient.Controls {
 	public class ItemsControl : MonoBehaviour {
 		public Button Button;
 
-		UiManager         _ui;
-		ClientStateService _service;
+		ClientStateService  _service;
+		ItemsWindow.Factory _window;
 		
 		[Inject]
-		public void Init(UiManager ui, ClientStateService service) {
-			_ui      = ui;
+		public void Init(ClientStateService service, ItemsWindow.Factory window) {
 			_service = service;
+			_window  = window;
 			Button.onClick.AddListener(OnClick);
 		}
 
 		void OnClick() {
 			var items = CollectItems();
-			var prefab = _ui.GetFragmentTemplate<ItemFragment>();
-			_ui.ShowWindow<ItemsWindow>(w => w.Show(items, prefab));
+			_window.Create(items);
 		}
 
 		List<ItemModel> CollectItems() {
 			var result = new List<ItemModel>();
 			foreach ( var state in _service.State.Items.Values ) {
-				result.Add(new ItemModel(state, _service.Config.Items[state.Descriptor]));
+				var config = _service.Config.Items[state.Descriptor];
+				result.Add(new StateItemModel(state, config, null));
 			}
 			return result;
 		}

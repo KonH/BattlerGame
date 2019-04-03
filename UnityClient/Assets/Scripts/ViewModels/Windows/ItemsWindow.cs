@@ -1,37 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityClient.Models;
 using UnityClient.ViewModels.Fragments;
 using UnityEngine.UI;
-using UnityClient.ViewModels.Windows.Animations;
 using UnityEngine;
+using Zenject;
 
 namespace UnityClient.ViewModels.Windows {
-	public class ItemsWindow : BaseWindow {
+	public class ItemsWindow : BaseWindow {		
+		public class Factory : PlaceholderFactory<List<ItemModel>, ItemsWindow> {}
+		
 		public Button    CloseButton;
 		public Transform ItemsRoot;
 
-		public BaseAnimation Animation;
-		
-		void Awake() {
-			Animation.Show();
-		}
-
-		public void Show(List<ItemModel> items, ItemFragment itemTemplate, string actName = null, Action<ItemModel> act = null) {
-			CloseButton.onClick.AddListener(() => Animation.Hide(() => Destroy(gameObject)));
-			itemTemplate.transform.SetParent(ItemsRoot, false);
+		[Inject]
+		public void Init(Canvas parent, ItemFragment.Factory itemFragment, List<ItemModel> items) {
+			CloseButton.onClick.AddListener(() => Hide());
 			foreach ( var item in items ) {
-				var instance = Instantiate(itemTemplate, ItemsRoot, false);
-				Action<ItemModel> realAct = null;
-				if ( act != null ) {
-					realAct = it => {
-						Animation.Hide(() => Destroy(gameObject));
-						act(it);
-					};
-				}
-				instance.Init(item, actName, realAct);
+				itemFragment.Create(ItemsRoot, item);
 			}
-			itemTemplate.gameObject.SetActive(false);
+			
+			ShowAt(parent);
 		}
 	}
 }

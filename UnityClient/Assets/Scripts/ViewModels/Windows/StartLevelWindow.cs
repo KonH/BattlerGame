@@ -1,114 +1,125 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
+using GameLogics.Shared.Models;
 using UnityClient.Models;
 using UnityClient.Services;
 using UnityClient.ViewModels.Fragments;
 using UnityEngine.UI;
-using UnityClient.ViewModels.Windows.Animations;
 using UnityEngine;
+using Zenject;
 
 namespace UnityClient.ViewModels.Windows {
-	public class StartLevelWindow : BaseWindow {
+	public class StartLevelWindow : BaseWindow {		
+		public class Factory : PlaceholderFactory<string, Action, StartLevelWindow> {}
+		
 		public Button    CloseButton;
 		public Button    StartButton;
 		public Transform ItemsRoot;
 
-		public BaseAnimation Animation;
-
 		string              _levelDesc;
 		ClientStateService  _service;
 		ClientCommandRunner _runner;
-		UnitFragment        _unitTemplate;
-		
-		Action                                             _onStart;
-		Action<List<UnitModel>, string, Action<UnitModel>> _onSelectUnit;
 
-		List<UnitModel> _units = new List<UnitModel>();
+		UnitModel[] _units;
 		
-		List<UnitFragment> _fragments = new List<UnitFragment>(); 
-		
-		void Awake() {
-			Animation.Show();
-		}
+		UnitFragment[] _fragments;
 
-		public void Show(
-			string levelDesc,
-			ClientStateService service, ClientCommandRunner runner,
-			UnitFragment unitTemplate, Action onStart, Action<List<UnitModel>, string, Action<UnitModel>> onSelectUnit
+		UnitFragment.Factory _unitFragment;
+
+		UnitsWindow.Factory _unitsWindow;
+
+		UnitsWindow _selectWindow;
+		
+		Action _onStart;
+		
+		[Inject]
+		public void Init(
+			ClientStateService service, ClientCommandRunner runner, UnitFragment.Factory unitFragment, UnitsWindow.Factory unitsWindow,
+			Canvas parent, string levelDesc, Action callback
 		) {
-			_levelDesc    = levelDesc;
 			_service      = service;
 			_runner       = runner;
-			_unitTemplate = unitTemplate;
-			_onStart      = onStart;
-			_onSelectUnit = onSelectUnit;
+			_unitFragment = unitFragment;
+			_unitsWindow  = unitsWindow;
+			_levelDesc    = levelDesc;
+			_onStart      = callback;
 			
 			_runner.Updater.AddHandler<StartLevelCommand>(OnStartLevel);
+			
 			CloseButton.onClick.AddListener(() => Animation.Hide(() => Destroy(gameObject)));
 			StartButton.onClick.AddListener(OnStart);
-			_unitTemplate.transform.SetParent(ItemsRoot, false);
-			_unitTemplate.gameObject.SetActive(false);
 
 			var allUnits = _service.State.Units.Values.OrderBy(u => u.Id).ToList();
-			for ( var i = 0; i < 4; i++ ) {
+			var unitCount = 4;
+			_units = new UnitModel[unitCount];
+			_fragments = new UnitFragment[unitCount];
+			for ( var i = 0; i < unitCount; i++ ) {
 				if ( allUnits.Count <= i ) {
-					AddUnit(new UnitModel(i));
+					InsertPlaceholderUnit(i);
 				} else {
 					var state = allUnits[i];
-					var config = _service.Config.Units[state.Descriptor];
-					AddUnit(new UnitModel(true, state, config, i));
+					InsertStateUnit(state, i);
 				}
 			}
 			
 			UpdateInteractable();
+
+			ShowAt(parent);
 		}
 
 		void OnDestroy() {
 			_runner?.Updater.RemoveHandler<StartLevelCommand>(OnStartLevel);
 		}
 
-		void AddUnit(UnitModel unit) {
-			_units.Add(unit);
-			var instance = CreateFragment(unit);
-			_fragments.Add(instance);
+		void InsertStateUnit(UnitState state, int index) {
+			InsertUnit(new StateUnitModel(state, index, new ClickAction<UnitModel>("Select", OnUnitSelected)), index);
 		}
 
-		UnitFragment CreateFragment(UnitModel unit) {
-			var instance = Instantiate(_unitTemplate, ItemsRoot, false);
-			instance.gameObject.SetActive(true);
-			instance.Init(unit, "Select", OnUnitSelected);
-			return instance;
+		void InsertPlaceholderUnit(int index) {
+			InsertUnit(new PlaceholderUnitModel(index, new ClickAction<UnitModel>("Select", OnUnitSelected)), index);
+		}
+		
+		void InsertUnit(UnitModel unit, int index) {
+			_units[index]     = unit;
+			_fragments[index] = _unitFragment.Create(ItemsRoot, unit);
 		}
 
 		void OnUnitSelected(UnitModel unit) {
 			var selectableUnits = _runner.Updater.State.Units.Values
-				.Where(u => _units.Find(m => !m.IsFake && (m.State.Id == u.Id)) == null)
-				.Select(u => new UnitModel(false, u, _service.Config.Units[u.Descriptor], unit.Index))
+				.Where(u => _units.Where(m => m is StateUnitModel).Cast<StateUnitModel>().All(m => m.State.Id != u.Id))
+				.Select(u => new StateUnitModel(u, unit.Index, new ClickAction<UnitModel>("Apply", OnUnitApplied)) as UnitModel)
 				.ToList();
-			
-			_onSelectUnit(selectableUnits, "Select", OnUnitApplied);
+
+			_selectWindow = _unitsWindow.Create(selectableUnits);
 		}
 
-		void OnUnitApplied(UnitModel unit) {
-			_units[unit.Index] = unit;
-			var oldFragment = _fragments[unit.Index];
-			oldFragment.gameObject.SetActive(false);
-			var newFragment = CreateFragment(unit);
-			newFragment.transform.SetSiblingIndex(oldFragment.transform.GetSiblingIndex());
-			_fragments[unit.Index] = newFragment;
+		void OnUnitApplied(UnitModel rawUnit) {
+			var unit = (StateUnitModel)rawUnit;
+			ReplaceUnit(unit.Index, unit.State);
 			UpdateInteractable();
+
+			if ( _selectWindow ) {
+				_selectWindow.Hide();
+				_selectWindow = null;
+			}
+		}
+
+		void ReplaceUnit(int index, UnitState state) {
+			var oldFragment = _fragments[index];
+			oldFragment.gameObject.SetActive(false);
+			InsertStateUnit(state, index);
+			_fragments[index].transform.SetSiblingIndex(oldFragment.transform.GetSiblingIndex());
 		}
 		
 		void UpdateInteractable() {
-			StartButton.interactable = _units.Any(u => !u.IsFake);
+			StartButton.interactable = _units.Any(u => u is StateUnitModel);
 		}
 
 		void OnStart() {
-			var unitIds = _units.Where(u => !u.IsFake).Select(u => u.State.Id).ToList();
+			var unitIds = _units.Where(u => u is StateUnitModel).Cast<StateUnitModel>().Select(u => u.State.Id).ToList();
 			_runner.TryAddCommand(new StartLevelCommand(_levelDesc, unitIds));
 		}
 		
