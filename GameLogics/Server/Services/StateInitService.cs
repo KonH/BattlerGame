@@ -6,7 +6,7 @@ using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Server.Services {
 	public class StateInitService {
-		class InitCommand : ICommand {
+		class InitCommand : IInternalCommand {
 			public bool IsValid(GameState state, Config config) => true;
 
 			public void Execute(GameState state, Config config, ICommandBuffer buffer) {
