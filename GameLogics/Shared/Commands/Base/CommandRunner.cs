@@ -23,13 +23,4 @@ namespace GameLogics.Shared.Commands.Base {
 			return GetEnumerator();
 		}
 	}
-
-	class TestCommand : ICommand {
-		public bool IsValid(GameState state, Config config) {
-			return false;
-		}
-
-		public void Execute(GameState state, Config config, ICommandBuffer buffer) {
-		}
-	}
 }
