@@ -36,9 +36,13 @@ namespace ConsoleClient {
 		}
 
 		void WriteWithColor(ConsoleColor color, object context, string message) {
+			WriteWithColor(color, $"[{context.GetType().Name}] {message}");
+		}
+
+		public static void WriteWithColor(ConsoleColor color, string message) {
 			var prevColor = Console.ForegroundColor;
 			Console.ForegroundColor = color;
-			Console.WriteLine("[{0}] {1}", context.GetType().Name, message);
+			Console.WriteLine(message);
 			Console.ForegroundColor = prevColor;
 		}
 	}
