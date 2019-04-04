@@ -40,7 +40,6 @@ namespace GameLogics.Shared.Commands {
 
 		public void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			state.Level.MovedUnits.Add(DealerId);
-			var dealer = state.Level.FindUnitById(DealerId);
 			var damage = GetDamage(state, config);
 			var target = state.Level.FindUnitById(TargetId);
 			target.Health -= damage;
@@ -51,7 +50,18 @@ namespace GameLogics.Shared.Commands {
 
 		public int GetDamage(GameState state, Config config) {
 			var dealer = state.Level.FindUnitById(DealerId);
-			return config.Units[dealer.Descriptor].BaseDamage;
+			return config.Units[dealer.Descriptor].BaseDamage + GetWeaponDamage(dealer.Items, config);
+		}
+
+		int GetWeaponDamage(List<ItemState> items, Config config) {
+			var accum = 0;
+			foreach ( var item in items ) {
+				var itemConfig = config.Items[item.Descriptor];
+				if ( itemConfig is WeaponConfig weapon ) {
+					accum += weapon.Damage;
+				}
+			}
+			return accum;
 		}
 
 		public override string ToString() {

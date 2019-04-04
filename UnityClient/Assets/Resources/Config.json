@@ -2,7 +2,8 @@
   "Version": "test_version",
   "Items": {
     "test_weapon": {
-      "$type": "GameLogics.Shared.Models.Configs.WeaponConfig, GameLogics"
+      "$type": "GameLogics.Shared.Models.Configs.WeaponConfig, GameLogics",
+      "Damage": 2
     }
   },
   "Units": {

@@ -82,5 +82,16 @@ namespace UnitTests {
 			
 			IsInvalid(new AttackCommand(_playerId, _enemyId));
 		}
+
+		[Fact]
+		void AttackWithWeaponIncreaseDamage() {
+			_state.Level.EnemyUnits[0].Health = 3;
+			_config.AddItem("weapon", new WeaponConfig(1));
+			_state.Level.PlayerUnits[0].Items.Add(new ItemState("weapon"));
+
+			Execute(new AttackCommand(_playerId, _enemyId));
+			
+			Assert.Equal(1, _state.Level.EnemyUnits[0].Health);
+		}
 	}
 }
