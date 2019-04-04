@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
@@ -42,7 +43,8 @@ namespace GameLogics.Shared.Commands {
 			state.Level.MovedUnits.Add(DealerId);
 			var damage = GetDamage(state, config);
 			var target = state.Level.FindUnitById(TargetId);
-			target.Health -= damage;
+			var absorb = GetAbsorb(target, config);
+			target.Health -= Math.Max(damage - absorb, 0);
 			if ( target.Health <= 0 ) {
 				buffer.Add(new KillUnitCommand(target.Id));
 			}
@@ -59,6 +61,17 @@ namespace GameLogics.Shared.Commands {
 				var itemConfig = config.Items[item.Descriptor];
 				if ( itemConfig is WeaponConfig weapon ) {
 					accum += weapon.Damage;
+				}
+			}
+			return accum;
+		}
+		
+		public int GetAbsorb(UnitState state, Config config) {
+			var accum = 0;
+			foreach ( var item in state.Items ) {
+				var itemConfig = config.Items[item.Descriptor];
+				if ( itemConfig is ArmorConfig armor ) {
+					accum += armor.Absorb;
 				}
 			}
 			return accum;

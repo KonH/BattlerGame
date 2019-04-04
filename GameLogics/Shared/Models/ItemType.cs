@@ -4,5 +4,6 @@ namespace GameLogics.Shared.Models {
 	/// </summary>
 	public enum ItemType {
 		Weapon,
+		Armor,
 	}
 }

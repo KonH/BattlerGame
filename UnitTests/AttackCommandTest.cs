@@ -93,5 +93,25 @@ namespace UnitTests {
 			
 			Assert.Equal(1, _state.Level.EnemyUnits[0].Health);
 		}
+		
+		[Fact]
+		void AttackToArmorDecreaseDamage() {
+			_config.AddItem("armor", new ArmorConfig(1));
+			_state.Level.EnemyUnits[0].Items.Add(new ItemState("armor"));
+
+			Execute(new AttackCommand(_playerId, _enemyId));
+			
+			Assert.Equal(2, _state.Level.EnemyUnits[0].Health);
+		}
+		
+		[Fact]
+		void AttackToArmorDontHeal() {
+			_config.AddItem("armor", new ArmorConfig(2));
+			_state.Level.EnemyUnits[0].Items.Add(new ItemState("armor"));
+
+			Execute(new AttackCommand(_playerId, _enemyId));
+			
+			Assert.Equal(2, _state.Level.EnemyUnits[0].Health);
+		}
 	}
 }
