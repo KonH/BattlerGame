@@ -2,7 +2,7 @@
   "Version": "test_version",
   "Items": {
     "test_weapon": {
-      "Type": 1
+      "$type": "GameLogics.Shared.Models.Configs.WeaponConfig, GameLogics"
     }
   },
   "Units": {

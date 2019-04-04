@@ -6,7 +6,7 @@ using Xunit;
 namespace UnitTests {	
 	public class AddItemCommandTest : BaseCommandTest<AddItemCommand> {
 		public AddItemCommandTest() {
-			_config.AddItem("desc", new ItemConfig());
+			_config.AddItem("desc", new WeaponConfig());
 		}
 		
 		[Fact]

@@ -5,7 +5,7 @@ namespace UnityClient.Models {
 	public sealed class StateItemModel : ItemModel {
 		public ItemState State { get; }
 		
-		public StateItemModel(ItemState state, ItemConfig config, ClickAction<ItemModel> onClick) {
+		public StateItemModel(ItemState state, IItemConfig config, ClickAction<ItemModel> onClick) {
 			Type    = config.Type;
 			Name    = $"{state.Descriptor} ({config.Type})";
 			OnClick = onClick;

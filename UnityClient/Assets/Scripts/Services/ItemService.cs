@@ -81,9 +81,6 @@ namespace UnityClient.Services {
 		void FillUnitPlaceholders(StateUnitModel unit, ClickAction<ItemModel> onClick, List<ItemModel> result) {
 			var usedTypes = GetUsedTypes(unit);
 			foreach ( var type in _allItemTypes ) {
-				if ( type == ItemType.Unknown ) {
-					continue;
-				}
 				if ( usedTypes.Contains(type) ) {
 					continue;
 				}
@@ -103,7 +100,7 @@ namespace UnityClient.Services {
 		
 		List<ItemState> GetItemStates(StateUnitModel unit) => unit.State.Items;
 
-		ItemConfig GetItemConfig(ItemState itemState) => Config.Items[itemState.Descriptor];
+		IItemConfig GetItemConfig(ItemState itemState) => Config.Items[itemState.Descriptor];
 
 		ItemState GetItemState(StateUnitModel unit, ulong itemId) => unit.State.Items.Find(it => it.Id == itemId);
 

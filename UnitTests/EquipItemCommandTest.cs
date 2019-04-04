@@ -10,7 +10,7 @@ namespace UnitTests {
 		
 		public EquipItemCommandTest() {
 			_config.AddUnit("unit_desc", new UnitConfig(1, 1));
-			_config.AddItem("item_desc", new ItemConfig { Type = ItemType.Weapon });
+			_config.AddItem("item_desc", new WeaponConfig());
 			_unitId = NewId();
 			_itemId = NewId();
 			_state.AddUnit(new UnitState("unit_desc", 1).WithId(_unitId));

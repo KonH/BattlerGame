@@ -1,10 +1,29 @@
 using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
 using Xunit;
 
 namespace UnitTests {
 	public class ConvertServiceTest {
 		ConvertService _service = new ConvertService();
+
+		[Fact]
+		void IsStateSerialized() {
+			var state = new GameState();
+			
+			var newState = _service.DoubleConvert(state);
+			
+			Assert.NotNull(newState);
+		}
+
+		[Fact]
+		void IsConfigSerialized() {
+			var config = new Config();
+			
+			var newConfig = _service.DoubleConvert(config);
+			
+			Assert.NotNull(newConfig);
+		}
 		
 		[Fact]
 		void IsEntityIdIncreased() {
@@ -14,6 +33,16 @@ namespace UnitTests {
 			var newState = _service.DoubleConvert(state);
 			
 			Assert.Equal(newId, newState.EntityId);
+		}
+
+		[Fact]
+		void IsWeaponConfigSerialized() {
+			var config = new Config().AddItem("desc", new WeaponConfig());
+			
+			var newConfig = _service.DoubleConvert(config);
+			
+			Assert.True(newConfig.Items.ContainsKey("desc"));
+			Assert.NotNull(newConfig.Items["desc"]);
 		}
 	}
 }

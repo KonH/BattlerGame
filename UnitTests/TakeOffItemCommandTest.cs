@@ -11,7 +11,7 @@ namespace UnitTests {
 		public TakeOffItemCommandTest() {
 			_unitId = NewId();
 			_itemId = NewId();
-			_config.AddItem("item_desc", new ItemConfig { Type = ItemType.Weapon });
+			_config.AddItem("item_desc", new WeaponConfig());
 			_state.AddUnit(new UnitState("unit_desc", 1).WithId(_unitId));
 			_state.Units[_unitId].Items.Add(new ItemState("item_desc").WithId(_itemId));
 		}
