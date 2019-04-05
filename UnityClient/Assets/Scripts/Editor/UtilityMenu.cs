@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using UnityClient.Installers;
 using UnityEditor;
 using UnityEngine;
@@ -14,6 +15,11 @@ namespace UnityClient.Editor {
 					File.Delete(file);
 				}
 			}
+		}
+		
+		[MenuItem("Utils/Open State")]
+		public static void OpenState() {
+			Process.Start(Application.persistentDataPath);
 		}
 		
 		[MenuItem("Utils/Create/Fragment Installer")]
