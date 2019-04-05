@@ -7,6 +7,8 @@ using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Server.Services {
 	public class StateInitService {
+		Random _realRandom = new Random();
+		
 		class InitCommand : IInternalCommand {
 			public bool IsValid(GameState state, Config config) => true;
 
@@ -17,6 +19,7 @@ namespace GameLogics.Server.Services {
 		}
 		
 		public GameState Init(GameState state, Config config) {
+			state.Random.Seed = _realRandom.Next(int.MinValue, int.MaxValue);
 			var runner = new CommandRunner(new InitCommand(), state, config);
 			foreach ( var item in runner ) {
 				if ( !item.IsValid() ) {
