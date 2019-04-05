@@ -11,12 +11,12 @@ namespace UnitTests {
 		
 		public KillUnitCommandTest() {
 			_config
-				.AddLevel("level_desc", new LevelConfig { RewardLevel = "" })
+				.AddLevel("level_0", new LevelConfig { RewardLevel = "" })
 				.AddReward("", new RewardConfig());
 			_playerId = NewId();
 			_enemyId = NewId();
 			_state.Level = new LevelState(
-				"level_desc",
+				"level_0",
 				new List<UnitState> { new UnitState("player_unit", 0).WithId(_playerId) },
 				new List<UnitState> { new UnitState("enemy_unit", 0).WithId(_enemyId) }
 			);

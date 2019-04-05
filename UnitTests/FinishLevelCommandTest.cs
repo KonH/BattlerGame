@@ -16,7 +16,7 @@ namespace UnitTests {
 				.AddUnit("reward_unit", new UnitConfig(1, 1))
 				.AddUnit("unit_desc",  new UnitConfig(1, 2))
 				.AddUnit("enemy_desc", new UnitConfig(1, 1))
-				.AddLevel("level_desc", new LevelConfig {
+				.AddLevel("level_0", new LevelConfig {
 					EnemyDescriptors = {
 						"enemy_desc",
 					},
@@ -29,7 +29,7 @@ namespace UnitTests {
 				});
 			_unitId = NewId();
 			_state.Level = new LevelState(
-				"level_desc", new List<UnitState> { new UnitState("unit_desc", 2).WithId(_unitId) }, new List<UnitState>()
+				"level_0", new List<UnitState> { new UnitState("unit_desc", 2).WithId(_unitId) }, new List<UnitState>()
 			);
 		}
 
@@ -90,6 +90,26 @@ namespace UnitTests {
 			Assert.Single(_state.Items);
 			Assert.Equal(2, _state.Units.Count);
 			Assert.Equal(100, _state.Resources[Resource.Coins]);
+		}
+
+		[Fact]
+		void IsProgressUpdated() {
+			Execute(new FinishLevelCommand(true));
+			
+			Assert.Equal(1, _state.Progress["level"]);
+		}
+		
+		[Fact]
+		void IsProgressDontUpdatedTwice() {
+			Execute(new FinishLevelCommand(true));
+			
+			_state.Units.Clear();
+			_state.Level = new LevelState(
+				"level_0", new List<UnitState> { new UnitState("unit_desc", 2).WithId(_unitId) }, new List<UnitState>()
+			);
+			Execute(new FinishLevelCommand(true));
+			
+			Assert.Equal(1, _state.Progress["level"]);
 		}
 	}
 }

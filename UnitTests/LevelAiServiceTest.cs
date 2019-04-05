@@ -11,13 +11,13 @@ namespace UnitTests {
 		
 		public LevelAiServiceTest() {
 			_config
-				.AddLevel("level_desc", new LevelConfig())
+				.AddLevel("level_0", new LevelConfig())
 				.AddUnit("player_desc", new UnitConfig(1, 1))
 				.AddUnit("enemy_desc", new UnitConfig(1, 1));
 			_playerIds = new List<ulong> { _state.NewEntityId(), _state.NewEntityId() };
 			_enemyIds = new List<ulong> { _state.NewEntityId() };
 			_state.Level = new LevelState(
-				"level_desc",
+				"level_0",
 				new List<UnitState> {
 					new UnitState("player_desc", 1).WithId(_playerIds[0]),
 					new UnitState("player_desc", 1).WithId(_playerIds[1])

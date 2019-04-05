@@ -7,7 +7,7 @@ namespace UnitTests {
 	public class EndEnemyTurnCommandTest : BaseCommandTest<EndEnemyTurnCommand> {
 		public EndEnemyTurnCommandTest() {
 			_state.Level = new LevelState(
-				"level_desc", new List<UnitState>(), new List<UnitState>()
+				"level_0", new List<UnitState>(), new List<UnitState>()
 			);
 		}
 		

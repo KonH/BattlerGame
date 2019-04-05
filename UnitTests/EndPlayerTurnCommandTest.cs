@@ -7,7 +7,7 @@ namespace UnitTests {
 	public class EndPlayerTurnCommandTest : BaseCommandTest<EndPlayerTurnCommand> {
 		public EndPlayerTurnCommandTest() {
 			_state.Level = new LevelState(
-				"level_desc", new List<UnitState>(), new List<UnitState>()
+				"level_0", new List<UnitState>(), new List<UnitState>()
 			);
 			_state.Level.PlayerTurn = true;
 		}

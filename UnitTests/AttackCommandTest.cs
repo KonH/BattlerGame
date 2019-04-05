@@ -12,12 +12,12 @@ namespace UnitTests {
 		public AttackCommandTest() {
 			_config
 				.AddUnit("player_unit", new UnitConfig(1, 1))
-				.AddLevel("level_desc", new LevelConfig { RewardLevel = "" })
+				.AddLevel("level_0", new LevelConfig { RewardLevel = "" })
 				.AddReward("", new RewardConfig());
 			_playerId = NewId();
 			_enemyId = NewId();
 			_state.Level = new LevelState(
-				"level_desc",
+				"level_0",
 				new List<UnitState> { new UnitState("player_unit", 2).WithId(_playerId) },
 				new List<UnitState> { new UnitState("enemy_unit", 2).WithId(_enemyId) }
 			);

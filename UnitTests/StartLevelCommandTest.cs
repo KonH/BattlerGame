@@ -12,13 +12,13 @@ namespace UnitTests {
 			_config
 				.AddUnit("unit_desc",  new UnitConfig(1, 1))
 				.AddUnit("enemy_desc", new UnitConfig(1, 1))
-				.AddLevel("level_desc", new LevelConfig { EnemyDescriptors = { "enemy_desc" } });
+				.AddLevel("level_0", new LevelConfig { EnemyDescriptors = { "enemy_desc" } });
 			_unitId = NewId();
 			_state
 				.AddUnit(new UnitState("unit_desc", 1).WithId(_unitId));
 		}
 
-		string      LevelDesc    => "level_desc";
+		string      LevelDesc    => "level_0";
 		List<ulong> PlayersUnits => new List<ulong> { _unitId };
 
 		[Fact]
@@ -52,6 +52,13 @@ namespace UnitTests {
 			_state.Units[_unitId].Health = 0;
 			
 			IsInvalid(new StartLevelCommand(LevelDesc, new List<ulong> { _unitId }));
+		}
+
+		[Fact]
+		void CantStartWithoutProgress() {
+			_config.AddLevel("level_1", _config.Levels["level_0"]);
+			
+			IsInvalid(new StartLevelCommand("level_1", PlayersUnits));
 		}
 
 		[Fact]

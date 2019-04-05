@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
+using TMPro;
 using UnityClient.Models;
 using UnityClient.Services;
 using UnityClient.ViewModels.Fragments;
@@ -12,7 +13,8 @@ using Zenject;
 namespace UnityClient.ViewModels.Windows {
 	public class StartLevelWindow : BaseWindow {		
 		public class Factory : PlaceholderFactory<string, Action, StartLevelWindow> {}
-		
+
+		public TMP_Text  Header;
 		public Button    CloseButton;
 		public Button    StartButton;
 		public Transform ItemsRoot;
@@ -46,6 +48,7 @@ namespace UnityClient.ViewModels.Windows {
 			CloseButton.onClick.AddListener(() => Animation.Hide(() => Destroy(gameObject)));
 			StartButton.onClick.AddListener(OnStart);
 
+			Header.text = levelDesc;
 			FillUnits();
 			UpdateInteractable();
 

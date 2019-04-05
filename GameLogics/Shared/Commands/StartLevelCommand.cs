@@ -21,6 +21,11 @@ namespace GameLogics.Shared.Commands {
 			if ( !config.Levels.ContainsKey(LevelDesc) ) {
 				return false;
 			}
+			var scope = LevelUtils.GetScope(LevelDesc);
+			var currentProgress = state.Progress.GetOrDefault(scope);
+			if ( currentProgress < LevelUtils.GetIndex(LevelDesc) ) {
+				return false;
+			}
 			if ( (PlayerUnits == null) || (PlayerUnits.Count == 0) || (PlayerUnits.Count > 4) ) {
 				return false;
 			}

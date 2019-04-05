@@ -10,6 +10,7 @@ namespace GameLogics.Shared.Models.State {
 		public Dictionary<Resource, int>    Resources { get; } = new Dictionary<Resource, int>();
 		public Dictionary<ulong, ItemState> Items     { get; } = new Dictionary<ulong, ItemState>();
 		public Dictionary<ulong, UnitState> Units     { get; } = new Dictionary<ulong, UnitState>();
+		public Dictionary<string, int>      Progress  { get; } = new Dictionary<string, int>();
 		
 		public RandomState Random { get; set; } = new RandomState();
 		public LevelState Level   { get; set; } = null;

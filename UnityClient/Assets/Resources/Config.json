@@ -21,7 +21,21 @@
     }
   },
   "Levels": {
-    "test_level": {
+    "level_0": {
+      "EnemyDescriptors": [
+        "enemy_unit",
+        "enemy_unit"
+      ],
+      "RewardLevel": "small"
+    },
+    "level_1": {
+      "EnemyDescriptors": [
+        "enemy_unit",
+        "enemy_unit"
+      ],
+      "RewardLevel": "small"
+    },
+    "level_2": {
       "EnemyDescriptors": [
         "enemy_unit",
         "enemy_unit"

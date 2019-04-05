@@ -61,10 +61,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4faefd090d9a4e69b49bc5a971c86969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Animation: {fileID: 4376003547059097233}
+  Header: {fileID: 2181783442696852793}
   CloseButton: {fileID: 7508365213790635654}
   StartButton: {fileID: 7030936096355135255}
   ItemsRoot: {fileID: 7533282440113987841}
-  Animation: {fileID: 4376003547059097233}
 --- !u!114 &4376003547059097233
 MonoBehaviour:
   m_ObjectHideFlags: 0
