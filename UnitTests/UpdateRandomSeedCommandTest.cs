@@ -8,7 +8,7 @@ namespace UnitTests {
 	public class UpdateRandomSeedCommandTest : BaseCommandTest<UpdateRandomSeedCommand> {
 		[Fact]
 		void InitialSeedIsRandomized() {
-			_config.AddUnit("player_unit", new UnitConfig(1, 1));
+			_config.AddUnit("weak_unit", new UnitConfig(1, 1));
 			
 			var initService = new StateInitService();
 			var state1 = initService.Init(new GameState(), _config);

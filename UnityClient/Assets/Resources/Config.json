@@ -1,46 +1,129 @@
 {
   "Version": "test_version",
   "Items": {
-    "test_weapon": {
+    "weak_weapon": {
       "$type": "GameLogics.Shared.Models.Configs.WeaponConfig, GameLogics",
-      "Damage": 2
+      "Damage": 10
+    },    
+    "medium_weapon": {
+      "$type": "GameLogics.Shared.Models.Configs.WeaponConfig, GameLogics",
+      "Damage": 15
+    },    
+    "hard_weapon": {
+      "$type": "GameLogics.Shared.Models.Configs.WeaponConfig, GameLogics",
+      "Damage": 20
     },
-    "test_armor": {
+    "weak_armor": {
       "$type": "GameLogics.Shared.Models.Configs.ArmorConfig, GameLogics",
-      "Absorb": 1
+      "Absorb": 3
+    },
+    "medium_armor": {
+      "$type": "GameLogics.Shared.Models.Configs.ArmorConfig, GameLogics",
+      "Absorb": 5
+    },
+    "hard_armor": {
+      "$type": "GameLogics.Shared.Models.Configs.ArmorConfig, GameLogics",
+      "Absorb": 9
     }
   },
   "Units": {
-    "player_unit": {
-      "BaseDamage": 1,
-      "MaxHealth": 6
+    "weak_unit": {
+      "BaseDamage": 10,
+      "MaxHealth": 30
     },
-    "enemy_unit": {
-      "BaseDamage": 1,
-      "MaxHealth": 2
+    "medium_unit": {
+      "BaseDamage": 15,
+      "MaxHealth": 40
+    },
+    "hard_unit": {
+      "BaseDamage": 20,
+      "MaxHealth": 50
     }
   },
   "Levels": {
     "level_0": {
       "EnemyDescriptors": [
-        "enemy_unit",
-        "enemy_unit"
+        "weak_unit"
       ],
       "RewardLevel": "small"
     },
     "level_1": {
       "EnemyDescriptors": [
-        "enemy_unit",
-        "enemy_unit"
+        "weak_unit",
+        "weak_unit"
       ],
-      "RewardLevel": "small"
+      "RewardLevel": "unit"
     },
     "level_2": {
       "EnemyDescriptors": [
-        "enemy_unit",
-        "enemy_unit"
+        "weak_unit",
+        "weak_unit",
+        "weak_unit"
       ],
       "RewardLevel": "small"
+    },
+    "level_3": {
+      "EnemyDescriptors": [
+        "weak_unit",
+        "weak_unit",
+        "weak_unit",
+        "weak_unit"
+      ],
+      "RewardLevel": "unit"
+    },
+    "level_4": {
+      "EnemyDescriptors": [
+        "weak_unit",
+        "weak_unit",
+        "medium_unit",
+        "weak_unit"
+      ],
+      "RewardLevel": "medium"
+    },
+    "level_5": {
+      "EnemyDescriptors": [
+        "weak_unit",
+        "medium_unit",
+        "weak_unit",
+        "medium_unit"
+      ],
+      "RewardLevel": "unit"
+    },
+    "level_6": {
+      "EnemyDescriptors": [
+        "medium_unit",
+        "medium_unit",
+        "medium_unit",
+        "medium_unit"
+      ],
+      "RewardLevel": "medium"
+    },
+    "level_7": {
+      "EnemyDescriptors": [
+        "medium_unit",
+        "medium_unit",
+        "medium_unit",
+        "medium_unit"
+      ],
+      "RewardLevel": "unit"
+    },
+    "level_8": {
+      "EnemyDescriptors": [
+        "hard_unit",
+        "medium_unit",
+        "hard_unit",
+        "medium_unit"
+      ],
+      "RewardLevel": "big"
+    },
+    "level_9": {
+      "EnemyDescriptors": [
+        "hard_unit",
+        "hard_unit",
+        "hard_unit",
+        "hard_unit"
+      ],
+      "RewardLevel": "big"
     }
   },
   "Rewards": {
@@ -48,20 +131,74 @@
       {
         "Resources": {
           "Min": 100,
-          "Max": 500
+          "Max": 400
         },
         "Items": {
-          "Min": 0,
-          "Max": 1
+          "Min": 1,
+          "Max": 2
         }
       },
       {
+        "Resources": {
+          "Min": 50,
+          "Max": 100
+        },
+        "Items": {
+          "Min": 2,
+          "Max": 3
+        }
+      }
+    ],
+    "medium": [
+      {
+        "Resources": {
+          "Min": 500,
+          "Max": 900
+        },
         "Items": {
           "Min": 2,
           "Max": 3
         }
       },
       {
+        "Resources": {
+          "Min": 100,
+          "Max": 400
+        },
+        "Items": {
+          "Min": 3,
+          "Max": 4
+        }
+      }
+    ],
+    "big": [
+      {
+        "Resources": {
+          "Min": 1000,
+          "Max": 1500
+        },
+        "Items": {
+          "Min": 3,
+          "Max": 4
+        }
+      },
+      {
+        "Resources": {
+          "Min": 500,
+          "Max": 900
+        },
+        "Items": {
+          "Min": 5,
+          "Max": 6
+        }
+      }
+    ],
+    "unit": [
+      {
+        "Resources": {
+          "Min": 100,
+          "Max": 400
+        },
         "Units": {
           "Min": 1,
           "Max": 1
