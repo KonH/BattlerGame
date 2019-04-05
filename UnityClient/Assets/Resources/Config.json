@@ -26,19 +26,34 @@
         "enemy_unit",
         "enemy_unit"
       ],
-      "Reward": {
-        "Resources": {
-          "Coins": 1000
-        },
-        "Items": [
-          "test_weapon",
-          "test_armor"
-        ],
-        "Units": [
-          "player_unit"
-        ]
-      }
+      "RewardLevel": "small"
     }
+  },
+  "Rewards": {
+    "small": [
+      {
+        "Resources": {
+          "Min": 100,
+          "Max": 500
+        },
+        "Items": {
+          "Min": 0,
+          "Max": 1
+        }
+      },
+      {
+        "Items": {
+          "Min": 2,
+          "Max": 3
+        }
+      },
+      {
+        "Units": {
+          "Min": 1,
+          "Max": 1
+        }
+      }
+    ]
   },
   "Features": {
     "auto_heal": true

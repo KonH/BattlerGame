@@ -11,7 +11,8 @@ namespace UnitTests {
 		
 		public KillUnitCommandTest() {
 			_config
-				.AddLevel("level_desc", new LevelConfig());
+				.AddLevel("level_desc", new LevelConfig { RewardLevel = "" })
+				.AddReward("", new RewardConfig());
 			_playerId = NewId();
 			_enemyId = NewId();
 			_state.Level = new LevelState(

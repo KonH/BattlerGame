@@ -20,11 +20,12 @@ namespace UnitTests {
 					EnemyDescriptors = {
 						"enemy_desc",
 					},
-					Reward = {
-						Resources = { { Resource.Coins, 1 } },
-						Items     = { "reward_item" },
-						Units     = { "reward_unit" },
-					}
+					RewardLevel = "test_reward"
+				})
+				.AddReward("test_reward", new RewardConfig {
+					Resources = { Min = 100, Max = 100 },
+					Items     = { Min = 1, Max = 1 },
+					Units     = { Min = 1, Max = 1 }
 				});
 			_unitId = NewId();
 			_state.Level = new LevelState(
@@ -59,20 +60,6 @@ namespace UnitTests {
 		}
 
 		[Fact]
-		void IsRewardsGainedIfLevelWon() {
-			ProducesAll(
-				new FinishLevelCommand(true),
-				ic => {
-					switch ( ic ) {
-						case AddResourceCommand c: return (c.Kind == Resource.Coins) && (c.Count == 1);
-						case AddItemCommand c:     return (c.Descriptor == "reward_item");
-						case AddUnitCommand c:     return (c.Descriptor == "reward_unit");
-						default:                   return false;
-					}
-				});
-		}
-		
-		[Fact]
 		void IsRewardsNotGainedIfLevelFailed() {
 			ProducesNone(new FinishLevelCommand(false));
 		}
@@ -94,6 +81,15 @@ namespace UnitTests {
 			Execute(new FinishLevelCommand(false));
 			
 			Assert.Equal(2, _state.Units[_unitId].Health);
+		}
+
+		[Fact]
+		void IsRewardsGiven() {
+			Execute(new FinishLevelCommand(true));
+			
+			Assert.Single(_state.Items);
+			Assert.Equal(2, _state.Units.Count);
+			Assert.Equal(100, _state.Resources[Resource.Coins]);
 		}
 	}
 }

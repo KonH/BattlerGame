@@ -1,6 +1,7 @@
 using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
+using GameLogics.Shared.Services;
 
 namespace GameLogics.Shared.Commands {
 	public class FinishLevelCommand : IInternalCommand {
@@ -28,13 +29,15 @@ namespace GameLogics.Shared.Commands {
 					buffer.Add(new HealUnitCommand(unit.Id));
 				}
 			}
-			var reward = config.Levels[state.Level.Descriptor].Reward;
+			var rewardLevel = config.Levels[state.Level.Descriptor].RewardLevel;
+			
 			state.Level = null;
 
 			if ( !Win ) {
 				return;
 			}
-			
+
+			var reward = RewardService.GenerateReward(rewardLevel, config, state.CreateRandom());
 			foreach ( var pair in reward.Resources ) {
 				buffer.Add(new AddResourceCommand(pair.Key, pair.Value));
 			}
@@ -44,6 +47,7 @@ namespace GameLogics.Shared.Commands {
 			foreach ( var unitDesc in reward.Units ) {
 				buffer.Add(new AddUnitCommand(state.NewEntityId(), unitDesc));
 			}
+			buffer.Add(new UpdateRandomSeedCommand());
 		}
 
 		public override string ToString() {
