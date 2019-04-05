@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GameLogics.Shared;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
@@ -11,6 +12,7 @@ namespace UnitTests {
 		
 		public KillUnitCommandTest() {
 			_config
+				.AddUnit("player_unit", new UnitConfig(1, 1))
 				.AddLevel("level_0", new LevelConfig { RewardLevel = "" })
 				.AddReward("", new RewardConfig());
 			_playerId = NewId();
@@ -61,6 +63,15 @@ namespace UnitTests {
 		[Fact]
 		void CantBeCalledDirectly() {
 			IsInvalidOnServer(new KillUnitCommand(_enemyId));
+		}
+
+		[Fact]
+		void IsKilledPlayerUnitHealed() {
+			_config.Features[Features.AutoHeal] = true;
+			
+			Execute(new KillUnitCommand(_playerId));
+			
+			Assert.Equal(1, _state.Units[_playerId].Health);
 		}
 	}
 }

@@ -25,6 +25,9 @@ namespace GameLogics.Shared.Commands {
 		public void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			var level = state.Level;
 			if ( TryKill(level.PlayerUnits, out var player) ) {
+				if ( config.IsFeatureEnabled(Features.AutoHeal) ) {
+					buffer.Add(new HealUnitCommand(player.Id));
+				}
 				state.Units.Add(UnitId, player);
 				if ( level.PlayerUnits.Count == 0 ) {
 					buffer.Add(new FinishLevelCommand(false));
