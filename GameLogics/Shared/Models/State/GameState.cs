@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using GameLogics.Shared.Utils;
 
-namespace GameLogics.Shared.Models {
+namespace GameLogics.Shared.Models.State {
 	public sealed class GameState {
 		public string Version { get; set; } = string.Empty;
 		

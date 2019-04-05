@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using GameLogics.Shared;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 using Xunit;
 

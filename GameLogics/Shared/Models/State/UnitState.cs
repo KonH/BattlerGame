@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace GameLogics.Shared.Models {
+namespace GameLogics.Shared.Models.State {
 	public class UnitState {
 		public ulong  Id         { get; set; }
 		public string Descriptor { get; set; }

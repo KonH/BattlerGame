@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using UnityClient.Models;
 using UnityClient.Services;
 using UnityClient.Utils;

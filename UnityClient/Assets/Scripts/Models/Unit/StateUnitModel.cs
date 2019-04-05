@@ -1,4 +1,4 @@
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 
 namespace UnityClient.Models {
 	public sealed class StateUnitModel : UnitModel {

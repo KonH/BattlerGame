@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands.Base {

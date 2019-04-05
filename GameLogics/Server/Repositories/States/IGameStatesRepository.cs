@@ -1,6 +1,6 @@
 using System;
 using GameLogics.Server.Models;
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 
 namespace GameLogics.Server.Repositories.States {
 	public interface IGameStatesRepository {

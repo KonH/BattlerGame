@@ -1,5 +1,5 @@
 ﻿using GameLogics.Shared.Commands;
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using UnityClient.Services;
 using UnityEngine;
 using UnityEngine.UI;

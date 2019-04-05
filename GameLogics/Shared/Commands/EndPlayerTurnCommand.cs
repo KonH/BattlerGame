@@ -1,5 +1,5 @@
 using GameLogics.Shared.Commands.Base;
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
 

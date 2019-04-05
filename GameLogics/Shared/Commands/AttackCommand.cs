@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GameLogics.Shared.Commands.Base;
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {

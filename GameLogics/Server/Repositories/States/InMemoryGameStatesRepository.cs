@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using GameLogics.Server.Models;
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 
 namespace GameLogics.Server.Repositories.States {
 	public class InMemoryGameStatesRepository : IGameStatesRepository {

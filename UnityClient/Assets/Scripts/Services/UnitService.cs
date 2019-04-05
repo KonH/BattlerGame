@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using UnityClient.Models;
 
 namespace UnityClient.Services {

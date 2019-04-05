@@ -1,6 +1,6 @@
 using GameLogics.Client.Models;
-using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
+using GameLogics.Shared.Models.State;
 
 namespace GameLogics.Client.Services {
 	public class ClientStateService {

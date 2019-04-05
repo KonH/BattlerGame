@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using GameLogics.Client.Services.Events;
 using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Dao.Intent;
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Services;
 using GameLogics.Shared.Utils;
 

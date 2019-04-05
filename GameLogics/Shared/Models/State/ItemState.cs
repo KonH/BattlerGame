@@ -1,4 +1,4 @@
-namespace GameLogics.Shared.Models {
+namespace GameLogics.Shared.Models.State {
 	public class ItemState {
 		public ulong   Id         { get; set; }
 		public string  Descriptor { get; set; }

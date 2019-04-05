@@ -2,6 +2,7 @@ using System;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Server.Services {

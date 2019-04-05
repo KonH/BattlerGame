@@ -6,7 +6,7 @@ using GameLogics.Server.Services.Token;
 using GameLogics.Shared.Dao.Api;
 using GameLogics.Shared.Dao.Api.Errors;
 using GameLogics.Shared.Dao.Auth;
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Services {

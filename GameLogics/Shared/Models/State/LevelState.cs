@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace GameLogics.Shared.Models {
+namespace GameLogics.Shared.Models.State {
 	public class LevelState {
 		public string          Descriptor  { get; set; }
 		public bool            PlayerTurn  { get; set; }

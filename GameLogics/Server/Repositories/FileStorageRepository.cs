@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using GameLogics.Server.Models;
-using GameLogics.Shared.Models;
-using GameLogics.Shared.Models.Configs;
+using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Repositories {

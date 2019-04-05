@@ -1,5 +1,6 @@
 ﻿using GameLogics.Client.Services;
 using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Utils;
 using UnityEngine;
 using Zenject;

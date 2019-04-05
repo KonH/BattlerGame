@@ -1,6 +1,6 @@
 using System;
 using GameLogics.Server.Models;
-using GameLogics.Shared.Models;
+using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Server.Repositories.States {
