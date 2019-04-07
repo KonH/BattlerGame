@@ -28,8 +28,8 @@ namespace UnitTests {
 
 		[Fact]
 		void IsTurnChanged() {
-			Execute(new EndPlayerTurnCommand());
-			
+			Execute(new EndPlayerTurnCommand(), single: true);
+
 			Assert.False(_state.Level.PlayerTurn);
 		}
 

@@ -25,13 +25,16 @@ namespace UnitTests {
 			Assert.False(cmd.IsValid(_state, _config));
 		}
 
-		protected List<ICommand> Execute(TCommand cmd) {
+		protected List<ICommand> Execute(TCommand cmd, bool single = false) {
 			var result = new List<ICommand>();
 			var runner = new CommandRunner(cmd, _state, _config);
 			foreach ( var item in runner ) {
 				Assert.True(item.IsValid(), $"Command {item.Command} is invalid!");
 				item.Execute();
 				result.Add(item.Command);
+				if ( single ) {
+					break;
+				}
 			}
 			return result;
 		}
