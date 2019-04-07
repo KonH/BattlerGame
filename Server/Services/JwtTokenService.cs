@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Server.Settings;
 
 namespace Server.Services {
-	public class JwtTokenService : ITokenService {
+	public sealed class JwtTokenService : ITokenService {
 		readonly AuthSettings _settings;
 
 		public JwtTokenService(AuthSettings settings) {

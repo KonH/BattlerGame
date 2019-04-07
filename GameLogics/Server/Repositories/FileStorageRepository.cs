@@ -5,7 +5,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Repositories {
-	public class FileStorageRepository {
+	public sealed class FileStorageRepository {
 		public class FileState {
 			public Dictionary<string, User>      Users  = new Dictionary<string, User>();
 			public Dictionary<string, GameState> States = new Dictionary<string, GameState>();

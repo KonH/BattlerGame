@@ -5,7 +5,7 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
-	public class StartLevelCommandTest : BaseCommandTest<StartLevelCommand> {
+	public sealed class StartLevelCommandTest : BaseCommandTest<StartLevelCommand> {
 		ulong _unitId;
 		
 		public StartLevelCommandTest() {

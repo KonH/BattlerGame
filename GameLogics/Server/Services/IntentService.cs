@@ -8,7 +8,7 @@ using GameLogics.Shared.Dao.Intent;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Services {
-	public class IntentService {
+	public sealed class IntentService {
 		readonly ICustomLogger         _logger;
 		readonly IUsersRepository      _users;
 		readonly IGameStatesRepository _states;

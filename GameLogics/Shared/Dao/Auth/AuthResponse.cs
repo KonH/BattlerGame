@@ -2,7 +2,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Dao.Auth {
-	public class AuthResponse {
+	public sealed class AuthResponse {
 		public string    Token  { get; set; }
 		public GameState State  { get; set; }
 		public Config    Config { get; set; }

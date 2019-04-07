@@ -5,7 +5,7 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
-	public class StartLevelCommand : ICommand {
+	public sealed class StartLevelCommand : ICommand {
 		public readonly string      LevelDesc;
 		public readonly List<ulong> PlayerUnits;
 

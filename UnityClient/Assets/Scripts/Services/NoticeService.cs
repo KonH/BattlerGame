@@ -4,7 +4,7 @@ using UnityClient.Models;
 using JetBrains.Annotations;
 
 namespace UnityClient.Services {
-	public class NoticeService {
+	public sealed class NoticeService {
 		readonly ICustomLogger _logger;
 		
 		Stack<NoticeModel> _notices = new Stack<NoticeModel>();

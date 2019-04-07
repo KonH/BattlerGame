@@ -4,7 +4,7 @@ using GameLogics.Server.Models;
 using GameLogics.Shared.Models.State;
 
 namespace GameLogics.Server.Repositories.States {
-	public class InMemoryGameStatesRepository : IGameStatesRepository {
+	public sealed class InMemoryGameStatesRepository : IGameStatesRepository {
 		ConcurrentDictionary<User, GameState> _states = new ConcurrentDictionary<User, GameState>();
 		
 		public GameState Find(User user) {

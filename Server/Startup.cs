@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
 namespace Server {
-	public class Startup {
+	public sealed class Startup {
 		public Startup(IConfiguration configuration) {
 			Configuration = configuration;
 		}

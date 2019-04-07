@@ -8,8 +8,8 @@ using UnityEngine.UI;
 using Zenject;
 
 namespace UnityClient.ViewModels.Windows {
-	public class WinWindow : BaseWindow {
-		public class Factory : PlaceholderFactory<Action, WinWindow> {}
+	public sealed class WinWindow : BaseWindow {
+		public sealed class Factory : PlaceholderFactory<Action, WinWindow> {}
 		
 		public Button    OkButton;
 		public Transform ItemsRoot;

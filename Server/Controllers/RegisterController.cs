@@ -6,7 +6,7 @@ using Server.Services;
 namespace Server.Controllers {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class RegisterController : BaseApiController<RegisterRequest, RegisterResponse> {
+	public sealed class RegisterController : BaseApiController<RegisterRequest, RegisterResponse> {
 		public RegisterController(ActionResultWrapper wrapper, IApiService service) : base(wrapper, service.Post) {}
 	}
 }

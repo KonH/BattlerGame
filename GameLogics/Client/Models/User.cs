@@ -1,7 +1,7 @@
 using GameLogics.Client.Utils;
 
 namespace GameLogics.Client.Models {
-	public class User {
+	public sealed class User {
 		public string Login    { get; }
 		public string Password { get; }
 		public string Name     { get; }

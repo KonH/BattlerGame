@@ -1,7 +1,7 @@
 using GameLogics.Shared.Services;
 
 namespace UnityClient.Managers {
-	public class UnityLogger : ICustomLogger {
+	public sealed class UnityLogger : ICustomLogger {
 		public void Debug(object context, string message) {
 			UnityEngine.Debug.Log(WithContext(context, message));
 		}

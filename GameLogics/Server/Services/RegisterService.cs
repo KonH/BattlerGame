@@ -5,7 +5,7 @@ using GameLogics.Shared.Dao.Api.Errors;
 using GameLogics.Shared.Dao.Register;
 
 namespace GameLogics.Server.Services {
-	public class RegisterService {
+	public sealed class RegisterService {
 		readonly IUsersRepository _users;
 
 		public RegisterService(IUsersRepository users) {

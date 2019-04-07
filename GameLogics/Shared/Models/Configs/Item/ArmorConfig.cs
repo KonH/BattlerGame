@@ -1,5 +1,5 @@
 namespace GameLogics.Shared.Models.Configs {
-	public class ArmorConfig : IItemConfig {
+	public sealed class ArmorConfig : IItemConfig {
 		public ItemType Type => ItemType.Armor;
 		
 		public int Absorb { get; set; }

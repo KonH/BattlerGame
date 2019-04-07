@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Logics;
 
 namespace GameLogics.Shared.Commands {
-	public class AttackCommand : ICommand {
+	public sealed class AttackCommand : ICommand {
 		public readonly ulong DealerId;
 		public readonly ulong TargetId;
 

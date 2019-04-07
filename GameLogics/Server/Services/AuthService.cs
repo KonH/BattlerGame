@@ -10,7 +10,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Services {
-	public class AuthService {
+	public sealed class AuthService {
 		readonly ICustomLogger         _logger;
 		readonly ITokenService         _token;
 		readonly IUsersRepository      _users;

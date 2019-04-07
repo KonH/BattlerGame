@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 namespace GameLogics.Shared.Models.State {
-	public class LevelState {
+	public sealed class LevelState {
 		public string          Descriptor  { get; set; }
 		public bool            PlayerTurn  { get; set; }
 		public List<UnitState> PlayerUnits { get; set; }

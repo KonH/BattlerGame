@@ -3,7 +3,7 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Repositories.Configs {
-	public class FileConfigRepository : IConfigRepository {
+	public sealed class FileConfigRepository : IConfigRepository {
 		readonly Config _config;
 
 		public FileConfigRepository(ConvertService convert, string path) {

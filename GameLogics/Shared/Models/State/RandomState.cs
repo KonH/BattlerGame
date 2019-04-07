@@ -1,5 +1,5 @@
 namespace GameLogics.Shared.Models.State {
-	public class RandomState {
+	public sealed class RandomState {
 		public int Seed { get; set; }
 	}
 }

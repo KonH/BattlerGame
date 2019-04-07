@@ -7,7 +7,7 @@ using Zenject;
 
 namespace UnityClient.Controls {
 	[RequireComponent(typeof(Button))]
-	public class EndTurnControl : MonoBehaviour {
+	public sealed class EndTurnControl : MonoBehaviour {
 		ClientCommandRunner _runner;
 		
 		Button _button;

@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
-	public class EquipItemCommand : ICommand {
+	public sealed class EquipItemCommand : ICommand {
 		public readonly ulong ItemId;
 		public readonly ulong UnitId;
 

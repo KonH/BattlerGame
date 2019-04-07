@@ -1,7 +1,7 @@
 using GameLogics.Server.Models;
 
 namespace GameLogics.Server.Repositories.Users {
-	public class FileUsersRepository : IUsersRepository {
+	public sealed class FileUsersRepository : IUsersRepository {
 		FileStorageRepository _file;
 
 		public FileUsersRepository(FileStorageRepository file) {

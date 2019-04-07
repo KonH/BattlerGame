@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
-	public class HealUnitCommandTest : BaseCommandTest<HealUnitCommand> {
+	public sealed class HealUnitCommandTest : BaseCommandTest<HealUnitCommand> {
 		ulong _unitId;
 
 		public HealUnitCommandTest() {

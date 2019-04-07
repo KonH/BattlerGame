@@ -6,7 +6,7 @@ using UnityClient.ViewModels;
 using Zenject;
 
 namespace UnityClient.Installers {
-	public class LevelInstaller : MonoInstaller {
+	public sealed class LevelInstaller : MonoInstaller {
 		public LevelManager  Manager;
 		public UnitViewModel UnitPrefab;
 		

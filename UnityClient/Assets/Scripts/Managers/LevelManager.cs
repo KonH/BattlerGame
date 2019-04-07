@@ -12,7 +12,7 @@ using UnityEngine;
 using Zenject;
 
 namespace UnityClient.Managers {
-	public class LevelManager : MonoBehaviour, IInitializable, IDisposable {
+	public sealed class LevelManager : MonoBehaviour, IInitializable, IDisposable {
 		public Transform[] PlayerPoints = null;
 		public Transform[] EnemyPoints  = null;
 

@@ -4,7 +4,7 @@ using GameLogics.Shared.Utils;
 using Xunit;
 
 namespace UnitTests {
-	public class AddResoucesCommandTest : BaseCommandTest<AddResourceCommand> {
+	public sealed class AddResoucesCommandTest : BaseCommandTest<AddResourceCommand> {
 		[Fact]
 		void CantAddUnknownResource() {
 			IsInvalid(new AddResourceCommand(Resource.Unknown, 1));

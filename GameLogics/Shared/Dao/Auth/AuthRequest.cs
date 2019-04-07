@@ -1,5 +1,5 @@
 namespace GameLogics.Shared.Dao.Auth {
-	public class AuthRequest {
+	public sealed class AuthRequest {
 		public string Login        { get; set; }
 		public string PasswordHash { get; set; }
 

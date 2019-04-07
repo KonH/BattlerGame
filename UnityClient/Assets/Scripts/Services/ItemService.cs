@@ -8,7 +8,7 @@ using GameLogics.Shared.Models.Configs;
 using UnityClient.Models;
 
 namespace UnityClient.Services {
-	public class ItemService {
+	public sealed class ItemService {
 		readonly ClientStateService  _stateService;
 		readonly ClientCommandRunner _runner;
 		

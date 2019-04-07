@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {	
-	public class AddItemCommandTest : BaseCommandTest<AddItemCommand> {
+	public sealed class AddItemCommandTest : BaseCommandTest<AddItemCommand> {
 		public AddItemCommandTest() {
 			_config.AddItem("desc", new WeaponConfig());
 		}

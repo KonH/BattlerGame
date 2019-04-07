@@ -4,7 +4,7 @@ using UnityEngine;
 using Zenject;
 
 namespace UnityClient.Installers {
-	public class FragmentInstaller : ScriptableObjectInstaller {
+	public sealed class FragmentInstaller : ScriptableObjectInstaller {
 		public ItemFragment   ItemFragmentPrefab;
 		public UnitFragment   UnitFragmentPrefab;
 		public RewardFragment RewardFragmentPrefab;

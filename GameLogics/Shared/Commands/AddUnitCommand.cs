@@ -3,7 +3,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
-	public class AddUnitCommand : IInternalCommand {
+	public sealed class AddUnitCommand : IInternalCommand {
 		public readonly ulong  Id;
 		public readonly string Descriptor;
 

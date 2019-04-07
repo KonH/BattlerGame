@@ -1,5 +1,5 @@
 namespace GameLogics.Server.Models {
-	public class User {
+	public sealed class User {
 		public string Login        { get; }
 		public string PasswordHash { get; }
 		public string Name         { get; }
@@ -16,7 +16,7 @@ namespace GameLogics.Server.Models {
 			return $"{nameof(Login)}: {Login}, {nameof(PasswordHash)}: {PasswordHash}, {nameof(Name)}: {Name}, {nameof(Role)}: {Role}";
 		}
 		
-		protected bool Equals(User other) {
+		bool Equals(User other) {
 			return string.Equals(Login, other.Login);
 		}
 
@@ -26,9 +26,6 @@ namespace GameLogics.Server.Models {
 			}
 			if ( ReferenceEquals(this, obj) ) {
 				return true;
-			}
-			if ( obj.GetType() != GetType() ) {
-				return false;
 			}
 			return Equals((User)obj);
 		}

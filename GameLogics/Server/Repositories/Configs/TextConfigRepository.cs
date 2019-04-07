@@ -2,7 +2,7 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Server.Repositories.Configs {
-	public class TextConfigRepository : IConfigRepository {
+	public sealed class TextConfigRepository : IConfigRepository {
 		readonly Config _config;
 
 		public TextConfigRepository(ConvertService convert, string text) {

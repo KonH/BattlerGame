@@ -3,7 +3,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
-	public class RemoveUnitCommand : ICommand {
+	public sealed class RemoveUnitCommand : ICommand {
 		public readonly ulong Id;
 
 		public RemoveUnitCommand(ulong id) {

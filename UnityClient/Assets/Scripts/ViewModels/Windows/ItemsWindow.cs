@@ -6,8 +6,8 @@ using UnityEngine;
 using Zenject;
 
 namespace UnityClient.ViewModels.Windows {
-	public class ItemsWindow : BaseWindow {		
-		public class Factory : PlaceholderFactory<List<ItemModel>, ItemsWindow> {}
+	public sealed class ItemsWindow : BaseWindow {		
+		public sealed class Factory : PlaceholderFactory<List<ItemModel>, ItemsWindow> {}
 		
 		public Button    CloseButton;
 		public Transform ItemsRoot;

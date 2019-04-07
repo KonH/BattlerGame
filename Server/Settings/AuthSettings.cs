@@ -2,7 +2,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Server.Settings {
-	public class AuthSettings {
+	public sealed class AuthSettings {
 		public string Issuer   { get; }
 		public string Audience { get; }
 		public int    Lifetime { get; }

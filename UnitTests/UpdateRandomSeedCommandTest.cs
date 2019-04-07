@@ -5,7 +5,7 @@ using GameLogics.Shared.Models.State;
 using Xunit;
 
 namespace UnitTests {
-	public class UpdateRandomSeedCommandTest : BaseCommandTest<UpdateRandomSeedCommand> {
+	public sealed class UpdateRandomSeedCommandTest : BaseCommandTest<UpdateRandomSeedCommand> {
 		[Fact]
 		void InitialSeedIsRandomized() {
 			_config.AddUnit("weak_unit", new UnitConfig(1, 1));

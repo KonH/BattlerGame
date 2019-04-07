@@ -5,7 +5,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands.Base {
-	class CommandEnumerator : IEnumerator<CommandWorkItem> {
+	sealed class CommandEnumerator : IEnumerator<CommandWorkItem> {
 		public CommandWorkItem Current { get; private set; }
 
 		object IEnumerator.Current => Current;

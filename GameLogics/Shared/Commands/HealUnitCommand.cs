@@ -3,7 +3,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
-	public class HealUnitCommand : IInternalCommand {
+	public sealed class HealUnitCommand : IInternalCommand {
 		public readonly ulong UnitId;
 
 		public HealUnitCommand(ulong unitId) {

@@ -3,7 +3,7 @@ using GameLogics.Client.Services.ErrorHandle;
 using GameLogics.Shared.Dao.Api.Errors;
 
 namespace UnityClient.Managers {
-	public class ReloadErrorHandleStrategy : IErrorHandleStrategy {
+	public sealed class ReloadErrorHandleStrategy : IErrorHandleStrategy {
 		readonly GameSceneManager   _scene;
 		readonly ClientStateService _state;
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using GameLogics.Shared.Commands.Base;
 
 namespace GameLogics.Client.Services.Events {
-	class EventTaskBaseHandler {
+	abstract class EventTaskBaseHandler {
 		List<object> _instances = new List<object>();
 		MethodInfo   _method    = null;
 		object[]     _args      = { null };

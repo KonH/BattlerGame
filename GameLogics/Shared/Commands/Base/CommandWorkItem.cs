@@ -3,7 +3,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands.Base {
-	public class CommandWorkItem {
+	public sealed class CommandWorkItem {
 		readonly GameState      _state;
 		readonly Config         _config;
 		readonly ICommandBuffer _buffer;

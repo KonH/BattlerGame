@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 
 namespace UnityClient.Services {
-	public class MainThreadRunner : MonoBehaviour {
+	public sealed class MainThreadRunner : MonoBehaviour {
 		TaskScheduler _scheduler;
 		
 		void Awake() {

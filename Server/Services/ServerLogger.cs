@@ -2,7 +2,7 @@ using GameLogics.Shared.Services;
 using Microsoft.Extensions.Logging;
 
 namespace Server.Services {
-	public class ServerLogger : ICustomLogger {
+	public sealed class ServerLogger : ICustomLogger {
 		readonly ILogger _logger;
 		
 		public ServerLogger(ILoggerFactory factory) {

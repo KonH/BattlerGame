@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Server.Repositories.States {
-	public class FileGameStatesRepository : IGameStatesRepository {
+	public sealed class FileGameStatesRepository : IGameStatesRepository {
 		FileStorageRepository _file;
 
 		public FileGameStatesRepository(FileStorageRepository file) {

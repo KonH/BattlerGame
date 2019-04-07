@@ -11,7 +11,7 @@ using GameLogics.Shared.Services;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Client.Services {
-	public class ClientApiService : IApiService {
+	public sealed class ClientApiService : IApiService {
 		readonly ICustomLogger        _logger;
 		readonly ConvertService       _converter;
 		readonly INetworkService      _network;

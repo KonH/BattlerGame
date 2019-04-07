@@ -1,5 +1,5 @@
 namespace GameLogics.Shared.Models.Configs {
-	public class UnitConfig {
+	public sealed class UnitConfig {
 		public int BaseDamage { get; set; }
 		public int MaxHealth  { get; set; }
 

@@ -1,10 +1,10 @@
 using Newtonsoft.Json;
 
 namespace GameLogics.Shared.Services {
-	public class ConvertService {
+	public sealed class ConvertService {
 		readonly JsonSerializerSettings _settings = new JsonSerializerSettings {
 			TypeNameHandling = TypeNameHandling.Auto,
-			Formatting = Formatting.Indented,
+			Formatting       = Formatting.Indented,
 		};
 
 		public string ToJson(object obj) {

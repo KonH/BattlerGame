@@ -1,5 +1,5 @@
 namespace GameLogics.Shared.Models.Configs {
-	public class WeaponConfig : IItemConfig {
+	public sealed class WeaponConfig : IItemConfig {
 		public ItemType Type => ItemType.Weapon;
 		
 		public int Damage { get; set; }

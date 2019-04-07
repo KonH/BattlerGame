@@ -7,7 +7,7 @@ using UnityEngine;
 using Zenject;
 
 namespace UnityClient.Installers {
-	public class WindowInstaller : MonoInstaller {
+	public sealed class WindowInstaller : MonoInstaller {
 		[Header("Windows")]
 		public NoticeWindow     NoticeWindowPrefab;
 		public WinWindow        WinWindowPrefab;

@@ -11,8 +11,8 @@ using UnityEngine;
 using Zenject;
 
 namespace UnityClient.ViewModels.Windows {
-	public class StartLevelWindow : BaseWindow {		
-		public class Factory : PlaceholderFactory<string, Action, StartLevelWindow> {}
+	public sealed class StartLevelWindow : BaseWindow {		
+		public sealed class Factory : PlaceholderFactory<string, Action, StartLevelWindow> {}
 
 		public TMP_Text  Header;
 		public Button    CloseButton;

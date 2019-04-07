@@ -5,8 +5,8 @@ using UnityEngine.UI;
 using Zenject;
 
 namespace UnityClient.ViewModels.Fragments {
-	public class UnitFragment : BaseFragment {		
-		public class Factory : PlaceholderFactory<Transform, UnitModel, UnitFragment> {}
+	public sealed class UnitFragment : BaseFragment {		
+		public sealed class Factory : PlaceholderFactory<Transform, UnitModel, UnitFragment> {}
 		
 		public TMP_Text NameText;
 		public Button   ActionButton;

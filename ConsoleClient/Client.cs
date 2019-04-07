@@ -9,7 +9,7 @@ using AuthService = GameLogics.Client.Services.AuthService;
 using RegisterService = GameLogics.Client.Services.RegisterService;
 
 namespace ConsoleClient {
-	public class Client {
+	public sealed class Client {
 		public ICustomLogger          Logger   { get; } = new ConsoleLogger();
 		public ConvertService         Convert  { get; } = new ConvertService();
 		public ClientStateService     State    { get; } = new ClientStateService();

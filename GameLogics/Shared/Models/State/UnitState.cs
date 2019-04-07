@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 namespace GameLogics.Shared.Models.State {
-	public class UnitState {
+	public sealed class UnitState {
 		public ulong  Id         { get; set; }
 		public string Descriptor { get; set; }
 		public int    Health     { get; set; }

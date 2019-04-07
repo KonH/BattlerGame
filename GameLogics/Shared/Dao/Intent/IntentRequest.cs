@@ -1,7 +1,7 @@
 using GameLogics.Shared.Commands.Base;
 
 namespace GameLogics.Shared.Dao.Intent {
-	public class IntentRequest {
+	public sealed class IntentRequest {
 		public string   Login           { get; set; }
 		public string   ExpectedVersion { get; set; }
 		public ICommand Command         { get; set; }

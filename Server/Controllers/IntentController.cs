@@ -9,7 +9,7 @@ namespace Server.Controllers {
 	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
-	public class IntentController : BaseApiController<IntentRequest, IntentResponse> {
+	public sealed class IntentController : BaseApiController<IntentRequest, IntentResponse> {
 		public IntentController(ActionResultWrapper wrapper, IApiService service) : base(wrapper, service.Post) {}
 
 		[HttpPost]

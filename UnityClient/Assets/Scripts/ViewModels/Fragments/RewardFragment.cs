@@ -4,8 +4,8 @@ using UnityEngine;
 using Zenject;
 
 namespace UnityClient.ViewModels.Fragments {
-	public class RewardFragment : BaseFragment {		
-		public class Factory : PlaceholderFactory<Transform, string, RewardFragment> {}
+	public sealed class RewardFragment : BaseFragment {		
+		public sealed class Factory : PlaceholderFactory<Transform, string, RewardFragment> {}
 		
 		public TMP_Text      Text;
 		public BaseAnimation Animation;

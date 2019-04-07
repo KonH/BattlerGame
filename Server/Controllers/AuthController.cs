@@ -6,7 +6,7 @@ using Server.Services;
 namespace Server.Controllers {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class AuthController : BaseApiController<AuthRequest, AuthResponse> {
+	public sealed class AuthController : BaseApiController<AuthRequest, AuthResponse> {
 		public AuthController(ActionResultWrapper wrapper, IApiService service) : base(wrapper, service.Post) {}
 	}
 }

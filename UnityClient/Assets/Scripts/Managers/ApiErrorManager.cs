@@ -4,7 +4,7 @@ using UnityClient.Managers;
 using UnityClient.Models;
 
 namespace UnityClient.Services {
-	public class ApiErrorManager {
+	public sealed class ApiErrorManager {
 		readonly NoticeService    _notice;
 		readonly GameSceneManager _scene;
 		

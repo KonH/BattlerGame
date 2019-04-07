@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.State;
 using Xunit;
 
 namespace UnitTests {
-	public class EndPlayerTurnCommandTest : BaseCommandTest<EndPlayerTurnCommand> {
+	public sealed class EndPlayerTurnCommandTest : BaseCommandTest<EndPlayerTurnCommand> {
 		public EndPlayerTurnCommandTest() {
 			_state.Level = new LevelState(
 				"level_0", new List<UnitState>(), new List<UnitState>()

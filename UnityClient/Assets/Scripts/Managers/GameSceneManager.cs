@@ -1,7 +1,7 @@
 ﻿using UnityEngine.SceneManagement;
 
 namespace UnityClient.Managers {
-	public class GameSceneManager {
+	public sealed class GameSceneManager {
 		const string StartScene    = "00_Start";
 		const string LoginScene    = "01_Login";
 		const string RegisterScene = "02_Register";

@@ -6,7 +6,7 @@ using GameLogics.Shared.Models.State;
 using UnityClient.Models;
 
 namespace UnityClient.Services {
-	public class UnitService {
+	public sealed class UnitService {
 		readonly ClientStateService  _stateService;
 		readonly ClientCommandRunner _runner;
 		

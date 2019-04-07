@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands {
-	public class KillUnitCommand : IInternalCommand {
+	public sealed class KillUnitCommand : IInternalCommand {
 		public readonly ulong UnitId;
 		
 		public KillUnitCommand(ulong unitId) {

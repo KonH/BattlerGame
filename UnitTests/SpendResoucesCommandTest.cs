@@ -4,7 +4,7 @@ using GameLogics.Shared.Utils;
 using Xunit;
 
 namespace UnitTests {
-	public class SpendResoucesCommandTest : BaseCommandTest<SpendResourceCommand> {
+	public sealed class SpendResoucesCommandTest : BaseCommandTest<SpendResourceCommand> {
 		[Fact]
 		void CantSpendUnknownResource() {
 			IsInvalid(new SpendResourceCommand(Resource.Unknown, 1));

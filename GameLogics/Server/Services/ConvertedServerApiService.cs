@@ -9,7 +9,7 @@ namespace GameLogics.Server.Services {
 	/// <summary>
 	/// For emulation purposes to prevent modifications of same objects
 	/// </summary>
-	public class ConvertedServerApiService : ServerApiService {
+	public sealed class ConvertedServerApiService : ServerApiService {
 		readonly ConvertService       _convert;
 		readonly IErrorHandleStrategy _errorHandle;
 

@@ -9,7 +9,7 @@ using GameLogics.Shared.Services;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Client.Services {
-	public class GameStateUpdateService {
+	public sealed class GameStateUpdateService {
 		public event Action<GameState> OnStateUpdated = delegate {};
 		
 		public GameState State => _state.State;

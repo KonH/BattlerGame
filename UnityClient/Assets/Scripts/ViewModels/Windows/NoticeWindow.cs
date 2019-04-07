@@ -5,8 +5,8 @@ using UnityEngine.UI;
 using Zenject;
 
 namespace UnityClient.ViewModels.Windows {
-	public class NoticeWindow : BaseWindow {
-		public class Factory : PlaceholderFactory<NoticeModel, NoticeWindow> {}
+	public sealed class NoticeWindow : BaseWindow {
+		public sealed class Factory : PlaceholderFactory<NoticeModel, NoticeWindow> {}
 		
 		public TMP_Text  MessageText;
 		public Button    OkButton;

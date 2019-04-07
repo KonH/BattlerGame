@@ -6,10 +6,10 @@ using GameLogics.Shared.Models.State;
 namespace GameLogics.Shared.Logics {
 	static class DamageLogics {
 		public static int GetDamage(GameState state, Config config, ulong dealerId, ulong targetId) {
-			var baseDamage = GetBaseDamage(state, config, dealerId);
+			var baseDamage   = GetBaseDamage(state, config, dealerId);
 			var weaponDamage = GetWeaponDamage(state, config, dealerId);
 			var targetAbsorb = GetAbsorb(state, config, targetId);
-			var damage = baseDamage + weaponDamage - targetAbsorb;
+			var damage       = baseDamage + weaponDamage - targetAbsorb;
 			return Math.Max(damage, 0);
 		}
 

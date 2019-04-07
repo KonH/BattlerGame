@@ -4,7 +4,7 @@ using GameLogics.Shared.Dao.Auth;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Client.Services {
-	public class AuthService {
+	public sealed class AuthService {
 		readonly IApiService        _api;
 		readonly INetworkService    _network;
 		readonly ClientStateService _state;

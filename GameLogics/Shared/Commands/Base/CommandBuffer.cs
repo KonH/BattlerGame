@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 namespace GameLogics.Shared.Commands.Base {
-	public class CommandBuffer : ICommandBuffer {
+	public sealed class CommandBuffer : ICommandBuffer {
 		List<ICommand> _buffer = new List<ICommand>();
 		
 		public void Add(ICommand command) {

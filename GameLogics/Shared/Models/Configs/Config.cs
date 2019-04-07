@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 namespace GameLogics.Shared.Models.Configs {
-	public class Config {
+	public sealed class Config {
 		public string Version { get; set; }
 		
 		public Dictionary<string, IItemConfig>        Items    { get; } = new Dictionary<string, IItemConfig>();

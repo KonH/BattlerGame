@@ -8,7 +8,7 @@ using TMPro;
 
 namespace UnityClient.Views {
 	[RequireComponent(typeof(TMP_Text))]
-	public class ResourceView : MonoBehaviour {
+	public sealed class ResourceView : MonoBehaviour {
 		public Resource Kind;
 
 		TMP_Text _text;

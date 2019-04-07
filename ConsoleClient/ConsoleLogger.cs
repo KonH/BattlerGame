@@ -2,7 +2,7 @@ using System;
 using GameLogics.Shared.Services;
 
 namespace ConsoleClient {
-	public class ConsoleLogger : ICustomLogger {
+	public sealed class ConsoleLogger : ICustomLogger {
 		public void Debug(object context, string message) {
 			WriteLine(ConsoleColor.Green, context, message);
 		}

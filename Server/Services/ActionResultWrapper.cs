@@ -5,7 +5,7 @@ using GameLogics.Shared.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Server.Services {
-	public class ActionResultWrapper {
+	public sealed class ActionResultWrapper {
 		readonly ConvertService _convert;
 
 		public ActionResultWrapper(ConvertService convert) {

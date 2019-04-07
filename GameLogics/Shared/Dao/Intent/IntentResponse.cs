@@ -1,5 +1,5 @@
 namespace GameLogics.Shared.Dao.Intent {
-	public class IntentResponse {
+	public sealed class IntentResponse {
 		public string NewVersion { get; set; }
 
 		public IntentResponse(string newVersion) {

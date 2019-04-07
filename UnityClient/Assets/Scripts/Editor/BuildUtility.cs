@@ -5,7 +5,7 @@ using UnityEditor;
 using Debug = UnityEngine.Debug;
 
 namespace UnityClient.Editor {
-	public class BuildUtility {
+	public sealed class BuildUtility {
 		public string ProjectPath { get; }
 		public string AssetPath   { get; }
 

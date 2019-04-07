@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 using UnityClient.Utils;
 
 namespace UnityClient.Services {
-	public class WebRequestNetworkService : INetworkService {
+	public sealed class WebRequestNetworkService : INetworkService {
 		readonly ICustomLogger  _logger;
 		readonly ServerSettings _settings;
 		

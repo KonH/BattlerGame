@@ -6,7 +6,7 @@ using GameLogics.Shared.Logics;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
-	public class FinishLevelCommand : IInternalCommand {
+	public sealed class FinishLevelCommand : IInternalCommand {
 		public readonly bool Win;
 
 		public FinishLevelCommand(bool win) {

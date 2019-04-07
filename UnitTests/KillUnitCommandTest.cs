@@ -6,7 +6,7 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
-	public class KillUnitCommandTest : BaseCommandTest<KillUnitCommand> {
+	public sealed class KillUnitCommandTest : BaseCommandTest<KillUnitCommand> {
 		ulong _playerId;
 		ulong _enemyId;
 		

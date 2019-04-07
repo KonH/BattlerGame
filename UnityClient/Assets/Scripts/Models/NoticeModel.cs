@@ -1,7 +1,7 @@
 using System;
 
 namespace UnityClient.Models {
-	public class NoticeModel {
+	public sealed class NoticeModel {
 		public string       Message  { get; }
 		public Action<bool> Callback { get; }
 

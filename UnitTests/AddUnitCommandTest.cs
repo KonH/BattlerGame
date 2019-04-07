@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
-	public class AddUnitCommandTest : BaseCommandTest<AddUnitCommand> {
+	public sealed class AddUnitCommandTest : BaseCommandTest<AddUnitCommand> {
 		public AddUnitCommandTest() {
 			_config.AddUnit("desc", new UnitConfig(1, 1));
 		}

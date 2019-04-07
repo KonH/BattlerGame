@@ -2,7 +2,7 @@ using System;
 using GameLogics.Shared.Commands;
 
 namespace UnityClient.Services {
-	public class LevelService {
+	public sealed class LevelService {
 		public event Action<ulong>        OnUnitSelected = delegate {};
 		public event Action<ulong?, bool> OnUnitCanTurn  = delegate {};
 		

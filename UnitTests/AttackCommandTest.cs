@@ -5,7 +5,7 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
-	public class AttackCommandTest : BaseCommandTest<AttackCommand> {
+	public sealed class AttackCommandTest : BaseCommandTest<AttackCommand> {
 		ulong _playerId;
 		ulong _enemyId;
 		

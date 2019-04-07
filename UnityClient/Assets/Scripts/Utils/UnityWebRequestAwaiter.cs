@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 namespace UnityClient.Utils {
-    public class UnityWebRequestAwaiter : INotifyCompletion {
+    public sealed class UnityWebRequestAwaiter : INotifyCompletion {
         UnityWebRequestAsyncOperation _asyncOp;
         Action                        _continuation;
 

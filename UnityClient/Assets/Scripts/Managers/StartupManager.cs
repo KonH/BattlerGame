@@ -5,7 +5,7 @@ using UnityEngine;
 using Zenject;
 
 namespace UnityClient.Managers {
-	public class StartupManager : ITickable {
+	public sealed class StartupManager : ITickable {
 		const float _minInterval = 3.0f;
 
 		readonly MainThreadRunner   _runner;

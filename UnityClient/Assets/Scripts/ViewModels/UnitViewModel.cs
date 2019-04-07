@@ -11,8 +11,8 @@ using UnityEngine.UI;
 using Zenject;
 
 namespace UnityClient.ViewModels {
-	public class UnitViewModel : MonoBehaviour, IPointerClickHandler {
-		public class Factory : PlaceholderFactory<UnitLevelModel, UnitViewModel> {}
+	public sealed class UnitViewModel : MonoBehaviour, IPointerClickHandler {
+		public sealed class Factory : PlaceholderFactory<UnitLevelModel, UnitViewModel> {}
 
 		public Color PlayerHealthColor = Color.green;
 		public Color EnemyHealthColor  = Color.red;

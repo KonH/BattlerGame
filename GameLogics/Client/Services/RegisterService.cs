@@ -4,7 +4,7 @@ using GameLogics.Shared.Dao.Register;
 using GameLogics.Shared.Services;
 
 namespace GameLogics.Client.Services {
-	public class RegisterService {
+	public sealed class RegisterService {
 		readonly IApiService        _api;
 		readonly ClientStateService _state;
 

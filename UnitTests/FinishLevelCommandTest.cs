@@ -7,7 +7,7 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
-	public class FinishLevelCommandTest : BaseCommandTest<FinishLevelCommand> {
+	public sealed class FinishLevelCommandTest : BaseCommandTest<FinishLevelCommand> {
 		ulong _unitId;
 		
 		public FinishLevelCommandTest() {

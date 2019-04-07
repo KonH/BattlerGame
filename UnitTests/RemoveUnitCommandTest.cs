@@ -3,7 +3,7 @@ using GameLogics.Shared.Models.State;
 using Xunit;
 
 namespace UnitTests {
-	public class RemoveUnitCommandTest : BaseCommandTest<RemoveUnitCommand> {		
+	public sealed class RemoveUnitCommandTest : BaseCommandTest<RemoveUnitCommand> {		
 		[Fact]
 		void CantRemoveNotExistingUnit() {
 			IsInvalid(new RemoveUnitCommand(InvalidId));

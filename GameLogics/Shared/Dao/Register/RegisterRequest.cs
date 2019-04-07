@@ -1,5 +1,5 @@
 namespace GameLogics.Shared.Dao.Register {
-	public class RegisterRequest {
+	public sealed class RegisterRequest {
 		public string Name         { get; set; }
 		public string Login        { get; set; }
 		public string PasswordHash { get; set; }

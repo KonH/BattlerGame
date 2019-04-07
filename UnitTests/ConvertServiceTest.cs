@@ -4,7 +4,7 @@ using GameLogics.Shared.Services;
 using Xunit;
 
 namespace UnitTests {
-	public class ConvertServiceTest {
+	public sealed class ConvertServiceTest {
 		ConvertService _service = new ConvertService();
 
 		[Fact]

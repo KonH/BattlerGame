@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Shared.Commands.Base {
-	public class CommandRunner : IEnumerable<CommandWorkItem> {
+	public sealed class CommandRunner : IEnumerable<CommandWorkItem> {
 		readonly ICommand  _command;
 		readonly GameState _state;
 		readonly Config    _config;

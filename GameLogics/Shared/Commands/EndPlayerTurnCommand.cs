@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Logics;
 
 namespace GameLogics.Shared.Commands {
-	public class EndPlayerTurnCommand : ICommand {
+	public sealed class EndPlayerTurnCommand : ICommand {
 		public bool IsValid(GameState state, Config config) {
 			if ( state.Level == null ) {
 				return false;

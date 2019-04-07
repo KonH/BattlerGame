@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using Zenject;
 
 namespace UnityClient.Controls {
-	public class ItemsControl : MonoBehaviour {
+	public sealed class ItemsControl : MonoBehaviour {
 		public Button Button;
 
 		ClientStateService  _service;

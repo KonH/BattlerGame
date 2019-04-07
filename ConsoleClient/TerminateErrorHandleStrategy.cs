@@ -4,7 +4,7 @@ using GameLogics.Shared.Dao.Api.Errors;
 using GameLogics.Shared.Services;
 
 namespace ConsoleClient {
-	public class TerminateErrorHandleStrategy : IErrorHandleStrategy {
+	public sealed class TerminateErrorHandleStrategy : IErrorHandleStrategy {
 		readonly ICustomLogger _logger;
 		
 		public TerminateErrorHandleStrategy(ICustomLogger logger) {

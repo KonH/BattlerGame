@@ -3,7 +3,7 @@ using UnityClient.ViewModels.Windows;
 using Zenject;
 
 namespace UnityClient.Managers {
-	public class NoticeManager : ITickable {		
+	public sealed class NoticeManager : ITickable {		
 		readonly NoticeService        _service;
 		readonly NoticeWindow.Factory _window;
 

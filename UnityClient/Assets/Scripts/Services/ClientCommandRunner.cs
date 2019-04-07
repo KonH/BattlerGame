@@ -2,7 +2,7 @@
 using GameLogics.Shared.Commands.Base;
 
 namespace UnityClient.Services {
-	public class ClientCommandRunner {
+	public sealed class ClientCommandRunner {
 		public GameStateUpdateService Updater { get; }
 		
 		readonly MainThreadRunner _runner;

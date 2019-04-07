@@ -8,7 +8,7 @@ using GameLogics.Client.Utils;
 using GameLogics.Shared.Services;
 
 namespace ConsoleClient {
-	public class HttpClientNetworkService : INetworkService {
+	public sealed class HttpClientNetworkService : INetworkService {
 		readonly HttpClient _client = new HttpClient();
 
 		readonly ICustomLogger _logger;

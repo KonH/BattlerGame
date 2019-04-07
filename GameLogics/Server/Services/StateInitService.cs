@@ -6,7 +6,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 
 namespace GameLogics.Server.Services {
-	public class StateInitService {
+	public sealed class StateInitService {
 		Random _realRandom = new Random();
 		
 		class InitCommand : IInternalCommand {

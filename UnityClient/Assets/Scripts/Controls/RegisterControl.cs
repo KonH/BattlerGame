@@ -7,7 +7,7 @@ using UnityEngine;
 using Zenject;
 
 namespace UnityClient.Controls {
-	public class RegisterControl : MonoBehaviour {
+	public sealed class RegisterControl : MonoBehaviour {
 		public TMP_InputField Login;
 		public TMP_InputField Password;
 

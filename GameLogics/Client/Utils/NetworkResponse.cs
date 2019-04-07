@@ -1,5 +1,5 @@
 namespace GameLogics.Client.Utils {
-	public class NetworkResponse {
+	public sealed class NetworkResponse {
 		public bool   Success    { get; }
 		public string Text       { get; }
 		public int    StatusCode { get; }

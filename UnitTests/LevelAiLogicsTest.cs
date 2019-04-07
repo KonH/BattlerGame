@@ -5,7 +5,7 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
-	public class LevelAiLogicsTest : BaseCommandTest<EndPlayerTurnCommand> {
+	public sealed class LevelAiLogicsTest : BaseCommandTest<EndPlayerTurnCommand> {
 		List<ulong> _playerIds;
 		List<ulong> _enemyIds;
 		

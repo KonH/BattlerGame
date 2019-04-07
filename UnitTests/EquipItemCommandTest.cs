@@ -4,7 +4,7 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {	
-	public class EquipItemCommandTest : BaseCommandTest<EquipItemCommand> {
+	public sealed class EquipItemCommandTest : BaseCommandTest<EquipItemCommand> {
 		ulong _unitId;
 		ulong _itemId;
 		

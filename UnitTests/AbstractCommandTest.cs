@@ -6,8 +6,8 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
-	public class AbstractCommandTest {
-		class JustCommand : ICommand {
+	public sealed class AbstractCommandTest {
+		sealed class JustCommand : ICommand {
 			public readonly string        Name;
 			public readonly JustCommand[] Childs;
 

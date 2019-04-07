@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using Zenject;
 
 namespace UnityClient.Controls {
-	public class StartLevelControl : MonoBehaviour {
+	public sealed class StartLevelControl : MonoBehaviour {
 		public TMP_Text Text;
 		public Button   Button;
 

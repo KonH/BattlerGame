@@ -7,7 +7,7 @@ using UnityClient.Services;
 using Zenject;
 
 namespace UnityClient.Installers {
-	public class CommonInstaller : MonoInstaller {
+	public sealed class CommonInstaller : MonoInstaller {
 		public ServerSettings ServerSettings;
 		
 		public override void InstallBindings() {
