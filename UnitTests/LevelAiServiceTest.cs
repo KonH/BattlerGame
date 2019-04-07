@@ -15,7 +15,7 @@ namespace UnitTests {
 				.AddUnit("player_desc", new UnitConfig(1, 1))
 				.AddUnit("enemy_desc", new UnitConfig(1, 1));
 			_playerIds = new List<ulong> { _state.NewEntityId(), _state.NewEntityId() };
-			_enemyIds = new List<ulong> { _state.NewEntityId() };
+			_enemyIds = new List<ulong> { _state.NewEntityId(), _state.NewEntityId() };
 			_state.Level = new LevelState(
 				"level_0",
 				new List<UnitState> {
@@ -23,7 +23,8 @@ namespace UnitTests {
 					new UnitState("player_desc", 1).WithId(_playerIds[1])
 				},
 				new List<UnitState> {
-					new UnitState("enemy_desc", 1).WithId(_enemyIds[0])
+					new UnitState("enemy_desc", 1).WithId(_enemyIds[0]),
+					new UnitState("enemy_desc", 1).WithId(_enemyIds[1])
 				}
 			);
 			_state.Level.PlayerTurn = true;
