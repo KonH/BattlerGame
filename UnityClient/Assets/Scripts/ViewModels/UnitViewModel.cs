@@ -16,7 +16,8 @@ namespace UnityClient.ViewModels {
 
 		public Color PlayerHealthColor = Color.green;
 		public Color EnemyHealthColor  = Color.red;
-		
+
+		public Transform  ViewRoot     = null;
 		public GameObject Selection    = null;
 		public GameObject Interactable = null;
 		public Slider     HealthSlider = null;
@@ -39,8 +40,9 @@ namespace UnityClient.ViewModels {
 			_updateService.AddHandler<KillUnitCommand>(OnKillUnit);
 
 			HealthImage.color = model.IsPlayerUnit ? PlayerHealthColor : EnemyHealthColor;
+			SelectView();
 			UpdateSelection(false);
-			UpdateInteractable(true);
+			UpdateInteractable(model.IsPlayerUnit);
 			UpdateHealth();
 		}
 
@@ -101,6 +103,14 @@ namespace UnityClient.ViewModels {
 				_levelService.SelectUnit(_model.State.Id);
 			} else {
 				_levelService.AttackUnit(_model.State.Id);
+			}
+		}
+
+		void SelectView() {
+			var wantedName = _model.State.Descriptor;
+			for ( var i = 0; i < ViewRoot.childCount; i++ ) {
+				var child = ViewRoot.GetChild(i).gameObject;
+				child.SetActive(child.name == wantedName);
 			}
 		}
 	}
