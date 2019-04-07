@@ -18,7 +18,7 @@ namespace GameLogics.Shared.Services {
 				var playerId = playerUnit.Id;
 				var attackCommand = new AttackCommand(enemyId, playerId);
 				buffer.Add(attackCommand);
-				var damage = attackCommand.GetDamage(state, config);
+				var damage = attackCommand.GetDamage(state, config) - attackCommand.GetAbsorb(playerUnit, config);
 				damages[playerId] = damages.GetOrDefault(playerId) + damage;
 			}
 			if ( !TrySelectPlayerToAttack(level.PlayerUnits, damages, out var _) ) { // Level not finished yet
