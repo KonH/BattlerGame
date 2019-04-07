@@ -18,12 +18,10 @@ namespace GameLogics.Shared.Logics {
 				var playerId = playerUnit.Id;
 				var attackCommand = new AttackCommand(enemyId, playerId);
 				buffer.Add(attackCommand);
-				var damage = attackCommand.GetDamage(state, config) - attackCommand.GetAbsorb(playerUnit, config);
+				var damage = DamageLogics.GetDamage(state, config, enemyId, playerId);
 				damages[playerId] = damages.GetOrDefault(playerId) + damage;
 			}
-			if ( !TrySelectPlayerToAttack(level.PlayerUnits, damages, out var _) ) { // Level not finished yet
-				buffer.Add(new EndEnemyTurnCommand());
-			}
+			buffer.Add(new EndEnemyTurnCommand());
 		}
 
 		static bool TrySelectPlayerToAttack(List<UnitState> playerUnits, Dictionary<ulong, int> damages, out UnitState playerUnit) {

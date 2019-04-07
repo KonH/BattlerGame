@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
 using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
+using GameLogics.Shared.Logics;
 
 namespace GameLogics.Shared.Commands {
 	public class AttackCommand : ICommand {
@@ -41,40 +40,12 @@ namespace GameLogics.Shared.Commands {
 
 		public void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			state.Level.MovedUnits.Add(DealerId);
-			var damage = GetDamage(state, config);
+			var damage = DamageLogics.GetDamage(state, config, DealerId, TargetId);
 			var target = state.Level.FindUnitById(TargetId);
-			var absorb = GetAbsorb(target, config);
-			target.Health -= Math.Max(damage - absorb, 0);
+			target.Health -= damage;
 			if ( target.Health <= 0 ) {
 				buffer.Add(new KillUnitCommand(target.Id));
 			}
-		}
-
-		public int GetDamage(GameState state, Config config) {
-			var dealer = state.Level.FindUnitById(DealerId);
-			return config.Units[dealer.Descriptor].BaseDamage + GetWeaponDamage(dealer.Items, config);
-		}
-
-		int GetWeaponDamage(List<ItemState> items, Config config) {
-			var accum = 0;
-			foreach ( var item in items ) {
-				var itemConfig = config.Items[item.Descriptor];
-				if ( itemConfig is WeaponConfig weapon ) {
-					accum += weapon.Damage;
-				}
-			}
-			return accum;
-		}
-		
-		public int GetAbsorb(UnitState state, Config config) {
-			var accum = 0;
-			foreach ( var item in state.Items ) {
-				var itemConfig = config.Items[item.Descriptor];
-				if ( itemConfig is ArmorConfig armor ) {
-					accum += armor.Absorb;
-				}
-			}
-			return accum;
 		}
 
 		public override string ToString() {
