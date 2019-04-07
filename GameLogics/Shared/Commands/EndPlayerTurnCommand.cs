@@ -1,7 +1,7 @@
 using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
-using GameLogics.Shared.Services;
+using GameLogics.Shared.Logics;
 
 namespace GameLogics.Shared.Commands {
 	public class EndPlayerTurnCommand : ICommand {
@@ -16,7 +16,7 @@ namespace GameLogics.Shared.Commands {
 			state.Level.PlayerTurn = false;
 			state.Level.MovedUnits.Clear();
 
-			LevelAiService.AddCommands(state, config, buffer);
+			LevelAiLogics.AddCommands(state, config, buffer);
 		}
 
 		public override string ToString() {

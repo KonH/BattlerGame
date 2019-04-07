@@ -5,11 +5,11 @@ using GameLogics.Shared.Models.Configs;
 using Xunit;
 
 namespace UnitTests {
-	public class LevelAiServiceTest : BaseCommandTest<EndPlayerTurnCommand> {
+	public class LevelAiLogicsTest : BaseCommandTest<EndPlayerTurnCommand> {
 		List<ulong> _playerIds;
 		List<ulong> _enemyIds;
 		
-		public LevelAiServiceTest() {
+		public LevelAiLogicsTest() {
 			_config
 				.AddLevel("level_0", new LevelConfig())
 				.AddUnit("player_desc", new UnitConfig(1, 1))

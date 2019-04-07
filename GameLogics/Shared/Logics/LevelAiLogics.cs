@@ -5,8 +5,8 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Utils;
 
-namespace GameLogics.Shared.Services {
-	public static class LevelAiService {
+namespace GameLogics.Shared.Logics {
+	public static class LevelAiLogics {
 		public static void AddCommands(GameState state, Config config, ICommandBuffer buffer) {
 			var level = state.Level;
 			var damages = new Dictionary<ulong, int>();

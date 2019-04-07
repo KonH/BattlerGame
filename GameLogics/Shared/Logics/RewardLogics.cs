@@ -4,8 +4,8 @@ using System.Linq;
 using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.Configs;
 
-namespace GameLogics.Shared.Services {
-	public static class RewardService {
+namespace GameLogics.Shared.Logics {
+	public static class RewardLogics {
 		static List<Resource> _allResources = ((Resource[])Enum.GetValues(typeof(Resource))).Where(r => r != Resource.Unknown).ToList();
 		
 		public static Reward GenerateReward(string rewardLevel, Config config, Random random) {

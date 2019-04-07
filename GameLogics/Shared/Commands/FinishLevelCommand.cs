@@ -2,7 +2,7 @@ using System;
 using GameLogics.Shared.Commands.Base;
 using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
-using GameLogics.Shared.Services;
+using GameLogics.Shared.Logics;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Shared.Commands {
@@ -44,7 +44,7 @@ namespace GameLogics.Shared.Commands {
 			state.Progress[scope] = Math.Min(state.Progress.GetOrDefault(scope) + 1, LevelUtils.GetIndex(levelDesc) + 1);
 				
 			var rewardLevel = config.Levels[levelDesc].RewardLevel;
-			var reward = RewardService.GenerateReward(rewardLevel, config, state.CreateRandom());
+			var reward = RewardLogics.GenerateReward(rewardLevel, config, state.CreateRandom());
 			foreach ( var pair in reward.Resources ) {
 				buffer.Add(new AddResourceCommand(pair.Key, pair.Value));
 			}
