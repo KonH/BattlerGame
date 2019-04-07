@@ -2,6 +2,7 @@
 using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
 using GameLogics.Shared.Models.State;
+using TMPro;
 using UnityClient.Models;
 using UnityClient.Services;
 using UnityClient.Utils;
@@ -22,16 +23,20 @@ namespace UnityClient.ViewModels {
 		public GameObject Interactable = null;
 		public Slider     HealthSlider = null;
 		public Image      HealthImage  = null;
+		public TMP_Text   DamageText   = null;
 		
 		GameStateUpdateService _updateService;
 		LevelService           _levelService;
 		UnitLevelModel         _model;
+
+		int _oldHealth;
 
 		[Inject]
 		public void Init(GameStateUpdateService updateService, LevelService levelService, UnitLevelModel model) {
 			_updateService = updateService;
 			_levelService  = levelService;
 			_model         = model;
+			_oldHealth     = _model.State.Health;
 
 			_levelService.OnUnitSelected += OnUnitSelected;
 			_levelService.OnUnitCanTurn  += OnUnitCanTurn;
@@ -40,6 +45,7 @@ namespace UnityClient.ViewModels {
 			_updateService.AddHandler<KillUnitCommand>(OnKillUnit);
 
 			HealthImage.color = model.IsPlayerUnit ? PlayerHealthColor : EnemyHealthColor;
+			DamageText.text = "";
 			SelectView();
 			UpdateSelection(false);
 			UpdateInteractable(model.IsPlayerUnit);
@@ -82,8 +88,14 @@ namespace UnityClient.ViewModels {
 
 		async Task OnAttackUnit(AttackCommand cmd) {
 			if ( cmd.TargetId == _model.State.Id ) {
+				var diff = _model.State.Health;
+				DamageText.text = (diff > 0) ? $"-{diff}" : "";
+				var textTrans = DamageText.transform;
+				textTrans.localScale = Vector3.zero;
+				textTrans.DoScale(0.25f, 1.0f).Detach();
 				await transform.DoScale(0.25f, 0.75f);
-				await transform.DoScale(0.25f, 1.0f);
+				transform.DoScale(0.25f, 1.0f).Detach();
+				await textTrans.DoScale(0.5f, 0.0f);
 			}
 		}
 		

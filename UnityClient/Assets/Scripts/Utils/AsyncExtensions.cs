@@ -73,6 +73,8 @@ namespace UnityClient.Utils {
 			public UpdateAwaiter GetAwaiter() {
 				return _awaiter;
 			}
+
+			public void Detach() {}
 		}
 		
 		static void EnsureHandler() {
