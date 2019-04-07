@@ -1,12 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{32876BA1-3EBE-4BBA-A612-634BE61F8540}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28721.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{32876BA1-3EBE-4BBA-A612-634BE61F8540}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleClient", "ConsoleClient\ConsoleClient.csproj", "{D8269A71-F744-4779-A1A2-5709DB21A520}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleClient", "ConsoleClient\ConsoleClient.csproj", "{D8269A71-F744-4779-A1A2-5709DB21A520}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{12D0BA15-FA8A-4785-BA4A-632B6EB35379}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{12D0BA15-FA8A-4785-BA4A-632B6EB35379}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogics", "GameLogics\GameLogics.csproj", "{7972E630-6A54-45C0-8269-8C5D8F7C021B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLogics", "GameLogics\GameLogics.csproj", "{7972E630-6A54-45C0-8269-8C5D8F7C021B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D737D461-3551-47B6-8FC9-D6B7D7A30ECE}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +38,11 @@ Global
 		{7972E630-6A54-45C0-8269-8C5D8F7C021B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7972E630-6A54-45C0-8269-8C5D8F7C021B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7972E630-6A54-45C0-8269-8C5D8F7C021B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F712DF36-CA83-42EC-A1BF-D60A5704D2A7}
 	EndGlobalSection
 EndGlobal
