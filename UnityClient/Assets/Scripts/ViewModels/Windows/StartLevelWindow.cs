@@ -67,7 +67,16 @@ namespace UnityClient.ViewModels.Windows {
 		void OnStart() {
 			_units.StartLevelWithSelectedUnits(_levelDesc, _selectedUnits);
 		}
-		
+
+		ClickAction<UnitModel> RemoveUnit => new ClickAction<UnitModel>(
+			"Remove",
+			u => {
+				var placeholder = _units.CreatePlaceholder(u.Index, OpenSelectWindow);
+				ReplaceUnit(u.Index, placeholder);
+				UpdateInteractable();
+			}
+		);
+
 		ClickAction<UnitModel> OpenSelectWindow => new ClickAction<UnitModel>(
 			"Select",
 			u => {
@@ -92,7 +101,7 @@ namespace UnityClient.ViewModels.Windows {
 			var unitCount = 4;
 			_selectedUnits = new UnitModel[unitCount];
 			_fragments     = new UnitFragment[unitCount];
-			foreach ( var unit in _units.GetUnitsForLevel(unitCount, OpenSelectWindow) ) {
+			foreach ( var unit in _units.GetUnitsForLevel(unitCount, onUnit: RemoveUnit, onPlaceholder: OpenSelectWindow) ) {
 				InsertUnit(unit);
 			}
 		}
@@ -102,7 +111,8 @@ namespace UnityClient.ViewModels.Windows {
 			_fragments[unit.Index]     = _unitFragment.Create(ItemsRoot, unit);
 		}
 		
-		void ReplaceUnit(int index, StateUnitModel model) {
+		void ReplaceUnit(int index, UnitModel model) {
+			_selectedUnits[index] = model;
 			_fragments[index].Refresh(model);
 		}
 

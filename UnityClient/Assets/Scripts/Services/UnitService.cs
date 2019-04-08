@@ -20,19 +20,23 @@ namespace UnityClient.Services {
 		public UnitModel CreateModel(UnitState state, int index, ClickAction<UnitModel> onClick) {
 			return new StateUnitModel(state, index, onClick);
 		}
-		
-		UnitModel CreateModel(int index, List<UnitState> states, ClickAction<UnitModel> onClick) {
-			if ( states.Count > index ) {
-				return CreateModel(states[index], index, onClick);
-			}
+
+		public UnitModel CreatePlaceholder(int index, ClickAction<UnitModel> onClick) {
 			return new PlaceholderUnitModel(index, onClick);
 		}
 		
-		public List<UnitModel> GetUnitsForLevel(int count, ClickAction<UnitModel> onClick) {
+		UnitModel CreateModel(int index, List<UnitState> states, ClickAction<UnitModel> onUnit, ClickAction<UnitModel> onPlaceholder) {
+			if ( states.Count > index ) {
+				return CreateModel(states[index], index, onUnit);
+			}
+			return CreatePlaceholder(index, onPlaceholder);
+		}
+		
+		public List<UnitModel> GetUnitsForLevel(int count, ClickAction<UnitModel> onUnit, ClickAction<UnitModel> onPlaceholder) {
 			var result = new List<UnitModel>();
 			var units = GetAllUnitsForLevel().OrderBy(u => u.Id).ToList();
 			for ( var i = 0; i < count; i++ ) {
-				result.Add(CreateModel(i, units, onClick));
+				result.Add(CreateModel(i, units, onUnit, onPlaceholder));
 			}
 			return result;
 		}
