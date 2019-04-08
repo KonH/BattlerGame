@@ -24,7 +24,7 @@ namespace GameLogics.Shared.Logics {
 			foreach ( var item in items ) {
 				var itemConfig = config.Items[item.Descriptor];
 				if ( itemConfig is WeaponConfig weapon ) {
-					accum += weapon.Damage;
+					accum += weapon.GetDamageForLevel(item.Level);
 				}
 			}
 			return accum;
@@ -36,7 +36,7 @@ namespace GameLogics.Shared.Logics {
 			foreach ( var item in items ) {
 				var itemConfig = config.Items[item.Descriptor];
 				if ( itemConfig is ArmorConfig armor ) {
-					accum += armor.Absorb;
+					accum += armor.GetAbsorbForLevel(item.Level);
 				}
 			}
 			return accum;
