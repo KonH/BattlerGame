@@ -91,11 +91,6 @@ namespace UnityClient.ViewModels.Windows {
 				AddFragment(item);
 			}
 		}
-
-		void RemoveFragment(ItemType type) {
-			_fragments[type].gameObject.SetActive(false);
-			_fragments.Remove(type);
-		}
 		
 		void AddFragment(ItemModel model) {
 			var fragment = _itemFragment.Create(ItemsRoot, model);
@@ -103,8 +98,7 @@ namespace UnityClient.ViewModels.Windows {
 		}
 		
 		void ReplaceFragment(ItemModel model) {
-			RemoveFragment(model.Type);
-			AddFragment(model);
+			_fragments[model.Type].Refresh(model);
 		}
 
 		void TryHideEquipWindow() {

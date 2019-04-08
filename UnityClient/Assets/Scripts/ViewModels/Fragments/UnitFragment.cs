@@ -14,6 +14,11 @@ namespace UnityClient.ViewModels.Fragments {
 		
 		[Inject]
 		public void Init(Transform parent, UnitModel model) {
+			Attach(parent);
+			Refresh(model);
+		}
+
+		public void Refresh(UnitModel model) {
 			NameText.text = model.Name;
 			ActionButton.gameObject.SetActive(model.HasAction);
 			if ( model.HasAction ) {
@@ -21,8 +26,6 @@ namespace UnityClient.ViewModels.Fragments {
 				ActionButton.onClick.RemoveAllListeners();
 				ActionButton.onClick.AddListener(model.Click);
 			}
-			
-			Attach(parent);
 		}
 	}
 }

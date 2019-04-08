@@ -103,11 +103,7 @@ namespace UnityClient.ViewModels.Windows {
 		}
 		
 		void ReplaceUnit(int index, StateUnitModel model) {
-			var oldFragment = _fragments[index];
-			oldFragment.gameObject.SetActive(false);
-			var newModel = _units.CreateModel(model.State, index, OpenSelectWindow);
-			InsertUnit(newModel);
-			_fragments[index].transform.SetSiblingIndex(oldFragment.transform.GetSiblingIndex());
+			_fragments[index].Refresh(model);
 		}
 
 		void TryHideSelectWindow() {
