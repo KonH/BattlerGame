@@ -13,6 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLogics", "GameLogics\Ga
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D737D461-3551-47B6-8FC9-D6B7D7A30ECE}"
 	ProjectSection(SolutionItems) = preProject
+		UnityClient\Assets\Resources\Config.json = UnityClient\Assets\Resources\Config.json
 		README.md = README.md
 	EndProjectSection
 EndProject

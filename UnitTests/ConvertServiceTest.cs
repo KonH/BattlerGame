@@ -2,6 +2,7 @@ using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Services;
 using Xunit;
+using GameLogics.Server.Repositories.Configs;
 
 namespace UnitTests {
 	public sealed class ConvertServiceTest {
@@ -43,6 +44,13 @@ namespace UnitTests {
 			
 			Assert.True(newConfig.Items.ContainsKey("desc"));
 			Assert.NotNull(newConfig.Items["desc"]);
+		}
+
+		[Fact]
+		void IsDefaultConfigSerialized() {
+			var repo = new FileConfigRepository(_service, "../../../../UnityClient/Assets/Resources/Config.json");
+
+			Assert.NotNull(repo.Get());
 		}
 	}
 }
