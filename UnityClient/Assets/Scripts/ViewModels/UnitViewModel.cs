@@ -88,7 +88,8 @@ namespace UnityClient.ViewModels {
 
 		async Task OnAttackUnit(AttackCommand cmd) {
 			if ( cmd.TargetId == _model.State.Id ) {
-				var diff = _model.State.Health;
+				var diff = _oldHealth - _model.State.Health;
+				_oldHealth = _model.State.Health;
 				DamageText.text = (diff > 0) ? $"-{diff}" : "";
 				var textTrans = DamageText.transform;
 				textTrans.localScale = Vector3.zero;
