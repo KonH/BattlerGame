@@ -1,6 +1,6 @@
 namespace GameLogics.Shared.Models.Configs {
-	public sealed class ArmorConfig : IItemConfig {
-		public ItemType Type => ItemType.Armor;
+	public sealed class ArmorConfig : BaseItemConfig {
+		public override ItemType Type => ItemType.Armor;
 		
 		public int[] Absorb { get; set; }
 

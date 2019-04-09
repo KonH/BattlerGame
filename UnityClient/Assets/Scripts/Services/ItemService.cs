@@ -101,7 +101,7 @@ namespace UnityClient.Services {
 		
 		List<ItemState> GetItemStates(StateUnitModel unit) => unit.State.Items;
 
-		IItemConfig GetItemConfig(ItemState itemState) => Config.Items[itemState.Descriptor];
+		BaseItemConfig GetItemConfig(ItemState itemState) => Config.Items[itemState.Descriptor];
 
 		ItemState GetItemState(StateUnitModel unit, ulong itemId) => unit.State.Items.Find(it => it.Id == itemId);
 

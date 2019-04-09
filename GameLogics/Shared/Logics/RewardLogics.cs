@@ -26,7 +26,7 @@ namespace GameLogics.Shared.Logics {
 			reward.Resources.Add(resource, random.Next(interval.Min, interval.Max + 1));
 		}
 		
-		static void AddItems(Reward reward, RewardInterval interval, Dictionary<string, IItemConfig> items, Random random) {
+		static void AddItems(Reward reward, RewardInterval interval, Dictionary<string, BaseItemConfig> items, Random random) {
 			AddByDesc(reward.Items, interval, items.Keys.ToList(), random);
 		}
 		
