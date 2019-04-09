@@ -3,27 +3,51 @@
   "Items": {
     "weak_weapon": {
       "$type": "GameLogics.Shared.Models.Configs.WeaponConfig, GameLogics",
-      "Damage": [ 10, 20, 30 ]
-    },    
+      "Damage": [ 10, 20, 30 ],
+      "UpgradePrice": [
+        { "Coins": 100 },
+        { "Coins": 200 }
+      ]
+    },
     "medium_weapon": {
       "$type": "GameLogics.Shared.Models.Configs.WeaponConfig, GameLogics",
-      "Damage": [ 15, 30, 50 ]
-    },    
+      "Damage": [ 15, 30, 50 ],
+      "UpgradePrice": [
+        { "Coins": 200 },
+        { "Coins": 400 }
+      ]
+    },
     "hard_weapon": {
       "$type": "GameLogics.Shared.Models.Configs.WeaponConfig, GameLogics",
-      "Damage": [ 20, 40, 60 ]
+      "Damage": [ 20, 40, 60 ],
+      "UpgradePrice": [
+        { "Coins": 300 },
+        { "Coins": 700 }
+      ]
     },
     "weak_armor": {
       "$type": "GameLogics.Shared.Models.Configs.ArmorConfig, GameLogics",
-      "Absorb": [ 3, 4, 5 ]
+      "Absorb": [ 3, 4, 5 ],
+      "UpgradePrice": [
+        { "Coins": 100 },
+        { "Coins": 200 }
+      ]
     },
     "medium_armor": {
       "$type": "GameLogics.Shared.Models.Configs.ArmorConfig, GameLogics",
-      "Absorb": [ 5, 7, 9 ]
+      "Absorb": [ 5, 7, 9 ],
+      "UpgradePrice": [
+        { "Coins": 200 },
+        { "Coins": 400 }
+      ]
     },
     "hard_armor": {
       "$type": "GameLogics.Shared.Models.Configs.ArmorConfig, GameLogics",
-      "Absorb": [ 9, 12, 15 ]
+      "Absorb": [ 9, 12, 15 ],
+      "UpgradePrice": [
+        { "Coins": 300 },
+        { "Coins": 700 }
+      ]
     }
   },
   "Units": {
