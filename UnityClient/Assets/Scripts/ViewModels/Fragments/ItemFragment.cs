@@ -24,6 +24,7 @@ namespace UnityClient.ViewModels.Fragments {
 			if ( model.HasAction ) {
 				ActionButton.onClick.RemoveAllListeners();
 				ActionButton.onClick.AddListener(model.Click);
+				ActionButton.interactable = model.Interactable;
 				ActionText.text = model.ActionName;
 			}
 		}

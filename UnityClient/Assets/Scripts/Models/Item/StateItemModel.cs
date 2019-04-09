@@ -7,7 +7,7 @@ namespace UnityClient.Models {
 		
 		public StateItemModel(ItemState state, BaseItemConfig config, ClickAction<ItemModel> onClick) {
 			Type    = config.Type;
-			Name    = $"{state.Descriptor} ({config.Type})";
+			Name    = $"{state.Descriptor}, lvl.{state.Level + 1} ({config.Type})";
 			OnClick = onClick;
 			State   = state;
 		}

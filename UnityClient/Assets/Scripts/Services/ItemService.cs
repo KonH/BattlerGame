@@ -6,6 +6,7 @@ using GameLogics.Shared.Models;
 using GameLogics.Shared.Models.State;
 using GameLogics.Shared.Models.Configs;
 using UnityClient.Models;
+using System.Linq;
 
 namespace UnityClient.Services {
 	public sealed class ItemService {
@@ -98,7 +99,27 @@ namespace UnityClient.Services {
 			}
 			return result;
 		}
-		
+
+		public bool HasUpgrade(ItemState item) {
+			var level = item.Level;
+			var upgradeLevels = GetItemConfig(item).UpgradePrice;
+			return (level < upgradeLevels.Length);
+		}
+
+		public string GetUpgradePriceStr(ItemState item) {
+			if ( !HasUpgrade(item) ) {
+				return string.Empty;
+			}
+			var level = item.Level;
+			var upgradeLevels = GetItemConfig(item).UpgradePrice;
+			var nextUpgradeLevel = upgradeLevels[level];
+			return string.Join(",", nextUpgradeLevel.Select(p => $"{p.Key}: {p.Value}"));
+		}
+
+		public void Upgrade(ulong itemId) => _runner.TryAddCommand(new UpgradeItemCommand(itemId));
+
+		public bool CanUpgrade(ulong itemId) => _runner.IsValid(new UpgradeItemCommand(itemId));
+
 		List<ItemState> GetItemStates(StateUnitModel unit) => unit.State.Items;
 
 		BaseItemConfig GetItemConfig(ItemState itemState) => Config.Items[itemState.Descriptor];

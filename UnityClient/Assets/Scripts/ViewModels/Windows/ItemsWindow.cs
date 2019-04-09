@@ -12,14 +12,33 @@ namespace UnityClient.ViewModels.Windows {
 		public Button    CloseButton;
 		public Transform ItemsRoot;
 
+		ItemFragment.Factory _itemFragment;
+
+		List<ItemFragment> _fragments = new List<ItemFragment>();
+
 		[Inject]
 		public void Init(Canvas parent, ItemFragment.Factory itemFragment, List<ItemModel> items) {
+			_itemFragment = itemFragment;
+
 			CloseButton.onClick.AddListener(Hide);
-			foreach ( var item in items ) {
-				itemFragment.Create(ItemsRoot, item);
-			}
-			
+			Refresh(items);
 			ShowAt(parent);
+		}
+
+		public void Refresh(List<ItemModel> items) {
+			while ( items.Count < _fragments.Count ) {
+				var lastIndex = _fragments.Count - 1;
+				_fragments[lastIndex].gameObject.SetActive(false);
+				_fragments.RemoveAt(lastIndex);
+			}
+			for ( var i = 0; i < items.Count; i++ ) {
+				var item = items[i];
+				if ( i >= _fragments.Count ) {
+					_fragments.Add(_itemFragment.Create(ItemsRoot, item));
+				} else {
+					_fragments[i].Refresh(item);
+				}
+			}
 		}
 	}
 }

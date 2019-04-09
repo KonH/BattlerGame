@@ -7,6 +7,7 @@ namespace UnityClient.Models {
 		
 		public bool   HasAction  => OnClick != null;
 		public string ActionName => OnClick?.Name;
+		public bool Interactable => HasAction && OnClick.Interactable;
 
 		protected ClickAction<ItemModel> OnClick { get; set; } = null;
 
