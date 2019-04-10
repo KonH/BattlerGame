@@ -33,11 +33,26 @@ namespace GameLogics.Shared.Commands {
 			}
 
 			var levelDesc = state.Level.Descriptor;
+			var playerUnits = state.Level.PlayerUnits;
 
 			state.Level = null;
 
 			if ( !Win ) {
 				return;
+			}
+
+			foreach ( var unit in playerUnits ) {
+				if ( unit.Level >= config.UnitLevels.Length ) {
+					continue;
+				}
+				var expAccum = 0;
+				foreach ( var enemyDesc in config.Levels[levelDesc].EnemyDescriptors ) {
+					var enemyConfig = config.Units[enemyDesc];
+					expAccum += enemyConfig.Experience;
+				}
+				if ( expAccum > 0 ) {
+					buffer.Add(new AddExperienceCommand(unit.Id, expAccum));
+				}
 			}
 
 			var scope = LevelUtils.GetScope(levelDesc);

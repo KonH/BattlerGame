@@ -14,8 +14,12 @@ namespace UnitTests {
 			_config
 				.AddItem("reward_item", new WeaponConfig())
 				.AddUnit("reward_unit", new UnitConfig(1, 1))
-				.AddUnit("unit_desc",  new UnitConfig(1, 2))
-				.AddUnit("enemy_desc", new UnitConfig(1, 1))
+				.AddUnit("unit_desc",  new UnitConfig {
+						BaseDamage = new int[] { 1, 1 },
+						MaxHealth  = new int[] { 2, 2 }
+					}
+				)
+				.AddUnit("enemy_desc", new UnitConfig(1, 1, 10))
 				.AddLevel("level_0", new LevelConfig {
 					EnemyDescriptors = {
 						"enemy_desc",
@@ -27,6 +31,7 @@ namespace UnitTests {
 					Items     = { Min = 1, Max = 1 },
 					Units     = { Min = 1, Max = 1 }
 				});
+			_config.UnitLevels = new int[] { 100 };
 			_unitId = NewId();
 			_state.Level = new LevelState(
 				"level_0", new List<UnitState> { new UnitState("unit_desc", 2).WithId(_unitId) }, new List<UnitState>()
@@ -110,6 +115,31 @@ namespace UnitTests {
 			Execute(new FinishLevelCommand(true));
 			
 			Assert.Equal(1, _state.Progress["level"]);
+		}
+
+		[Fact]
+		void IsExperienceGainedOnWin() {
+			Execute(new FinishLevelCommand(true));
+
+			Assert.Equal(10, _state.Units[_unitId].Experience);
+		}
+
+		[Fact]
+		void IsFinishedNormallyIfTooMuchExperience() {
+			_config.Units["enemy_desc"].Experience = 100;
+			_config.Levels["level_0"].EnemyDescriptors.Add("enemy_desc");
+
+			Execute(new FinishLevelCommand(true));
+
+			Assert.Equal(0, _state.Units[_unitId].Experience);
+			Assert.Equal(1, _state.Units[_unitId].Level);
+		}
+
+		[Fact]
+		void IsExperienceNotGainedOnLose() {
+			Execute(new FinishLevelCommand(false));
+
+			Assert.Equal(0, _state.Units[_unitId].Experience);
 		}
 	}
 }
