@@ -19,7 +19,7 @@ namespace GameLogics.Shared.Commands {
 
 		public void Execute(GameState state, Config config, ICommandBuffer buffer) {
 			var unit = state.Units[UnitId];
-			var maxHealth = config.Units[unit.Descriptor].MaxHealth;
+			var maxHealth = config.Units[unit.Descriptor].MaxHealth[unit.Level];
 			unit.Health = maxHealth;
 		}
 

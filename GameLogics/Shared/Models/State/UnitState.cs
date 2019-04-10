@@ -5,6 +5,8 @@ namespace GameLogics.Shared.Models.State {
 		public ulong  Id         { get; set; }
 		public string Descriptor { get; set; }
 		public int    Health     { get; set; }
+		public int    Level      { get; set; }
+		public int    Experience { get; set; }
 		
 		public List<ItemState> Items { get; set; } = new List<ItemState>(); 
 

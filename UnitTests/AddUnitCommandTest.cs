@@ -39,7 +39,7 @@ namespace UnitTests {
 		
 		[Fact]
 		void UniHealthIsSet() {
-			_config.Units["desc"].MaxHealth = 2;
+			_config.Units["desc"].MaxHealth = new int[] { 2 };
 			var id = _state.NewEntityId();
 			
 			Execute(new AddUnitCommand(id, "desc"));

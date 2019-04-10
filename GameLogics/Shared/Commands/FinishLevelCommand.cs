@@ -27,7 +27,7 @@ namespace GameLogics.Shared.Commands {
 					continue;
 				}
 				var unitConfig = config.Units[unit.Descriptor];
-				if ( unit.Health < unitConfig.MaxHealth ) {
+				if ( unit.Health < unitConfig.MaxHealth[unit.Level] ) {
 					buffer.Add(new HealUnitCommand(unit.Id));
 				}
 			}

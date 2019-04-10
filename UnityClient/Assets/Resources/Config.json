@@ -52,18 +52,22 @@
   },
   "Units": {
     "weak_unit": {
-      "BaseDamage": 10,
-      "MaxHealth": 30
+      "BaseDamage": [ 10, 12, 14, 15, 16 ],
+      "MaxHealth":  [ 30, 35, 40, 45, 50 ],
+      "Experience": 10
     },
     "medium_unit": {
-      "BaseDamage": 15,
-      "MaxHealth": 40
+      "BaseDamage": [ 15, 17, 19, 20, 21 ],
+      "MaxHealth":  [ 40, 50, 60, 70, 80 ],
+      "Experience": 25
     },
     "hard_unit": {
-      "BaseDamage": 20,
-      "MaxHealth": 50
+      "BaseDamage": [ 20, 23, 26, 29, 32 ],
+      "MaxHealth":  [ 50, 65, 80, 95, 110 ],
+      "Experience": 50
     }
   },
+  "UnitLevels": [ 25, 100, 250, 600, 1000 ],
   "Levels": {
     "level_0": {
       "EnemyDescriptors": [

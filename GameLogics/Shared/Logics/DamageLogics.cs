@@ -15,7 +15,7 @@ namespace GameLogics.Shared.Logics {
 
 		static int GetBaseDamage(GameState state, Config config, ulong unitId) {
 			var unitState = GetUnitState(state, unitId);
-			return config.Units[unitState.Descriptor].BaseDamage;
+			return config.Units[unitState.Descriptor].BaseDamage[unitState.Level];
 		}
 
 		static int GetWeaponDamage(GameState state, Config config, ulong unitId) {

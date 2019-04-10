@@ -23,7 +23,7 @@ namespace GameLogics.Shared.Commands {
 		}
 
 		public void Execute(GameState state, Config config, ICommandBuffer buffer) {
-			var health = config.Units[Descriptor].MaxHealth;
+			var health = config.Units[Descriptor].MaxHealth[0];
 			state.AddUnit(new UnitState(Descriptor, health).WithId(Id));
 		}
 		
