@@ -37,7 +37,7 @@ namespace GameLogics.Shared.Commands {
 			foreach ( var pair in upgradePrices ) {
 				var res   = pair.Key;
 				var price = pair.Value;
-				state.Resources[res] -= price;
+				buffer.Add(new SpendResourceCommand(res, price));
 			}
 			item.Level++;
 		}
