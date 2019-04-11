@@ -10,6 +10,7 @@ using UnityClient.ViewModels.Fragments;
 using UnityEngine.UI;
 using UnityEngine;
 using Zenject;
+using GameLogics.Shared.Logics;
 
 namespace UnityClient.ViewModels.Windows {
 	public sealed class UnitWindow : BaseWindow {		
@@ -18,9 +19,14 @@ namespace UnityClient.ViewModels.Windows {
 		public Button    CloseButton;
 		public Transform ItemsRoot;
 		public TMP_Text  NameText;
+		public TMP_Text  LevelText;
+		public TMP_Text  HealthText;
+		public TMP_Text  DamageText;
+		public TMP_Text  ArmorText;
 
 		GameStateUpdateService _update;
 		ItemService            _items;
+		UnitService            _units;
 		ItemFragment.Factory   _itemFragment;
 		ItemsWindow.Factory    _itemsWindow;
 		StateUnitModel         _unit;
@@ -30,11 +36,13 @@ namespace UnityClient.ViewModels.Windows {
 
 		[Inject]
 		public void Init(
-			GameStateUpdateService update, ItemService items, ItemFragment.Factory itemFragment, ItemsWindow.Factory itemsWindow,
+			GameStateUpdateService update, ItemService items, UnitService units,
+			ItemFragment.Factory itemFragment, ItemsWindow.Factory itemsWindow,
 			Canvas parent, StateUnitModel unit
 		) {
 			_update       = update;
 			_items        = items;
+			_units        = units;
 			_itemFragment = itemFragment;
 			_itemsWindow  = itemsWindow;
 			_unit         = unit;
@@ -44,10 +52,25 @@ namespace UnityClient.ViewModels.Windows {
 			
 			CloseButton.onClick.AddListener(Hide);
 			
-			NameText.text = unit.Name;
 			CreateFragments();
+			Refresh();
 			
 			ShowAt(parent);
+		}
+
+		void Refresh() {
+			NameText.text = _unit.Name;
+			var state = _unit.State;
+			var level = state.Level;
+			var maxExperience = _units.GetMaxExperience(level);
+			LevelText.text = $"Level {state.Level + 1} ({state.Experience}/{maxExperience})";
+			HealthText.text = $"<b>HP:</b> {state.Health}/{_units.GetMaxHealth(state.Id)}";
+			DamageText.text = $"<b>Damage:</b> {_units.GetBaseDamage(state.Id)}";
+			var weaponDamage = _units.GetWeaponDamage(state.Id);
+			if ( weaponDamage > 0 ) {
+				DamageText.text += $" (+{weaponDamage})";
+			}
+			ArmorText.text = $"<b>Armor:</b> {_units.GetAbsorb(state.Id)}";
 		}
 
 		void OnDestroy() {
@@ -59,12 +82,14 @@ namespace UnityClient.ViewModels.Windows {
 			var model = _items.CreateModel(_unit, cmd.ItemId, TakeOffItem);
 			ReplaceFragment(model);
 			TryHideEquipWindow();
+			Refresh();
 			return Task.CompletedTask;
 		}
 
 		Task OnTakeOffItem(TakeOffItemCommand cmd) {
 			var model = _items.CreatePlaceholder(cmd.ItemId, OpenEquipWindow);
 			ReplaceFragment(model);
+			Refresh();
 			return Task.CompletedTask;
 		}
 		

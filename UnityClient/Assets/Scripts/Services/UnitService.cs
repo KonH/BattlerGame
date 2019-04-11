@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using GameLogics.Client.Services;
 using GameLogics.Shared.Commands;
+using GameLogics.Shared.Logics;
+using GameLogics.Shared.Models.Configs;
 using GameLogics.Shared.Models.State;
 using UnityClient.Models;
 
@@ -10,7 +12,8 @@ namespace UnityClient.Services {
 		readonly ClientStateService  _stateService;
 		readonly ClientCommandRunner _runner;
 		
-		GameState State => _stateService.State;
+		GameState State  => _stateService.State;
+		Config    Config => _stateService.Config;
 
 		public UnitService(ClientStateService stateService, ClientCommandRunner runner) {
 			_stateService = stateService;
@@ -70,6 +73,28 @@ namespace UnityClient.Services {
 			var unitIds = GetUnitIds(units);
 			_runner.TryAddCommand(new StartLevelCommand(levelDesc, unitIds));
 		}
+
+		public int GetMaxExperience(int level) {
+			var levels = _stateService.Config.UnitLevels;
+			return level < levels.Length ? levels[level] : 0;
+		}
+
+		public int GetMaxHealth(ulong unitId) {
+			var state = GetUnitState(unitId);
+			return GetUnitConfig(state.Descriptor).MaxHealth[state.Level];
+		}
+
+		public int GetBaseDamage(ulong unitId) {
+			return DamageLogics.GetBaseDamage(State, Config, unitId);
+		}
+
+		public int GetWeaponDamage(ulong unitId) {
+			return DamageLogics.GetWeaponDamage(State, Config, unitId);
+		}
+
+		public int GetAbsorb(ulong unitId) {
+			return DamageLogics.GetAbsorb(State, Config, unitId);
+		}
 		
 		List<UnitState> GetAllUnitsForLevel() => State.Units.Values.ToList();
 		
@@ -90,5 +115,8 @@ namespace UnityClient.Services {
 			}
 			return result;
 		}
+
+		UnitState GetUnitState(ulong id) => State.Units[id];
+		UnitConfig GetUnitConfig(string desc) => Config.Units[desc]; 
 	}
 }
