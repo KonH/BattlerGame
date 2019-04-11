@@ -75,7 +75,8 @@ namespace UnityClient.ViewModels {
 		}
 
 		void UpdateHealth() {
-			HealthSlider.value = (float)_model.State.Health / _model.Config.MaxHealth;
+			var maxHealth = _model.Config.MaxHealth[_model.State.Level];
+			HealthSlider.value = (float)_model.State.Health / maxHealth;
 		}
 
 		void UpdateSelection(bool active) {
