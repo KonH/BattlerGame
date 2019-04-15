@@ -1,14 +1,16 @@
 {
-    "name": "Editor",
+    "name": "Control",
     "references": [
+        "Unity.TextMeshPro",
         "Zenject",
         "Utils",
-        "Installer"
+        "Service",
+        "Model",
+        "ViewModel",
+        "Manager"
     ],
     "optionalUnityReferences": [],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

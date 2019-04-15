@@ -1,14 +1,10 @@
 {
-    "name": "Editor",
+    "name": "View",
     "references": [
-        "Zenject",
-        "Utils",
-        "Installer"
+        "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

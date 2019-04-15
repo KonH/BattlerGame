@@ -1,14 +1,14 @@
 {
-    "name": "Editor",
+    "name": "Installer",
     "references": [
         "Zenject",
-        "Utils",
-        "Installer"
+        "Manager",
+        "Service",
+        "Model",
+        "ViewModel"
     ],
     "optionalUnityReferences": [],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
