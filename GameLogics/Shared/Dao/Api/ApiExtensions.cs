@@ -1,4 +1,4 @@
-using GameLogics.Shared.Dao.Api.Errors;
+using GameLogics.Shared.Dao.Api.Error;
 
 namespace GameLogics.Shared.Dao.Api {
 	public static class ApiExtensions {

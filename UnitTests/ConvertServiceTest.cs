@@ -1,8 +1,8 @@
-using GameLogics.Shared.Models.State;
-using GameLogics.Shared.Models.Configs;
-using GameLogics.Shared.Services;
+using GameLogics.Shared.Model.State;
+using GameLogics.Shared.Model.Config;
+using GameLogics.Shared.Service;
+using GameLogics.Server.Repository.Config;
 using Xunit;
-using GameLogics.Server.Repositories.Configs;
 
 namespace UnitTests {
 	public sealed class ConvertServiceTest {
@@ -19,7 +19,7 @@ namespace UnitTests {
 
 		[Fact]
 		void IsConfigSerialized() {
-			var config = new Config();
+			var config = new ConfigRoot();
 			
 			var newConfig = _service.DoubleConvert(config);
 			
@@ -38,7 +38,7 @@ namespace UnitTests {
 
 		[Fact]
 		void IsWeaponConfigSerialized() {
-			var config = new Config().AddItem("desc", new WeaponConfig());
+			var config = new ConfigRoot().AddItem("desc", new WeaponConfig());
 			
 			var newConfig = _service.DoubleConvert(config);
 			

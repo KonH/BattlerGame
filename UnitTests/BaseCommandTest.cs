@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using GameLogics.Server.Services;
-using GameLogics.Shared.Commands.Base;
-using GameLogics.Shared.Models.State;
-using GameLogics.Shared.Models.Configs;
+using GameLogics.Server.Service;
+using GameLogics.Shared.Command.Base;
+using GameLogics.Shared.Model.State;
+using GameLogics.Shared.Model.Config;
 using Xunit;
 
 namespace UnitTests {
 	public abstract class BaseCommandTest<TCommand> where TCommand : class, ICommand {
-		protected GameState _state  = new GameState();
-		protected Config    _config = new Config();
+		protected GameState  _state  = new GameState();
+		protected ConfigRoot _config = new ConfigRoot();
 
 		protected ulong InvalidId => ulong.MaxValue;
 		

@@ -1,7 +1,7 @@
-﻿using GameLogics.Shared.Commands;
-using GameLogics.Shared.Models;
-using GameLogics.Shared.Models.Configs;
-using GameLogics.Shared.Models.State;
+﻿using GameLogics.Shared.Command;
+using GameLogics.Shared.Model;
+using GameLogics.Shared.Model.Config;
+using GameLogics.Shared.Model.State;
 using System.Collections.Generic;
 using Xunit;
 

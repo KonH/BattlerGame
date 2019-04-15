@@ -1,12 +1,12 @@
-using GameLogics.Client.Services;
-using GameLogics.Server.Repositories.Configs;
-using GameLogics.Server.Repositories.States;
-using GameLogics.Server.Repositories.Users;
-using GameLogics.Server.Services;
-using GameLogics.Server.Services.Token;
-using GameLogics.Shared.Services;
-using AuthService = GameLogics.Client.Services.AuthService;
-using RegisterService = GameLogics.Client.Services.RegisterService;
+using GameLogics.Client.Service;
+using GameLogics.Server.Repository.Config;
+using GameLogics.Server.Repository.State;
+using GameLogics.Server.Repository.User;
+using GameLogics.Server.Service;
+using GameLogics.Server.Service.Token;
+using GameLogics.Shared.Service;
+using AuthService = GameLogics.Client.Service.AuthService;
+using RegisterService = GameLogics.Client.Service.RegisterService;
 
 namespace ConsoleClient {
 	public sealed class Client {
@@ -32,11 +32,11 @@ namespace ConsoleClient {
 		}
 
 		public Client AddServerApiService() {
-			var users    = new InMemoryUsersRepository();
-			var states   = new InMemoryGameStatesRepository();
-			var register = new GameLogics.Server.Services.RegisterService(users);
+			var users    = new InMemoryUserRepository();
+			var states   = new InMemoryGameStateRepository();
+			var register = new GameLogics.Server.Service.RegisterService(users);
 			var config   = new FileConfigRepository(Convert, "../UnityClient/Assets/Resources/Config.json");
-			var auth     = new GameLogics.Server.Services.AuthService(Logger, new MockTokenService(), users, states, config, new StateInitService());
+			var auth     = new GameLogics.Server.Service.AuthService(Logger, new MockTokenService(), users, states, config, new StateInitService());
 			var intent   = new IntentService(Logger, users, states, config);
 			
 			Api = new ConvertedServerApiService(Convert, Logger, new TerminateErrorHandleStrategy(Logger), register, auth, intent);

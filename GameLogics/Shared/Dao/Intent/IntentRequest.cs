@@ -1,4 +1,4 @@
-using GameLogics.Shared.Commands.Base;
+using GameLogics.Shared.Command.Base;
 
 namespace GameLogics.Shared.Dao.Intent {
 	public sealed class IntentRequest {
