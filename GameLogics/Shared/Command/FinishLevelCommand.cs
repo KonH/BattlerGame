@@ -59,17 +59,7 @@ namespace GameLogics.Shared.Command {
 			state.Progress[scope] = Math.Min(state.Progress.GetOrDefault(scope) + 1, LevelUtils.GetIndex(levelDesc) + 1);
 				
 			var rewardLevel = config.Levels[levelDesc].RewardLevel;
-			var reward = RewardLogics.GenerateReward(rewardLevel, config, state.CreateRandom());
-			foreach ( var pair in reward.Resources ) {
-				buffer.Add(new AddResourceCommand(pair.Key, pair.Value));
-			}
-			foreach ( var itemDesc in reward.Items ) {
-				buffer.Add(new AddItemCommand(state.NewEntityId(), itemDesc));
-			}
-			foreach ( var unitDesc in reward.Units ) {
-				buffer.Add(new AddUnitCommand(state.NewEntityId(), unitDesc));
-			}
-			buffer.Add(new UpdateRandomSeedCommand());
+			RewardLogic.AppendReward(rewardLevel, state, config, buffer);
 		}
 
 		public override string ToString() {

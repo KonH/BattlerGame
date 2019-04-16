@@ -1,14 +1,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameLogics.Shared.Command;
+using GameLogics.Shared.Command.Base;
 using GameLogics.Shared.Model;
 using GameLogics.Shared.Model.Config;
+using GameLogics.Shared.Model.State;
 
 namespace GameLogics.Shared.Logic {
-	public static class RewardLogics {
+	public static class RewardLogic {
 		static List<Resource> _allResources = ((Resource[])Enum.GetValues(typeof(Resource))).Where(r => r != Resource.Unknown).ToList();
-		
-		public static Reward GenerateReward(string rewardLevel, ConfigRoot config, Random random) {
+
+		public static void AppendReward(string rewardLevel, GameState state, ConfigRoot config, ICommandBuffer buffer) {
+			var reward = RewardLogic.GenerateReward(rewardLevel, config, state.CreateRandom());
+			foreach ( var pair in reward.Resources ) {
+				buffer.Add(new AddResourceCommand(pair.Key, pair.Value));
+			}
+			foreach ( var itemDesc in reward.Items ) {
+				buffer.Add(new AddItemCommand(state.NewEntityId(), itemDesc));
+			}
+			foreach ( var unitDesc in reward.Units ) {
+				buffer.Add(new AddUnitCommand(state.NewEntityId(), unitDesc));
+			}
+			buffer.Add(new UpdateRandomSeedCommand());
+		}
+
+		static Reward GenerateReward(string rewardLevel, ConfigRoot config, Random random) {
 			var reward = new Reward();
 			var rewardConfigs = config.Rewards[rewardLevel];
 			var rewardConfig = rewardConfigs[random.Next(rewardConfigs.Count)];
