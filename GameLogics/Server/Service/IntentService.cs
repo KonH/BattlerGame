@@ -6,16 +6,19 @@ using GameLogics.Shared.Dao.Api;
 using GameLogics.Shared.Dao.Api.Error;
 using GameLogics.Shared.Dao.Intent;
 using GameLogics.Shared.Service;
+using GameLogics.Shared.Service.Time;
 
 namespace GameLogics.Server.Service {
 	public sealed class IntentService {
 		readonly ICustomLogger        _logger;
+		readonly ITimeService         _time;
 		readonly IUserRepository      _users;
 		readonly IGameStateRepository _states;
 		readonly IConfigRepository    _config;
 
-		public IntentService(ICustomLogger logger, IUserRepository users, IGameStateRepository states, IConfigRepository config) {
+		public IntentService(ICustomLogger logger, ITimeService time, IUserRepository users, IGameStateRepository states, IConfigRepository config) {
 			_logger = logger;
+			_time   = time;
 			_users  = users;
 			_states = states;
 			_config = config;
@@ -44,7 +47,7 @@ namespace GameLogics.Server.Service {
 			if ( !IsValidAsFirstCommand(command) ) {
 				return new ClientError($"Trying to execute internal command: '{command}'").AsError<IntentResponse>();
 			}
-			var runner = new CommandRunner(command, state, config);
+			var runner = new CommandRunner(_time.RealTime - state.Time.LastSyncTime, command, state, config);
 			foreach ( var item in runner ) {
 				if ( !item.IsValid() ) {
 					return new ClientError($"Invalid command: '{item.Command}'").AsError<IntentResponse>();

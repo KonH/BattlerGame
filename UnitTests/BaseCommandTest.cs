@@ -17,17 +17,17 @@ namespace UnitTests {
 			return _state.NewEntityId();
 		}
 		
-		protected void IsValid(TCommand cmd) {
-			Assert.True(cmd.IsValid(_state, _config));
+		protected void IsValid(TCommand cmd, TimeSpan offset = default) {
+			Assert.True(new CommandRunner(offset, cmd, _state, _config).IsValid);
 		}
 		
-		protected void IsInvalid(TCommand cmd) {
-			Assert.False(cmd.IsValid(_state, _config));
+		protected void IsInvalid(TCommand cmd, TimeSpan offset = default) {
+			Assert.False(new CommandRunner(offset, cmd, _state, _config).IsValid);
 		}
 
-		protected List<ICommand> Execute(TCommand cmd, bool single = false) {
+		protected List<ICommand> Execute(TCommand cmd, bool single = false, TimeSpan offset = default) {
 			var result = new List<ICommand>();
-			var runner = new CommandRunner(cmd, _state, _config);
+			var runner = new CommandRunner(offset, cmd, _state, _config);
 			foreach ( var item in runner ) {
 				Assert.True(item.IsValid(), $"Command {item.Command} is invalid!");
 				item.Execute();

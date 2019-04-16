@@ -6,6 +6,7 @@ using GameLogics.Shared.Command.Base;
 using GameLogics.Shared.Dao.Intent;
 using GameLogics.Shared.Model.State;
 using GameLogics.Shared.Service;
+using GameLogics.Shared.Service.Time;
 using GameLogics.Shared.Utils;
 
 namespace GameLogics.Client.Service {
@@ -16,14 +17,16 @@ namespace GameLogics.Client.Service {
 
 		readonly ICustomLogger      _logger;
 		readonly IApiService        _api;
+		readonly OffsetTimeService  _offsetTime;
 		readonly ClientStateService _state;
 		
 		Dictionary<Type, EventTaskBaseHandler> _handlers = new Dictionary<Type, EventTaskBaseHandler>();
 
-		public GameStateUpdateService(ICustomLogger logger, IApiService api, ClientStateService state) {
-			_logger = logger;
-			_api    = api;
-			_state  = state;
+		public GameStateUpdateService(ICustomLogger logger, OffsetTimeService offsetTime, IApiService api, ClientStateService state) {
+			_logger     = logger;
+			_offsetTime = offsetTime;
+			_api        = api;
+			_state      = state;
 		}
 
 		public void AddHandler<T>(Func<T, Task> handler) where T : ICommand {			
@@ -42,13 +45,13 @@ namespace GameLogics.Client.Service {
 		}
 
 		public bool IsValid(ICommand command) {
-			return command.IsValid(_state.State, _state.Config);
+			return new CommandRunner(_offsetTime.Offset, command, _state.State, _state.Config).IsValid;
 		}
 		
 		public async Task Update(ICommand command) {
 			var state  = _state.State;
 			var config = _state.Config;
-			var runner = new CommandRunner(command, state, config);
+			var runner = new CommandRunner(_offsetTime.Offset, command, state, config);
 			foreach ( var item in runner ) {
 				_logger.DebugFormat(this, "Start executing command: {0}", item.Command);
 				if ( !item.IsValid() ) {

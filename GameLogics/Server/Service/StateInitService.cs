@@ -20,7 +20,7 @@ namespace GameLogics.Server.Service {
 		
 		public GameState Init(GameState state, ConfigRoot config) {
 			state.Random.Seed = _realRandom.Next(int.MinValue, int.MaxValue);
-			var runner = new CommandRunner(new InitCommand(), state, config);
+			var runner = new CommandRunner(TimeSpan.Zero, new InitCommand(), state, config);
 			foreach ( var item in runner ) {
 				if ( !item.IsValid() ) {
 					throw new InvalidOperationException($"Can't init state with {item.Command}");

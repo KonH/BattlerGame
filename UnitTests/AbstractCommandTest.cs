@@ -80,7 +80,7 @@ namespace UnitTests {
 			
 			var real = new List<string>();
 			
-			var runner = new CommandRunner(cmd, null, null);
+			var runner = new CommandRunner(TimeSpan.Zero, cmd, new GameState(), null);
 			
 			var iter = runner.GetEnumerator();
 			iter.MoveNext();
