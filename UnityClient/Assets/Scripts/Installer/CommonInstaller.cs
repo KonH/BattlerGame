@@ -2,6 +2,7 @@
 using GameLogics.Client.Service;
 using GameLogics.Shared.Service.ErrorHandle;
 using GameLogics.Shared.Service;
+using GameLogics.Shared.Service.Time;
 using UnityClient.Manager;
 using UnityClient.Service;
 using Zenject;
@@ -18,6 +19,8 @@ namespace UnityClient.Installer {
 		}
 
 		void BindServices() {
+			Container.Bind<ITimeService>().To<RealTimeService>().AsSingle();
+			Container.Bind<OffsetTimeService>().ToSelf().AsSingle();
 			Container.Bind<ConvertService>().AsSingle();
 			Container.Bind<INetworkService>().To<WebRequestNetworkService>().AsSingle();
 			Container.Bind<ClientStateService>().AsSingle();
