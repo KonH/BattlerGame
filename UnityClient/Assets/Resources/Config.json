@@ -154,6 +154,11 @@
       "RewardLevel": "big"
     }
   },
+  "DailyRewards": [
+    "small",
+    "medium",
+    "big"
+  ],
   "Rewards": {
     "small": [
       {

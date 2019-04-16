@@ -4,12 +4,13 @@ namespace GameLogics.Shared.Model.Config {
 	public sealed class ConfigRoot {
 		public string Version { get; set; }
 		
-		public Dictionary<string, BaseItemConfig>     Items      { get; }      = new Dictionary<string, BaseItemConfig>();
-		public Dictionary<string, UnitConfig>         Units      { get; }      = new Dictionary<string, UnitConfig>();
-		public int[]                                  UnitLevels { get; set; } = new int[0];
-		public Dictionary<string, LevelConfig>        Levels     { get; }      = new Dictionary<string, LevelConfig>();
-		public Dictionary<string, bool>               Features   { get; }      = new Dictionary<string, bool>();
-		public Dictionary<string, List<RewardConfig>> Rewards    { get; }      = new Dictionary<string, List<RewardConfig>>();
+		public Dictionary<string, BaseItemConfig>     Items        { get; }      = new Dictionary<string, BaseItemConfig>();
+		public Dictionary<string, UnitConfig>         Units        { get; }      = new Dictionary<string, UnitConfig>();
+		public int[]                                  UnitLevels   { get; set; } = new int[0];
+		public Dictionary<string, LevelConfig>        Levels       { get; }      = new Dictionary<string, LevelConfig>();
+		public Dictionary<string, bool>               Features     { get; }      = new Dictionary<string, bool>();
+		public Dictionary<string, List<RewardConfig>> Rewards      { get; }      = new Dictionary<string, List<RewardConfig>>();
+		public string[]                               DailyRewards { get; set; } = new string[0];
 
 		public ConfigRoot AddItem(string desc, BaseItemConfig item) {
 			Items.Add(desc, item);

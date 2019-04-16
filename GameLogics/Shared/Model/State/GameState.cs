@@ -14,6 +14,9 @@ namespace GameLogics.Shared.Model.State {
 
 		public TimeState   Time   { get; set; } = new TimeState();
 		public RandomState Random { get; set; } = new RandomState();
+
+		public DailyRewardState DailyReward { get; set; } = new DailyRewardState();
+
 		public LevelState  Level  { get; set; } = null;
 
 		public GameState UpdateVersion() {
