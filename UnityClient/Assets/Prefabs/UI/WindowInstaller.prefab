@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NoticeWindowPrefab: {fileID: 892236615659287653, guid: 68033808caaf241fe8e5e588064fcff0,
     type: 3}
-  WinWindowPrefab: {fileID: 7628743289086152013, guid: 64ac904ed568b49d0a4cb49535726b9b,
+  RewardWindowPrefab: {fileID: 7628743289086152013, guid: 64ac904ed568b49d0a4cb49535726b9b,
     type: 3}
   LoseWindowPrefab: {fileID: 1420328961878203087, guid: b83b4de27385248acac4d4c79cb750d9,
     type: 3}

@@ -10,7 +10,7 @@ namespace UnityClient.Installer {
 	public sealed class WindowInstaller : MonoInstaller {
 		[Header("Windows")]
 		public NoticeWindow     NoticeWindowPrefab;
-		public WinWindow        WinWindowPrefab;
+		public RewardWindow     RewardWindowPrefab;
 		public LoseWindow       LoseWindowPrefab;
 		public UnitWindow       UnitWindowPrefab;
 		public UnitsWindow      UnitsWindowPrefab;
@@ -23,7 +23,7 @@ namespace UnityClient.Installer {
 		public override void InstallBindings() {
 			Container.BindInstance(UICanvas);
 			Container.BindFactory<NoticeModel, NoticeWindow, NoticeWindow.Factory>().FromComponentInNewPrefab(NoticeWindowPrefab);
-			Container.BindFactory<Action, WinWindow, WinWindow.Factory>().FromComponentInNewPrefab(WinWindowPrefab);
+			Container.BindFactory<RewardWindow.Context, RewardWindow, RewardWindow.Factory>().FromComponentInNewPrefab(RewardWindowPrefab);
 			Container.BindFactory<Action, LoseWindow, LoseWindow.Factory>().FromComponentInNewPrefab(LoseWindowPrefab);
 			Container.BindFactory<StateUnitModel, UnitWindow, UnitWindow.Factory>().FromComponentInNewPrefab(UnitWindowPrefab);
 			Container.BindFactory<List<UnitModel>, UnitsWindow, UnitsWindow.Factory>().FromComponentInNewPrefab(UnitsWindowPrefab);

@@ -21,21 +21,21 @@ namespace UnityClient.Manager {
 		ClientStateService     _state;
 		LevelService           _service;
 		UnitViewModel.Factory  _unit;
-		WinWindow.Factory      _winWindow;
+		RewardWindow.Factory   _rewardWindow;
 		LoseWindow.Factory     _loseWindow;
 		
 		[Inject]
 		public void Init(
 			GameSceneManager scene, ClientCommandRunner runner, ClientStateService state,
-			LevelService service, UnitViewModel.Factory unit, WinWindow.Factory winWindow, LoseWindow.Factory loseWindow
+			LevelService service, UnitViewModel.Factory unit, RewardWindow.Factory winWindow, LoseWindow.Factory loseWindow
 		) {
-			_scene      = scene;
-			_update     = runner.Updater;
-			_state      = state;
-			_service    = service;
-			_unit       = unit;
-			_winWindow  = winWindow;
-			_loseWindow = loseWindow;
+			_scene        = scene;
+			_update       = runner.Updater;
+			_state        = state;
+			_service      = service;
+			_unit         = unit;
+			_rewardWindow = winWindow;
+			_loseWindow   = loseWindow;
 		}
 
 		public void Initialize() {
@@ -68,7 +68,8 @@ namespace UnityClient.Manager {
 
 		Task OnFinishLevel(FinishLevelCommand cmd) {
 			if ( cmd.Win ) {
-				_winWindow.Create(_scene.GoToWorld);
+				var ctx = new RewardWindow.Context("Level completed!", "Finish", _scene.GoToWorld);
+				_rewardWindow.Create(ctx);
 			} else {
 				_loseWindow.Create(_scene.GoToWorld);
 			}

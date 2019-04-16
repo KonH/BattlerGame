@@ -8,11 +8,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 using System.Collections.Generic;
+using TMPro;
 
 namespace UnityClient.ViewModel.Window {
-	public sealed class WinWindow : BaseWindow {
-		public sealed class Factory : PlaceholderFactory<Action, WinWindow> {}
-		
+	public sealed class RewardWindow : BaseWindow {
+		public sealed class Context {
+			public string Header;
+			public string ButtonText;
+			public Action Callback;
+
+			public Context(string header, string buttonText, Action callback) {
+				Header     = header;
+				ButtonText = buttonText;
+				Callback   = callback;
+			}
+		}
+
+		public sealed class Factory : PlaceholderFactory<Context, RewardWindow> {}
+
+		public TMP_Text  Header;
+		public TMP_Text  ButtonText;
 		public Button    OkButton;
 		public Transform ItemsRoot;
 
@@ -22,7 +37,7 @@ namespace UnityClient.ViewModel.Window {
 		Stack<RewardFragment> _nonPersistFragments = new Stack<RewardFragment>();
 
 		[Inject]
-		public void Init(ClientCommandRunner runner, RewardFragment.Factory rewardFragment, Canvas parent, Action callback) {			
+		public void Init(ClientCommandRunner runner, RewardFragment.Factory rewardFragment, Canvas parent, Context context) {			
 			_runner         = runner;
 			_rewardFragment = rewardFragment;
 			
@@ -32,7 +47,9 @@ namespace UnityClient.ViewModel.Window {
 			_runner.Updater.AddHandler<AddExperienceCommand>(OnAddExperience);
 			_runner.Updater.AddHandler<LevelUpCommand>      (OnLevelUp);
 
-			OkButton.onClick.AddListener(() => Hide(callback));
+			Header.text     = context.Header;
+			ButtonText.text = context.ButtonText;
+			OkButton.onClick.AddListener(() => Hide(context.Callback));
 			
 			ShowAt(parent);
 		}
