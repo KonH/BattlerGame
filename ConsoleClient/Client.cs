@@ -35,12 +35,13 @@ namespace ConsoleClient {
 		}
 
 		public Client AddServerApiService() {
+			var env      = new EnvironmentService { IsDebugMode = true };
 			var users    = new InMemoryUserRepository();
 			var states   = new InMemoryGameStateRepository();
 			var register = new GameLogics.Server.Service.RegisterService(users);
 			var config   = new FileConfigRepository(Convert, "Config.json");
 			var auth     = new GameLogics.Server.Service.AuthService(Logger, new MockTokenService(), Time, users, states, config, new StateInitService());
-			var intent   = new IntentService(Logger, Time, users, states, config);
+			var intent   = new IntentService(env, Logger, Time, users, states, config);
 
 			Api = new ConvertedServerApiService(Convert, Logger, new TerminateErrorHandleStrategy(Logger), register, auth, intent);
 			

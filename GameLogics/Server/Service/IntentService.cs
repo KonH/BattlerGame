@@ -10,13 +10,15 @@ using GameLogics.Shared.Service.Time;
 
 namespace GameLogics.Server.Service {
 	public sealed class IntentService {
+		readonly EnvironmentService   _env;
 		readonly ICustomLogger        _logger;
 		readonly ITimeService         _time;
 		readonly IUserRepository      _users;
 		readonly IGameStateRepository _states;
 		readonly IConfigRepository    _config;
 
-		public IntentService(ICustomLogger logger, ITimeService time, IUserRepository users, IGameStateRepository states, IConfigRepository config) {
+		public IntentService(EnvironmentService env, ICustomLogger logger, ITimeService time, IUserRepository users, IGameStateRepository states, IConfigRepository config) {
+			_env    = env;
 			_logger = logger;
 			_time   = time;
 			_users  = users;
@@ -49,6 +51,9 @@ namespace GameLogics.Server.Service {
 			}
 			var runner = new CommandRunner(_time.RealTime - state.Time.LastSyncTime, command, state, config);
 			foreach ( var item in runner ) {
+				if ( (item.Command is IDebugCommand) && !_env.IsDebugMode ) {
+					return new ClientError($"Invalid debug command: '{item.Command}'").AsError<IntentResponse>();
+				}
 				if ( !item.IsValid() ) {
 					return new ClientError($"Invalid command: '{item.Command}'").AsError<IntentResponse>();
 				}

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GameLogics.Server.Service;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,8 @@ namespace Server {
 			services.AddUserServices();
 			services.AddGameStateRepository();
 			services.AddIntentService();
+			services.AddTimeService();
+			services.AddEnvironmentService();
 			services.AddMvc().AddJsonOptions(opts => { opts.SerializerSettings.TypeNameHandling = TypeNameHandling.Auto; });
 		}
 
@@ -29,6 +32,7 @@ namespace Server {
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
 			if ( env.IsDevelopment() ) {
 				app.UseDeveloperExceptionPage();
+				app.ApplicationServices.GetService<EnvironmentService>().IsDebugMode = true;
 			} else {
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();

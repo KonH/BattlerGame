@@ -1,11 +1,14 @@
 ﻿using System;
 using GameLogics.Client.Service;
+using GameLogics.Server.Service;
 using GameLogics.Shared.Service.ErrorHandle;
 using GameLogics.Shared.Service;
 using GameLogics.Shared.Service.Time;
 using UnityClient.Manager;
 using UnityClient.Service;
 using Zenject;
+using AuthService = GameLogics.Client.Service.AuthService;
+using RegisterService = GameLogics.Client.Service.RegisterService;
 
 namespace UnityClient.Installer {
 	public sealed class CommonInstaller : MonoInstaller {
@@ -19,6 +22,7 @@ namespace UnityClient.Installer {
 		}
 
 		void BindServices() {
+			Container.BindInstance(new EnvironmentService { IsDebugMode = ServerSettings.IsDebugMode });
 			Container.Bind<ITimeService>().To<RealTimeService>().AsSingle();
 			Container.Bind<OffsetTimeService>().ToSelf().AsSingle();
 			Container.Bind<ConvertService>().AsSingle();

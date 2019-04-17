@@ -1,10 +1,10 @@
-using System;
 using GameLogics.Server.Repository.Config;
 using GameLogics.Server.Repository.State;
 using GameLogics.Server.Repository.User;
 using GameLogics.Server.Service;
 using GameLogics.Server.Service.Token;
 using GameLogics.Shared.Service;
+using GameLogics.Shared.Service.Time;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -77,6 +77,14 @@ namespace Server {
 		
 		public static void AddIntentService(this IServiceCollection services) {
 			services.AddSingleton<IntentService>();
+		}
+
+		public static void AddTimeService(this IServiceCollection services) {
+			services.AddSingleton<ITimeService, RealTimeService>();
+		}
+
+		public static void AddEnvironmentService(this IServiceCollection services) {
+			services.AddSingleton<EnvironmentService>();
 		}
 	}
 }

@@ -7,5 +7,6 @@ namespace UnityClient.Service {
 		public string     BaseUrl;
 		public int        TokenRefreshInterval;
 		public string     EmbeddedDbName;
+		public bool       IsDebugMode;
 	}
 }
