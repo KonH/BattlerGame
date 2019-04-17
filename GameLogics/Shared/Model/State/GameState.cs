@@ -12,6 +12,7 @@ namespace GameLogics.Shared.Model.State {
 		public Dictionary<ulong, UnitState> Units     { get; } = new Dictionary<ulong, UnitState>();
 		public Dictionary<string, int>      Progress  { get; } = new Dictionary<string, int>();
 		public Dictionary<string, bool>     Events    { get; } = new Dictionary<string, bool>();
+		public Dictionary<string, DateTime> Farming   { get; } = new Dictionary<string, DateTime>();
 
 		public TimeState   Time   { get; set; } = new TimeState();
 		public RandomState Random { get; set; } = new RandomState();

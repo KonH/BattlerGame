@@ -173,6 +173,15 @@
         "weak_unit"
       ],
       "RewardLevel": "big"
+    },
+    "farm_0": {
+      "EnemyDescriptors": [
+        "weak_unit",
+        "medium_unit",
+        "weak_unit",
+        "medium_unit"
+      ],
+      "RewardLevel": "big"
     }
   },
   "DailyRewards": [
@@ -186,6 +195,11 @@
       "RewardLevel": "unit",
       "StartTime": "04/17/2019 12:00:00",
       "Duration": "7.00:00:00"
+    }
+  },
+  "Farming": {
+    "farm": {
+      "Interval": "0.04:00:00"
     }
   },
   "Rewards": {

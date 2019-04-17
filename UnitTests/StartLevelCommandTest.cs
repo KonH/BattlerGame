@@ -3,16 +3,19 @@ using GameLogics.Shared.Command;
 using GameLogics.Shared.Model.State;
 using GameLogics.Shared.Model.Config;
 using Xunit;
+using System;
 
 namespace UnitTests {
 	public sealed class StartLevelCommandTest : BaseCommandTest<StartLevelCommand> {
 		ulong _unitId;
-		
+
 		public StartLevelCommandTest() {
 			_config
-				.AddUnit("unit_desc",  new UnitConfig(1, 1))
+				.AddUnit("unit_desc", new UnitConfig(1, 1))
 				.AddUnit("enemy_desc", new UnitConfig(1, 1))
-				.AddLevel("level_0", new LevelConfig { EnemyDescriptors = { "enemy_desc" } });
+				.AddLevel("level_0", new LevelConfig { EnemyDescriptors = { "enemy_desc" } })
+				.AddLevel("farm_0", new LevelConfig { EnemyDescriptors = { "enemy_desc" } });
+			_config.Farming.Add("farm", new FarmConfig { Interval = TimeSpan.FromSeconds(10) });
 			_unitId = NewId();
 			_state
 				.AddUnit(new UnitState("unit_desc", 1).WithId(_unitId));
@@ -129,6 +132,38 @@ namespace UnitTests {
 			}
 			
 			IsInvalid(new StartLevelCommand(LevelDesc, units));
+		}
+
+		[Fact]
+		void FarmingLevelCanBeStarted() {
+			_state.Time.LastSyncTime = DateTime.MinValue.Add(TimeSpan.FromSeconds(12));
+
+			IsValid(new StartLevelCommand("farm_0", PlayersUnits));
+		}
+
+		[Fact]
+		void IsStartTimeForFarmLevelIsMarked() {
+			var time = DateTime.MinValue.Add(TimeSpan.FromSeconds(12));
+			_state.Time.LastSyncTime = time;
+
+			Execute(new StartLevelCommand("farm_0", PlayersUnits));
+
+			Assert.Equal(time, _state.Farming["farm"]);
+		}
+
+		[Fact]
+		void FarmingLevelCantBeStartedSecondTimeIfNoEnoughTimePassed() {
+			_state.Farming["farm"] = _state.Time.GetRealTime();
+
+			IsInvalid(new StartLevelCommand("farm_0", PlayersUnits));
+		}
+
+		[Fact]
+		void FarmingLevelCanBeStartedSecondTimeIfEnoughTimePassed() {
+			_state.Time.LastSyncTime = DateTime.MinValue.Add(TimeSpan.FromSeconds(12));
+			_state.Farming["farm"] = _state.Time.GetRealTime() - TimeSpan.FromSeconds(11);
+
+			IsValid(new StartLevelCommand("farm_0", PlayersUnits));
 		}
 	}
 }

@@ -3,6 +3,7 @@ using GameLogics.Shared.Command.Base;
 using GameLogics.Shared.Model.State;
 using GameLogics.Shared.Model.Config;
 using GameLogics.Shared.Utils;
+using GameLogics.Shared.Logic;
 
 namespace GameLogics.Shared.Command {
 	public sealed class StartLevelCommand : ICommand {
@@ -38,6 +39,11 @@ namespace GameLogics.Shared.Command {
 					return false;
 				}
 			}
+			if ( FarmLogic.IsFarmigLevel(LevelDesc, config) ) {
+				if ( !FarmLogic.IsAvailable(scope, state, config) ) {
+					return false;
+				}
+			}
 			return true;
 		}
 
@@ -50,6 +56,10 @@ namespace GameLogics.Shared.Command {
 			
 			foreach ( var unitId in PlayerUnits ) {
 				state.Units.Remove(unitId);
+			}
+			if ( FarmLogic.IsFarmigLevel(LevelDesc, config) ) {
+				var scope = LevelUtils.GetScope(LevelDesc);
+				state.Farming[scope] = state.Time.GetRealTime();
 			}
 		}
 

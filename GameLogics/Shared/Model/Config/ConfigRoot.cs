@@ -12,6 +12,7 @@ namespace GameLogics.Shared.Model.Config {
 		public Dictionary<string, List<RewardConfig>> Rewards      { get; }      = new Dictionary<string, List<RewardConfig>>();
 		public string[]                               DailyRewards { get; set; } = new string[0];
 		public Dictionary<string, EventConfig>        Events       { get; }      = new Dictionary<string, EventConfig>();
+		public Dictionary<string, FarmConfig>         Farming      { get; }      = new Dictionary<string, FarmConfig>();
 
 		public ConfigRoot AddItem(string desc, BaseItemConfig item) {
 			Items.Add(desc, item);
