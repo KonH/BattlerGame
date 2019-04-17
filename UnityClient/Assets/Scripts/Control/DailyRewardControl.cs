@@ -22,6 +22,8 @@ namespace UnityClient.Control {
 			_rewardWindow = rewardWindow;
 
 			Button.onClick.AddListener(Execute);
+
+			_timer = _interval;
 		}
 
 		public void Execute() {
