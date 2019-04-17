@@ -152,6 +152,27 @@
         "hard_unit"
       ],
       "RewardLevel": "big"
+    },
+    "event_easy_0": {
+      "EnemyDescriptors": [
+        "weak_unit"
+      ],
+      "RewardLevel": "small"
+    },
+    "event_easy_1": {
+      "EnemyDescriptors": [
+        "weak_unit",
+        "weak_unit"
+      ],
+      "RewardLevel": "medium"
+    },
+    "event_easy_2": {
+      "EnemyDescriptors": [
+        "weak_unit",
+        "weak_unit",
+        "weak_unit"
+      ],
+      "RewardLevel": "big"
     }
   },
   "DailyRewards": [
@@ -159,6 +180,14 @@
     "medium",
     "big"
   ],
+  "Events": {
+    "event_0": {
+      "Scope": "event_easy",
+      "RewardLevel": "unit",
+      "StartTime": "04/17/2019 12:00:00",
+      "Duration": "7.00:00:00"
+    }
+  },
   "Rewards": {
     "small": [
       {

@@ -11,6 +11,7 @@ namespace GameLogics.Shared.Model.Config {
 		public Dictionary<string, bool>               Features     { get; }      = new Dictionary<string, bool>();
 		public Dictionary<string, List<RewardConfig>> Rewards      { get; }      = new Dictionary<string, List<RewardConfig>>();
 		public string[]                               DailyRewards { get; set; } = new string[0];
+		public Dictionary<string, EventConfig>        Events       { get; }      = new Dictionary<string, EventConfig>();
 
 		public ConfigRoot AddItem(string desc, BaseItemConfig item) {
 			Items.Add(desc, item);
@@ -33,6 +34,11 @@ namespace GameLogics.Shared.Model.Config {
 				Rewards.Add(desc, rewards);
 			}
 			rewards.Add(reward);
+			return this;
+		}
+
+		public ConfigRoot AddEvent(string desc, EventConfig ev) {
+			Events.Add(desc, ev);
 			return this;
 		}
 
