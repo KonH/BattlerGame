@@ -6,7 +6,8 @@ using UnityEngine.UI;
 using Zenject;
 
 namespace UnityClient.Control {
-	public sealed class AddHourControl : MonoBehaviour {
+	public sealed class ChangeTimeControl : MonoBehaviour {
+		public double Hours;
 		public Button Button;
 
 		ClientCommandRunner _runner;
@@ -18,7 +19,7 @@ namespace UnityClient.Control {
 		}
 
 		public void Execute() {
-			_runner.TryAddCommand(new AddPersistentTimeOffsetCommand(TimeSpan.FromHours(1)));
+			_runner.TryAddCommand(new AddPersistentTimeOffsetCommand(TimeSpan.FromHours(Hours)));
 		}
 	}
 }
