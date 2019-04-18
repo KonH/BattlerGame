@@ -40,7 +40,6 @@ namespace Server {
 
 			app.UseFullCors();
 			app.UseAuthentication();
-			app.UseHttpsRedirection();
 			app.UseMvc();
 		}
 	}

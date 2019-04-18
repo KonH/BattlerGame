@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Server.Repository;
 using Server.Service;
 using Server.Settings;
 
@@ -67,12 +68,12 @@ namespace Server {
 		}
 		
 		public static void AddUserServices(this IServiceCollection services) {
-			services.AddSingleton<IUserRepository, InMemoryUserRepository>();
+			services.AddSingleton<IUserRepository, MongoUserRepository>();
 			services.AddSingleton<RegisterService>();
 		}
 		
 		public static void AddGameStateRepository(this IServiceCollection services) {
-			services.AddSingleton<IGameStateRepository, InMemoryGameStateRepository>();
+			services.AddSingleton<IGameStateRepository, MongoGameStateRepository>();
 		}
 		
 		public static void AddIntentService(this IServiceCollection services) {
