@@ -5,7 +5,8 @@
         "Unity.TextMeshPro",
         "Utils",
         "Model",
-        "Service"
+        "Service",
+        "View"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
@@ -14,5 +15,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }

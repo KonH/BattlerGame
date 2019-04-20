@@ -1,7 +1,9 @@
 {
     "name": "View",
     "references": [
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Zenject",
+        "Utils"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
@@ -10,5 +12,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }

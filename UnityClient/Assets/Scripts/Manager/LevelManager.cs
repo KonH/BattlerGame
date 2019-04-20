@@ -6,6 +6,7 @@ using GameLogics.Shared.Command;
 using GameLogics.Shared.Model.State;
 using UnityClient.Model;
 using UnityClient.Service;
+using UnityClient.View;
 using UnityClient.ViewModel;
 using UnityClient.ViewModel.Window;
 using UnityEngine;
@@ -21,19 +22,21 @@ namespace UnityClient.Manager {
 		ClientStateService     _state;
 		LevelService           _service;
 		UnitViewModel.Factory  _unit;
+		UnitView.Factory       _view;
 		RewardWindow.Factory   _rewardWindow;
 		LoseWindow.Factory     _loseWindow;
 		
 		[Inject]
 		public void Init(
 			GameSceneManager scene, ClientCommandRunner runner, ClientStateService state,
-			LevelService service, UnitViewModel.Factory unit, RewardWindow.Factory winWindow, LoseWindow.Factory loseWindow
+			LevelService service, UnitViewModel.Factory unit, UnitView.Factory view, RewardWindow.Factory winWindow, LoseWindow.Factory loseWindow
 		) {
 			_scene        = scene;
 			_update       = runner.Updater;
 			_state        = state;
 			_service      = service;
 			_unit         = unit;
+			_view         = view;
 			_rewardWindow = winWindow;
 			_loseWindow   = loseWindow;
 		}
@@ -90,8 +93,8 @@ namespace UnityClient.Manager {
 		void AddUnit(bool isPlayerUnit, UnitState state, Transform[] points, int position) {
 			var config = _state.Config.Units[state.Descriptor];
 			var model = new UnitLevelModel(isPlayerUnit, state, config);
-			var instance = _unit.Create(model);
-			instance.transform.SetParent(points[position], false);
+			var view = _view.Create();
+			_unit.Create(points[position], model, view);
 		}
 	}
 }

@@ -2,40 +2,35 @@
 using GameLogics.Client.Service;
 using GameLogics.Shared.Command;
 using GameLogics.Shared.Model.State;
-using TMPro;
 using UnityClient.Model;
 using UnityClient.Service;
 using UnityClient.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using UnityClient.View;
 using Zenject;
 
 namespace UnityClient.ViewModel {
 	public sealed class UnitViewModel : MonoBehaviour, IPointerClickHandler {
-		public sealed class Factory : PlaceholderFactory<UnitLevelModel, UnitViewModel> {}
-
-		public Color PlayerHealthColor = Color.green;
-		public Color EnemyHealthColor  = Color.red;
+		public sealed class Factory : PlaceholderFactory<Transform, UnitLevelModel, UnitView, UnitViewModel> {}
 
 		public Transform  ViewRoot     = null;
 		public GameObject Selection    = null;
 		public GameObject Interactable = null;
-		public Slider     HealthSlider = null;
-		public Image      HealthImage  = null;
-		public TMP_Text   DamageText   = null;
 		
 		GameStateUpdateService _updateService;
 		LevelService           _levelService;
 		UnitLevelModel         _model;
+		UnitView               _view;
 
 		int _oldHealth;
 
 		[Inject]
-		public void Init(GameStateUpdateService updateService, LevelService levelService, UnitLevelModel model) {
+		public void Init(GameStateUpdateService updateService, LevelService levelService, Transform parent, UnitLevelModel model, UnitView view, Canvas canvas) {
 			_updateService = updateService;
 			_levelService  = levelService;
 			_model         = model;
+			_view          = view;
 			_oldHealth     = _model.State.Health;
 
 			_levelService.OnUnitSelected += OnUnitSelected;
@@ -44,12 +39,18 @@ namespace UnityClient.ViewModel {
 			_updateService.AddHandler<AttackCommand>(OnAttackUnit);
 			_updateService.AddHandler<KillUnitCommand>(OnKillUnit);
 
-			HealthImage.color = model.IsPlayerUnit ? PlayerHealthColor : EnemyHealthColor;
-			DamageText.text = "";
 			SelectView();
 			UpdateSelection(false);
 			UpdateInteractable(model.IsPlayerUnit);
 			UpdateHealth();
+
+			transform.SetParent(parent, false);
+
+			_view.transform.SetParent(canvas.transform, false);
+			_view.transform.position = Camera.main.WorldToScreenPoint(transform.position);
+			var distance = transform.position.z - Camera.main.transform.position.z;
+			_view.UpdateDistance(distance);
+			_view.SelectColor(model.IsPlayerUnit);
 		}
 
 		void OnDestroy() {
@@ -76,7 +77,8 @@ namespace UnityClient.ViewModel {
 
 		void UpdateHealth() {
 			var maxHealth = _model.Config.MaxHealth[_model.State.Level];
-			HealthSlider.value = (float)_model.State.Health / maxHealth;
+			var normalized = (float)_model.State.Health / maxHealth;
+			_view.UpdateHealth(normalized);
 		}
 
 		void UpdateSelection(bool active) {
@@ -91,13 +93,7 @@ namespace UnityClient.ViewModel {
 			if ( cmd.TargetId == _model.State.Id ) {
 				var diff = _oldHealth - _model.State.Health;
 				_oldHealth = _model.State.Health;
-				DamageText.text = (diff > 0) ? $"-{diff}" : "";
-				var textTrans = DamageText.transform;
-				textTrans.localScale = Vector3.zero;
-				textTrans.DoScale(0.25f, 1.0f).Detach();
-				await transform.DoScale(0.25f, 0.75f);
-				transform.DoScale(0.25f, 1.0f).Detach();
-				await textTrans.DoScale(0.5f, 0.0f);
+				await _view.AnimateDamage(diff);
 			}
 		}
 		
@@ -105,6 +101,7 @@ namespace UnityClient.ViewModel {
 			if ( cmd.UnitId == _model.State.Id ) {
 				await transform.DoScale(0.5f, 0.0f);
 				gameObject.SetActive(false);
+				_view.gameObject.SetActive(false);
 			}
 		}
 
