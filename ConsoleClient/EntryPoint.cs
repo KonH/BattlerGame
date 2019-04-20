@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using GameLogics.Client.Models;
-using GameLogics.Shared.Commands.Base;
+using GameLogics.Client.Model;
+using GameLogics.Shared.Command.Base;
 
 namespace ConsoleClient {
 	public static class EntryPoint {
@@ -45,7 +45,7 @@ namespace ConsoleClient {
 			Console.WriteLine("Register:");
 			var name     = Input.ReadString("Name");
 			var password = Input.ReadString("Password");
-			var newUser  = new User(name, password, name);
+			var newUser  = new UserState(name, password, name);
 			
 			Console.WriteLine("Register...");
 			var result = _client.Register.TryRegister(newUser).WaitForResult();
@@ -59,7 +59,7 @@ namespace ConsoleClient {
 			Console.WriteLine("Login:");
 			var name     = Input.ReadString("Name");
 			var password = Input.ReadString("Password");
-			var user     = new User(name, password, name);
+			var user     = new UserState(name, password, name);
 
 			Console.WriteLine("Login...");
 			var result = _client.Auth.TryLogin(user).WaitForResult();

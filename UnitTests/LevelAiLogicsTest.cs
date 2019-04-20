@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using GameLogics.Shared.Commands;
-using GameLogics.Shared.Models.State;
-using GameLogics.Shared.Models.Configs;
+using GameLogics.Shared.Command;
+using GameLogics.Shared.Model.State;
+using GameLogics.Shared.Model.Config;
 using Xunit;
 
 namespace UnitTests {
@@ -63,8 +63,8 @@ namespace UnitTests {
 
 		[Fact]
 		void IsAbsorbUsed() {
-			_config.Units["player_desc"].MaxHealth = 2;
-			_config.Units["player_desc"].BaseDamage = 2;
+			_config.Units["player_desc"].MaxHealth = new int[] { 2 };
+			_config.Units["player_desc"].BaseDamage = new int[] { 2 };
 			_config.AddItem("armor", new ArmorConfig(1));
 			_state.Level.PlayerUnits[0].Items.Add(new ItemState("armor"));
 

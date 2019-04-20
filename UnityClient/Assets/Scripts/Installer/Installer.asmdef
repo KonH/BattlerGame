@@ -1,0 +1,18 @@
+{
+    "name": "Installer",
+    "references": [
+        "Zenject",
+        "Manager",
+        "Service",
+        "Model",
+        "ViewModel"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

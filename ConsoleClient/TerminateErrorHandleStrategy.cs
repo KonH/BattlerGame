@@ -1,7 +1,7 @@
 using System;
-using GameLogics.Client.Services.ErrorHandle;
-using GameLogics.Shared.Dao.Api.Errors;
-using GameLogics.Shared.Services;
+using GameLogics.Shared.Service.ErrorHandle;
+using GameLogics.Shared.Dao.Api.Error;
+using GameLogics.Shared.Service;
 
 namespace ConsoleClient {
 	public sealed class TerminateErrorHandleStrategy : IErrorHandleStrategy {

@@ -1,0 +1,20 @@
+{
+    "name": "Control",
+    "references": [
+        "Unity.TextMeshPro",
+        "Zenject",
+        "Utils",
+        "Service",
+        "Model",
+        "ViewModel",
+        "Manager"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

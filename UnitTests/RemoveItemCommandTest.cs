@@ -1,5 +1,5 @@
-using GameLogics.Shared.Commands;
-using GameLogics.Shared.Models.State;
+using GameLogics.Shared.Command;
+using GameLogics.Shared.Model.State;
 using Xunit;
 
 namespace UnitTests {

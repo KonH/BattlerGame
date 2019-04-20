@@ -40,6 +40,12 @@ namespace ConsoleClient {
 			if ( type.IsEnum ) {
 				return Enum.TryParse(type, s, out var value) ? (true, value) : (false, null);
 			}
+			if ( type == typeof(DateTime) ) {
+				return DateTime.TryParse(s, out var value) ? (true, value) : (false, default);
+			}
+			if ( type == typeof(TimeSpan) ) {
+				return TimeSpan.TryParse(s, out var value) ? (true, value) : (false, default);
+			}
 			if ( type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(List<>)) ) {
 				var elementType = type.GetGenericArguments()[0];
 				var addMethod = type.GetMethod("Add", BindingFlags.Public | BindingFlags.Instance);

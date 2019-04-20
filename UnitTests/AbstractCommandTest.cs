@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using GameLogics.Shared.Commands.Base;
-using GameLogics.Shared.Models.State;
-using GameLogics.Shared.Models.Configs;
+using GameLogics.Shared.Command.Base;
+using GameLogics.Shared.Model.State;
+using GameLogics.Shared.Model.Config;
 using Xunit;
 
 namespace UnitTests {
@@ -20,9 +20,9 @@ namespace UnitTests {
 				return Name;
 			}
 
-			public bool IsValid(GameState state, Config config) => true;
+			public bool IsValid(GameState state, ConfigRoot config) => true;
 
-			public void Execute(GameState state, Config config, ICommandBuffer buffer) {
+			public void Execute(GameState state, ConfigRoot config, ICommandBuffer buffer) {
 				foreach ( var cmd in Childs ) {
 					buffer.Add(cmd);
 				}
@@ -80,7 +80,7 @@ namespace UnitTests {
 			
 			var real = new List<string>();
 			
-			var runner = new CommandRunner(cmd, null, null);
+			var runner = new CommandRunner(TimeSpan.Zero, cmd, new GameState(), null);
 			
 			var iter = runner.GetEnumerator();
 			iter.MoveNext();

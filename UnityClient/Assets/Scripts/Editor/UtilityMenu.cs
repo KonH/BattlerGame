@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using UnityClient.Installers;
+using UnityClient.Installer;
 using UnityEditor;
 using UnityEngine;
 

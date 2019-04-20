@@ -1,6 +1,7 @@
-using GameLogics.Shared.Models.State;
-using GameLogics.Shared.Models.Configs;
-using GameLogics.Shared.Services;
+using GameLogics.Shared.Model.State;
+using GameLogics.Shared.Model.Config;
+using GameLogics.Shared.Service;
+using GameLogics.Server.Repository.Config;
 using Xunit;
 
 namespace UnitTests {
@@ -18,7 +19,7 @@ namespace UnitTests {
 
 		[Fact]
 		void IsConfigSerialized() {
-			var config = new Config();
+			var config = new ConfigRoot();
 			
 			var newConfig = _service.DoubleConvert(config);
 			
@@ -37,12 +38,19 @@ namespace UnitTests {
 
 		[Fact]
 		void IsWeaponConfigSerialized() {
-			var config = new Config().AddItem("desc", new WeaponConfig());
+			var config = new ConfigRoot().AddItem("desc", new WeaponConfig());
 			
 			var newConfig = _service.DoubleConvert(config);
 			
 			Assert.True(newConfig.Items.ContainsKey("desc"));
 			Assert.NotNull(newConfig.Items["desc"]);
+		}
+
+		[Fact]
+		void IsDefaultConfigSerialized() {
+			var repo = new FileConfigRepository(_service, "../../../../UnityClient/Assets/Resources/Config.json");
+
+			Assert.NotNull(repo.Get());
 		}
 	}
 }

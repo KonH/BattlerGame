@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GameLogics.Server.Service;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,11 @@ namespace Server {
 			services.AddUserServices();
 			services.AddGameStateRepository();
 			services.AddIntentService();
-			services.AddMvc().AddNewtonsoftJson(opts =>
+			services.AddTimeService();
+			services.AddEnvironmentService();
+			services.AddMvc(opts =>
+				opts.EnableEndpointRouting = false
+			).AddNewtonsoftJson(opts =>
 				opts.SerializerSettings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto
 			);
 		}
@@ -29,9 +34,9 @@ namespace Server {
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 			app.UseDeveloperExceptionPage();
+			app.ApplicationServices.GetService<EnvironmentService>().IsDebugMode = true;
 			app.UseFullCors();
 			app.UseAuthentication();
-			app.UseHttpsRedirection();
 			app.UseMvc();
 		}
 	}

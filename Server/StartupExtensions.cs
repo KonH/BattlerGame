@@ -1,15 +1,16 @@
-using System;
-using GameLogics.Server.Repositories.Configs;
-using GameLogics.Server.Repositories.States;
-using GameLogics.Server.Repositories.Users;
-using GameLogics.Server.Services;
-using GameLogics.Server.Services.Token;
-using GameLogics.Shared.Services;
+using GameLogics.Server.Repository.Config;
+using GameLogics.Server.Repository.State;
+using GameLogics.Server.Repository.User;
+using GameLogics.Server.Service;
+using GameLogics.Server.Service.Token;
+using GameLogics.Shared.Service;
+using GameLogics.Shared.Service.Time;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Server.Services;
+using Server.Repository;
+using Server.Service;
 using Server.Settings;
 
 namespace Server {
@@ -67,16 +68,24 @@ namespace Server {
 		}
 		
 		public static void AddUserServices(this IServiceCollection services) {
-			services.AddSingleton<IUsersRepository, InMemoryUsersRepository>();
+			services.AddSingleton<IUserRepository, MongoUserRepository>();
 			services.AddSingleton<RegisterService>();
 		}
 		
 		public static void AddGameStateRepository(this IServiceCollection services) {
-			services.AddSingleton<IGameStatesRepository, InMemoryGameStatesRepository>();
+			services.AddSingleton<IGameStateRepository, MongoGameStateRepository>();
 		}
 		
 		public static void AddIntentService(this IServiceCollection services) {
 			services.AddSingleton<IntentService>();
+		}
+
+		public static void AddTimeService(this IServiceCollection services) {
+			services.AddSingleton<ITimeService, RealTimeService>();
+		}
+
+		public static void AddEnvironmentService(this IServiceCollection services) {
+			services.AddSingleton<EnvironmentService>();
 		}
 	}
 }

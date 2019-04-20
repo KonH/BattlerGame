@@ -8,5 +8,9 @@ namespace GameLogics.Shared.Utils {
 			var parts = desc.Split('_');
 			return int.Parse(parts[parts.Length - 1]);
 		}
+
+		public static string GetDesc(string scope, int index) {
+			return $"{scope}_{index}";
+		}
 	}
 }

@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using GameLogics.Server.Services;
-using GameLogics.Shared.Commands.Base;
-using GameLogics.Shared.Models.State;
-using GameLogics.Shared.Models.Configs;
+using GameLogics.Server.Service;
+using GameLogics.Shared.Command.Base;
+using GameLogics.Shared.Model.State;
+using GameLogics.Shared.Model.Config;
 using Xunit;
 
 namespace UnitTests {
 	public abstract class BaseCommandTest<TCommand> where TCommand : class, ICommand {
-		protected GameState _state  = new GameState();
-		protected Config    _config = new Config();
+		protected GameState  _state  = new GameState();
+		protected ConfigRoot _config = new ConfigRoot();
 
 		protected ulong InvalidId => ulong.MaxValue;
 		
@@ -17,17 +17,17 @@ namespace UnitTests {
 			return _state.NewEntityId();
 		}
 		
-		protected void IsValid(TCommand cmd) {
-			Assert.True(cmd.IsValid(_state, _config));
+		protected void IsValid(TCommand cmd, TimeSpan offset = default) {
+			Assert.True(new CommandRunner(offset, cmd, _state, _config).IsValid);
 		}
 		
-		protected void IsInvalid(TCommand cmd) {
-			Assert.False(cmd.IsValid(_state, _config));
+		protected void IsInvalid(TCommand cmd, TimeSpan offset = default) {
+			Assert.False(new CommandRunner(offset, cmd, _state, _config).IsValid);
 		}
 
-		protected List<ICommand> Execute(TCommand cmd, bool single = false) {
+		protected List<ICommand> Execute(TCommand cmd, bool single = false, TimeSpan offset = default) {
 			var result = new List<ICommand>();
-			var runner = new CommandRunner(cmd, _state, _config);
+			var runner = new CommandRunner(offset, cmd, _state, _config);
 			foreach ( var item in runner ) {
 				Assert.True(item.IsValid(), $"Command {item.Command} is invalid!");
 				item.Execute();

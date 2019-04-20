@@ -1,7 +1,7 @@
-using GameLogics.Server.Services;
-using GameLogics.Shared.Commands;
-using GameLogics.Shared.Models.Configs;
-using GameLogics.Shared.Models.State;
+using GameLogics.Server.Service;
+using GameLogics.Shared.Command;
+using GameLogics.Shared.Model.Config;
+using GameLogics.Shared.Model.State;
 using Xunit;
 
 namespace UnitTests {

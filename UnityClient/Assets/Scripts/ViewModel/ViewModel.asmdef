@@ -1,0 +1,18 @@
+{
+    "name": "ViewModel",
+    "references": [
+        "Zenject",
+        "Unity.TextMeshPro",
+        "Utils",
+        "Model",
+        "Service"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

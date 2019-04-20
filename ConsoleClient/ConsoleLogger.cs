@@ -1,5 +1,5 @@
 using System;
-using GameLogics.Shared.Services;
+using GameLogics.Shared.Service;
 
 namespace ConsoleClient {
 	public sealed class ConsoleLogger : ICustomLogger {

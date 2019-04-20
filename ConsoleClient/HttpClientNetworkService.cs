@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using GameLogics.Client.Services;
+using GameLogics.Client.Service;
 using GameLogics.Client.Utils;
-using GameLogics.Shared.Services;
+using GameLogics.Shared.Service;
 
 namespace ConsoleClient {
 	public sealed class HttpClientNetworkService : INetworkService {
