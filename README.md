@@ -9,6 +9,9 @@ The client-server game with battler-like mechanics
 - Turn-based battle system
 - Linear level progression
 - Units & items with different properties
+- Event levels
+- Time-limited (farming) levels
+- Daily rewards
 
 ## Tech
 
@@ -27,4 +30,4 @@ The client-server game with battler-like mechanics
 ## Tools
 
 - .NET Core 3.0
-- Unity 2018.3
+- Unity 2019.1
